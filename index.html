@@ -82,9 +82,101 @@ body.sepia .mode{background:#f7efdc;border-color:#e0d3b3}
 body.sepia .mode.on{background:#f3e5c3;border-color:var(--amber)}
 body.f-s{font-size:15px}body.f-m{font-size:16.5px}body.f-l{font-size:18px}body.f-xl{font-size:20px}
 footer{margin-top:20px;font-size:12px;color:var(--mut);text-align:center}
+/* ============ APP LAYOUT: sidebar + topbar + dashboard (design overhaul) ============ */
+.app{--pine:#0b2422;--pine2:#103230;--teal:#0ea5a0;--teal-d:#0b7c79;--mint:#5eead4;--paper:#f2f0e9;--card2:#fbfaf6;--coral:#ff5d5d;--leaf:#16a34a;--gold:#f5a524;--rail:#e3ded0}
+.app .wrap{max-width:1460px;display:grid;grid-template-columns:292px minmax(0,1fr);gap:20px;align-items:start}
+.app .main-col{min-width:0;display:flex;flex-direction:column;gap:14px;padding-bottom:40px}
+.app .main-col>.panel{margin-top:0}
+.app header{margin:0}
+/* sidebar */
+#sidebar{background:linear-gradient(180deg,var(--pine) 0%,var(--pine2) 100%);color:#e9f2ef;border-radius:20px;padding:20px 14px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow-y:auto;display:flex;flex-direction:column;gap:6px;box-shadow:0 18px 50px rgba(11,36,34,.35)}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 14px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:8px}
+.brand .logo{font-size:30px;background:rgba(255,255,255,.1);border-radius:12px;padding:4px 8px}
+.brand b{font-size:19px;letter-spacing:-.02em;display:block;line-height:1.1}
+.brand b span{color:var(--mint)}
+.brand small{opacity:.65;font-size:11.5px}
+.side-sec{font-size:11px;font-weight:800;letter-spacing:.14em;opacity:.55;margin:12px 8px 6px}
+#navModes,#navSubjWrap{display:flex;flex-direction:column;gap:4px}
+.app .modes{display:none}
+#navModes .mode{background:transparent;border:0;border-left:3px solid transparent;border-radius:0 10px 10px 0;padding:10px 12px;text-align:left;display:flex;gap:10px;align-items:center;color:#dcebe6;cursor:pointer}
+#navModes .mode b{font-size:14px;font-weight:700}
+#navModes .mode span{font-size:11.5px;opacity:.6;display:block}
+#navModes .mode:hover{background:rgba(255,255,255,.08);transform:translateX(3px)}
+#navModes .mode.on{background:rgba(94,234,212,.14);border-left-color:var(--mint);color:#fff}
+#navModes .mode .ico{font-size:19px;width:26px;text-align:center;flex:none}
+#navSubjWrap #subjBtns{display:flex;flex-direction:column;gap:4px}
+#navSubjWrap #subjBtns button{background:transparent;border:0;border-left:3px solid transparent;border-radius:0 10px 10px 0;color:#dcebe6;text-align:left;padding:9px 12px;font-size:13.5px;display:flex;gap:9px;align-items:center}
+#navSubjWrap #subjBtns button:hover{background:rgba(255,255,255,.08);border-color:transparent}
+#navSubjWrap #subjBtns button.on{background:rgba(245,165,36,.16);border-left-color:var(--gold);color:#fff}
+#subjProg{display:flex;flex-direction:column;gap:7px;margin:10px 8px 0}
+#subjProg .sp{font-size:11px;opacity:.85}
+#subjProg .sp .t{display:flex;justify-content:space-between;margin-bottom:3px}
+#subjProg .bar{height:5px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;margin:0}
+#subjProg .bar i{background:var(--mint)}
+.side-foot{margin-top:auto;padding:12px 8px 2px;border-top:1px solid rgba(255,255,255,.12);font-size:12px}
+.side-foot .lvl-line{display:flex;justify-content:space-between;align-items:center;font-weight:800}
+.side-foot .bar{height:6px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;margin-top:6px}
+.side-foot .bar i{background:linear-gradient(90deg,var(--gold),var(--mint))}
+/* topbar */
+#topbar{display:flex;align-items:center;gap:12px;background:var(--card2);border:1px solid var(--rail);border-radius:16px;padding:10px 16px;position:sticky;top:12px;z-index:60;box-shadow:0 6px 20px rgba(11,36,34,.08)}
+#burger{display:none;font-size:20px;padding:6px 10px}
+#crumb{font-size:17px;font-weight:800;letter-spacing:-.01em}
+#crumb small{display:block;font-size:12px;font-weight:500;color:var(--mut)}
+#topbar .spacer{margin-left:auto}
+.lvl-chip{display:flex;align-items:center;gap:8px;background:var(--pine);color:#fff;border-radius:99px;padding:6px 14px 6px 8px;font-size:13px;font-weight:800}
+.lvl-chip .lv{background:var(--gold);color:#3a2a00;border-radius:99px;padding:2px 9px;font-size:12px}
+.lvl-chip.pulse{animation:pulse .5s}
+@keyframes pulse{40%{transform:scale(1.12)}}
+.tbtn{border-radius:99px;padding:8px 12px;font-size:15px}
+/* content polish */
+.app .panel{border-color:var(--rail);border-radius:18px}
+.app .cardbox{border-radius:18px;background:linear-gradient(160deg,#123b38,#0b2422);box-shadow:0 14px 34px rgba(11,36,34,.28)}
+.app button{transition:transform .08s,box-shadow .15s,border-color .15s,background .15s}
+.app button:hover{box-shadow:0 4px 14px rgba(11,36,34,.15)}
+.app button:active{transform:scale(.97)}
+.app .opt:hover{transform:translateX(4px)}
+.app :focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+/* dashboard */
+.dash-hero{background:linear-gradient(140deg,var(--pine),#14524e);color:#fff;border-radius:18px;padding:22px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.dash-hero h2{margin:0;font-size:24px;letter-spacing:-.02em}
+.dash-hero p{margin:6px 0 0;opacity:.8;font-size:14px;max-width:60ch}
+.ring{width:110px;height:110px;position:relative;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:20px}
+.ring b small{font-size:10px;opacity:.7}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px}
+.tile{background:var(--card2);border:1px solid var(--rail);border-radius:14px;padding:12px 14px}
+.tile:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(11,36,34,.12)}
+.tile .n{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.tile .l{font-size:12px;color:var(--mut);font-weight:600}
+.tile .bar{height:6px;background:#e7e2d2;border-radius:99px;overflow:hidden;margin-top:8px}
+.tile .bar i{background:var(--teal)}
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px}
+.ach{border:1px solid var(--rail);border-radius:14px;padding:10px 12px;font-size:13px;background:var(--card2);display:flex;gap:10px;align-items:center}
+.ach.locked{opacity:.45;filter:grayscale(1)}
+.ach .e{font-size:24px}
+.ach b{display:block;font-size:13px}
+/* toasts + confetti */
+#toasts{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;flex-direction:column;gap:8px;max-width:min(340px,90vw)}
+.toast{background:var(--pine);color:#fff;border-radius:12px;padding:12px 16px;font-size:14px;font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.3);animation:tin .3s;border-left:4px solid var(--mint)}
+.toast.gold{border-left-color:var(--gold)}
+@keyframes tin{from{transform:translateX(30px);opacity:0}}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:300}
+@media(max-width:960px){
+.app .wrap{grid-template-columns:1fr}
+#sidebar{position:fixed;left:0;top:0;bottom:0;width:min(300px,85vw);border-radius:0;z-index:150;transform:translateX(-105%);transition:transform .25s;max-height:none}
+body.nav-open #sidebar{transform:none}
+#burger{display:block}
+.dash-hero{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}
+}
+.app .main-col>header{display:none}
+
 </style>
 </head>
-<body>
+<body class="app">
 <div class="wrap">
 <header>
 <h1>🎓 Maturita + Přijímačky – Trenažér</h1>
@@ -123,6 +215,7 @@ footer{margin-top:20px;font-size:12px;color:var(--mut);text-align:center}
 </div>
 </div>
 <div class="modes">
+<div class="mode" data-m="home" style="display:none"><b>🏠 Přehled</b><span>dashboard a postup</span></div>
 <div class="mode on" data-m="cards"><b>🃏 Kartičky</b><span>pojem → definice</span></div>
 <div class="mode" data-m="write"><b>✍️ Hra: napiš definici</b><span>musíš napsat vlastními slovy</span></div>
 <div class="mode" data-m="abc"><b>🔘 ABC test</b><span>vyber správný pojem</span></div>
@@ -135,6 +228,21 @@ footer{margin-top:20px;font-size:12px;color:var(--mut);text-align:center}
 <div class="mode" data-m="okruhy"><b>✅ Maturitní okruhy</b><span>GVBT + zubní checklist</span></div>
 <div class="mode" data-m="list"><b>📖 Přehled</b><span>všechny pojmy + hledání</span></div>
 </div>
+</div>
+
+<div class="panel" id="viewHome">
+<div class="dash-hero">
+<div><h2 id="dashHello">Dnešní směna 🩺</h2><p id="dashSub">Vyber si oddělení vlevo, nebo pokračuj tam, kde jsi skončil.</p>
+<div class="row" style="margin-top:12px">
+<button class="primary" data-goto="cards">🃏 Kartičky</button>
+<button class="warn" data-goto="hadanky">🧩 Hádanka</button>
+<button class="vio" data-goto="cvicne">🎯 LF test</button>
+</div></div>
+<div class="ring"><svg width="110" height="110"><circle cx="55" cy="55" r="48" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="10"/><circle id="goalRing" cx="55" cy="55" r="48" fill="none" stroke="#5eead4" stroke-width="10" stroke-linecap="round" stroke-dasharray="301.6" stroke-dashoffset="301.6"/></svg><b><span id="ringNum">0</span><small>denní cíl</small></b></div>
+</div>
+<div class="tiles" id="dashTiles"></div>
+<h3 class="sec">🏆 Odznaky</h3>
+<div class="ach-grid" id="achGrid"></div>
 </div>
 
 <div class="panel" id="viewCards">
@@ -278,6 +386,8 @@ footer{margin-top:20px;font-size:12px;color:var(--mut);text-align:center}
 <footer>Jednoduchý soubor – můžeš ho otevřít dvojklikem, poslat spolužákům, funguje bez internetu. • Zdroj definic: učivo ZŠ/SŠ pro přijímačky.</footer>
 </div>
 
+<div id="toasts"></div>
+<canvas id="confetti"></canvas>
 <script>
 "use strict";
 /* ================= DATA ================= */
@@ -812,7 +922,7 @@ zuby:{name:"Zubní lékařství – přijímačky",icon:"🦷",topics:["Biologie
 const store = JSON.parse(localStorage.getItem("prijimacky_v1")||'{"known":[],"tests":0,"ok":0,"streak":0}');
 store.fknown=store.fknown||[];store.eknown=store.eknown||[];
 function save(){localStorage.setItem("prijimacky_v1",JSON.stringify(store));}
-let subj="chemie", mode="cards", order=[], idx=0, flipped=false;
+let subj="chemie", mode="home", order=[], idx=0, flipped=false;
 let wStreak=0,wTotal=0,wOk=0,aTotal=0,aOk=0,aLock=false;
 
 const $=id=>document.getElementById(id);
@@ -838,6 +948,7 @@ function stats(){
   $("sTests").textContent=store.tests;$("sAcc").textContent=store.tests?Math.round(100*store.ok/store.tests)+"%":"–";
   $("sStreak").textContent=store.streak;
   try{bumpDay();$("sDay").textContent=store.day.n;$("sGoal").textContent=(store.set||{}).goal||20;}catch(_){}
+  try{checkAch();updateLevelUI();updateSubjProg();if(mode==='home')renderHome();}catch(_){}
   const pct=Math.round(100*store.known.length/all);$("progBar").style.width=pct+"%";
 }
 function key(p){return subj+"::"+p;}
@@ -874,7 +985,7 @@ $("cPrev").onclick=()=>{idx=(idx-1+order.length)%order.length;flipped=false;rend
 function mark(know){
   if(!order.length)return;const it=order[idx%order.length],k=key(it.p);
   const has=store.known.includes(k);
-  if(know&&!has)store.known.push(k);if(!know&&has)store.known=store.known.filter(x=>x!==k);
+  if(know&&!has){store.known.push(k);awardXP(5);}if(!know&&has)store.known=store.known.filter(x=>x!==k);
   tick();idx++;flipped=false;render();
 }
 $("cYes").onclick=()=>mark(true);$("cNo").onclick=()=>mark(false);
@@ -906,7 +1017,7 @@ function checkWrite(){
   const pct=kw.length?hit.length/kw.length:0;
   wTotal++;store.tests++;tick();
   const ok=pct>=0.45||(wCur.p.split(/\s+/).length>1&&norm(wCur.d).split(" ").slice(0,6).some(w=>w.length>4&&ans.includes(w))&&pct>=0.3);
-  if(ok){wOk++;store.ok++;store.streak++;store.streak=Math.max(store.streak,store.streak);}else{store.streak=0;}
+  if(ok){wOk++;store.ok++;store.streak++;awardXP(20);}else{store.streak=0;}
   if(ok&&!store.known.includes(key(wCur.p)))store.known.push(key(wCur.p));
   save();stats();
   $("wFb").className="feedback "+(ok?"ok":"no");
@@ -933,7 +1044,7 @@ function renderAbcQ(){
   document.querySelectorAll("#aOpts .opt").forEach(b=>b.onclick=()=>{
     if(aLock)return;aLock=true;aTotal++;store.tests++;tick();
     const win=b.dataset.o===aCur.p;
-    if(win){aOk++;store.ok++;store.streak++;b.classList.add("ok");
+    if(win){aOk++;store.ok++;store.streak++;awardXP(10);b.classList.add("ok");
       if(!store.known.includes(key(aCur.p)))store.known.push(key(aCur.p));
     }else{store.streak=0;b.classList.add("no");
       document.querySelectorAll("#aOpts .opt").forEach(x=>{if(x.dataset.o===aCur.p)x.classList.add("ok");});
@@ -979,6 +1090,9 @@ document.querySelectorAll(".mode").forEach(m=>m.onclick=()=>{
   if(mode==="write")renderWrite();if(mode==="abc")renderAbcQ();if(mode==="list")renderList();
   if(mode==="vzorce")fRebuild();if(mode==="priklady")pRebuild();if(mode==="propoj")renderL();
   if(mode==="hadanky")hNew();if(mode==="mluveni")mNew();if(mode==="cvicne")qRebuild();if(mode==="okruhy")renderOkr();
+  $("viewHome").style.display=mode==="home"?"block":"none";
+  document.body.classList.remove("nav-open");
+  try{updateCrumb();if(mode==="home")renderHome();}catch(_){}
 });
 document.addEventListener("keydown",e=>{
   if(mode!=="cards")return;
@@ -1011,7 +1125,7 @@ function checkF(){
   const alts=it.f.split("|").map(fnorm);
   const ok=alts.includes(ans);
   fTotal++;store.tests++;tick();
-  if(ok){fOk++;store.ok++;store.streak++;if(!store.fknown.includes(fKey(it)))store.fknown.push(fKey(it));}
+  if(ok){fOk++;store.ok++;store.streak++;awardXP(15);if(!store.fknown.includes(fKey(it)))store.fknown.push(fKey(it));}
   else store.streak=0;
   save();stats();
   $("fFb").className="feedback "+(ok?"ok":"no");
@@ -1047,7 +1161,7 @@ $("pSubj").onchange=pRebuild;
 function pMark(know){
   if(!pList.length)return;const o=pList[pIdx%pList.length],k=pKey(o);
   const has=store.eknown.includes(k);
-  if(know&&!has)store.eknown.push(k);if(!know&&has)store.eknown=store.eknown.filter(x=>x!==k);
+  if(know&&!has){store.eknown.push(k);awardXP(5);}if(!know&&has)store.eknown=store.eknown.filter(x=>x!==k);
   save();pIdx++;pShow=false;renderP();
 }
 $("pYes").onclick=()=>pMark(true);$("pNo").onclick=()=>pMark(false);
@@ -1134,7 +1248,7 @@ function hGuess(){
   if(ans.length<2)return;
   const ok=norm(hCur.p)===ans||(ans.length>4&&norm(hCur.p).includes(ans))||(ans.length>4&&ans.includes(norm(hCur.p)));
   hTotal++;store.tests++;tick();
-  if(ok){hOk++;store.ok++;store.streak++;if(!store.known.includes(key(hCur.p)))store.known.push(key(hCur.p));
+  if(ok){hOk++;store.ok++;store.streak++;awardXP(15);if(!store.known.includes(key(hCur.p)))store.known.push(key(hCur.p));
     $("hFb").className="feedback ok";$("hFb").innerHTML=`✅ <b>Uhodnuto!</b> ${hCur.p} — ${hCur.d}`;
     $("hAns").style.display="none";save();stats();hRender();
   }else{store.streak=0;save();stats();
@@ -1162,9 +1276,9 @@ $("mNext").onclick=mNew;
 function mRate(kind){
   if(!mCur)return;const k=key(mCur.p);
   store.tests++;tick();
-  if(kind==="yes"){store.ok++;store.streak++;if(!store.known.includes(k))store.known.push(k);}
+  if(kind==="yes"){store.ok++;store.streak++;awardXP(10);if(!store.known.includes(k))store.known.push(k);}
   else if(kind==="no"){store.streak=0;store.known=store.known.filter(x=>x!==k);}
-  else{store.ok++;store.streak++;}
+  else{store.ok++;store.streak++;awardXP(5);}
   save();stats();mNew();
 }
 $("mYes").onclick=()=>mRate("yes");$("mHalf").onclick=()=>mRate("half");$("mNo").onclick=()=>mRate("no");
@@ -1185,7 +1299,7 @@ function qRender(){
   document.querySelectorAll("#qqOpts .opt").forEach(b=>b.onclick=()=>{
     if(qLock)return;qLock=true;qTotal++;store.tests++;tick();
     const win=parseInt(b.dataset.i,10)===o.a;
-    if(win){qOk++;store.ok++;store.streak++;b.classList.add("ok");}
+    if(win){qOk++;store.ok++;store.streak++;awardXP(10);b.classList.add("ok");}
     else{store.streak=0;b.classList.add("no");
       document.querySelectorAll("#qqOpts .opt").forEach(x=>{if(parseInt(x.dataset.i,10)===o.a)x.classList.add("ok");});}
     save();stats();
@@ -1209,13 +1323,121 @@ function renderOkr(){
   }).join("");
   document.querySelectorAll("#okrBox button").forEach(b=>b.onclick=()=>{
     const k=b.dataset.o;
-    if(store.okr[k])delete store.okr[k];else{store.okr[k]=1;tick();}
+    if(store.okr[k])delete store.okr[k];else{store.okr[k]=1;tick();awardXP(10);}
     save();renderOkr();
   });
 }
 
+/* ===== GAMIFIKACE: XP, levely, odznaky, toasty, konfety ===== */
+store.xp=store.xp||0;store.lvl=store.lvl||1;store.ach=store.ach||[];
+function lvlFor(xp){return Math.floor((Math.sqrt(1+8*xp/100)-1)/2)+1;}
+function xpNeed(l){return 100*l*(l-1)/2;}
+function toast(msg,gold){
+  const box=document.querySelector('#toasts');if(!box)return;
+  const t=document.createElement('div');t.className='toast'+(gold?' gold':'');t.textContent=msg;
+  box.appendChild(t);setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),350);},3400);
+}
+function confetti(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cv=document.querySelector('#confetti');if(!cv)return;
+  const ctx=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;
+  const cols=['#0ea5a0','#5eead4','#f5a524','#ff5d5d','#ffffff'];
+  const ps=Array.from({length:90},()=>({x:innerWidth/2+(Math.random()-.5)*240,y:innerHeight*0.35,vx:(Math.random()-.5)*11,vy:Math.random()*-9-3,s:Math.random()*7+3,c:cols[Math.random()*cols.length|0],r:Math.random()*Math.PI}));
+  let f=0;(function tick(){ctx.clearRect(0,0,cv.width,cv.height);f++;
+    ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;p.r+=.1;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);ctx.restore();});
+    if(f<110)requestAnimationFrame(tick);else ctx.clearRect(0,0,cv.width,cv.height);})();
+}
+const ACH=[
+ {id:'start',e:'👶',n:'První krok',d:'První pojem umíš',c:()=>store.known.length>=1},
+ {id:'deset',e:'🌱',n:'Desítka',d:'10 pojmů umíš',c:()=>store.known.length>=10},
+ {id:'pad',e:'🌿',n:'Padesátka',d:'50 pojmů umíš',c:()=>store.known.length>=50},
+ {id:'stopad',e:'🌳',n:'Stovkař',d:'150 pojmů umíš',c:()=>store.known.length>=150},
+ {id:'s5',e:'🔥',n:'V plamenech',d:'Série 5 správně',c:()=>store.streak>=5},
+ {id:'s10',e:'☄️',n:'Nezastavitelný',d:'Série 10 správně',c:()=>store.streak>=10},
+ {id:'t50',e:'🧠',n:'Testman',d:'100 odpovědí v testech',c:()=>store.tests>=100},
+ {id:'cil',e:'🎯',n:'Splněný cíl',d:'Dosáhni denního cíle',c:()=>store.day&&store.day.n>=((store.set||{}).goal||20)},
+ {id:'vz20',e:'📐',n:'Vzorcový král',d:'20 vzorečků umíš',c:()=>store.fknown.length>=20},
+ {id:'lf',e:'🦷',n:'Budoucí zubař',d:'Všech 16 zubních pojmů',c:()=>store.known.filter(k=>k.indexOf('zuby::')===0).length>=16}
+];
+function checkAch(){ACH.forEach(a=>{if(store.ach.indexOf(a.id)<0){try{if(a.c()){store.ach.push(a.id);save();toast('🏆 Odznak: '+a.n+' — '+a.d,true);confetti();}}catch(_){}}});}
+function updateLevelUI(){
+  const l=store.lvl||1,xp=store.xp||0;
+  const cur=xpNeed(l),nxt=xpNeed(l+1),pct=Math.min(100,Math.round(100*(xp-cur)/Math.max(1,nxt-cur)));
+  ['lvlNum','sideLvl'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=l;});
+  ['xpTxt','sideXp'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=xp+' XP';});
+  const sb=document.getElementById('sideXpBar');if(sb)sb.style.width=pct+'%';
+}
+function awardXP(n){
+  store.xp=(store.xp||0)+n;const l=lvlFor(store.xp);
+  if(l>(store.lvl||1)){store.lvl=l;toast('🎉 Level '+l+'! Tvůj mozek roste.',true);confetti();}
+  save();
+  const chip=document.getElementById('lvlChip');if(chip){chip.classList.remove('pulse');void chip.offsetWidth;chip.classList.add('pulse');}
+  updateLevelUI();checkAch();
+}
+function updateSubjProg(){
+  const el=document.getElementById('subjProg');if(!el)return;
+  el.innerHTML=Object.entries(DATA).map(([k,v])=>{
+    const known=v.items.filter(it=>store.known.indexOf(k+'::'+it[0])>=0).length;
+    return `<div class="sp"><div class="t"><span>${v.icon} ${v.name}</span><span>${known}/${v.items.length}</span></div><div class="bar"><i style="width:${Math.round(100*known/v.items.length)}%"></i></div></div>`;
+  }).join('');
+}
+
+/* ===== SIDEBAR + TOPBAR + DASHBOARD ===== */
+const TITLES={home:["Přehled","Denní směna, postup a odznaky"],cards:["Kartičky","Pojem → definice"],write:["Psaní definic","Napiš to vlastními slovy"],abc:["ABC test","Vyber správný pojem"],vzorce:["Vzorečky","Napiš vzorec zpaměti"],priklady:["Příklady","Vyřeš a zkontroluj postup"],propoj:["Propojení F–Ch–B","Jedno téma třemi vědami"],hadanky:["Hádanky","Tři nápovědy, jeden pojem"],mluveni:["Mluvení","Vysvětli nahlas jako u zkoušky"],cvicne:["Cvičné otázky LF","Test jako na přijímačkách"],okruhy:["Maturitní okruhy","GVBT + zubní checklist"],list:["Přehled pojmů","Všechno + hledání"]};
+function updateCrumb(){const t=TITLES[mode]||["",""];const c=document.getElementById('crumb');if(c)c.innerHTML=t[0]+'<small>'+t[1]+'</small>';}
+function buildApp(){
+  const wrap=document.querySelector('.wrap');
+  const aside=document.createElement('aside');aside.id='sidebar';
+  aside.innerHTML=`<div class="brand"><div class="logo">🦷</div><div><b>MEDI<span>STUD</span></b><small>maturita → zubní lékařství</small></div></div>
+  <div class="side-sec">Učení</div><nav id="navModes" aria-label="Režimy učení"></nav>
+  <div class="side-sec">Oddělení · předměty</div><div id="navSubjWrap"></div><div id="subjProg"></div>
+  <div class="side-foot"><div class="lvl-line"><span>⭐ Level <span id="sideLvl">1</span></span><span id="sideXp">0 XP</span></div><div class="bar"><i id="sideXpBar" style="width:0%"></i></div></div>`;
+  const main=document.createElement('div');main.className='main-col';
+  Array.from(wrap.children).forEach(ch=>main.appendChild(ch));
+  wrap.prepend(aside);wrap.appendChild(main);
+  const nav=document.getElementById('navModes');
+  document.querySelectorAll('.mode').forEach(m=>{m.style.display='';nav.appendChild(m);});
+  document.getElementById('navSubjWrap').appendChild(document.getElementById('subjBtns'));
+  const orphan=document.querySelector('#ctrlPanel .row');
+  if(orphan&&orphan.textContent.trim()==='Předmět:')orphan.remove();
+  const tb=document.createElement('div');tb.id='topbar';
+  tb.innerHTML=`<button id="burger" aria-label="Menu">☰</button><div id="crumb">Přehled<small></small></div><span class="spacer"></span>
+  <div class="lvl-chip" id="lvlChip"><span class="lv">LVL&nbsp;<b id="lvlNum">1</b></span><span id="xpTxt">0 XP</span></div>
+  <button class="tbtn" id="btnTheme" title="Přepnout vzhled">🌙</button>
+  <button class="tbtn" id="btnGear" title="Nastavení">⚙️</button>`;
+  main.prepend(tb);
+  document.getElementById('burger').onclick=()=>document.body.classList.toggle('nav-open');
+  document.getElementById('btnGear').onclick=()=>{document.getElementById('btnSet').click();document.getElementById('ctrlPanel').scrollIntoView({behavior:'smooth',block:'center'});};
+  document.getElementById('btnTheme').onclick=()=>{const o=['light','sepia','dark'];store.set.theme=o[(o.indexOf(store.set.theme)+1)%3];save();applySet();};
+  document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>document.querySelector('.mode[data-m="'+b.dataset.goto+'"]').click());
+  updateLevelUI();
+}
+function renderHome(){
+  const goal=(store.set||{}).goal||20,dn=(store.day||{n:0}).n;
+  document.getElementById('ringNum').textContent=Math.min(dn,goal)+'/'+goal;
+  const C=301.6;document.getElementById('goalRing').style.strokeDashoffset=C*(1-Math.min(dn/goal,1));
+  document.getElementById('dashSub').textContent = dn>=goal ? 'Denní cíl splněn. Zubaři dřou i po směně. 🦷' : `Dnes máš ${dn} z ${goal} akcí. Série: ${store.streak} 🔥 Pojď na směnu.`;
+  const allF=Object.values(FORMULAS).reduce((n,a)=>n+a.length,0);
+  const okrTot=Object.values(OKRUHY).reduce((n,v)=>n+v.topics.length,0);
+  const okrDone=Object.keys(store.okr).length;
+  document.getElementById('dashTiles').innerHTML=
+    Object.entries(DATA).map(([k,v])=>{
+      const known=v.items.filter(it=>store.known.indexOf(k+'::'+it[0])>=0).length;
+      const pct=Math.round(100*known/v.items.length);
+      return `<div class="tile"><div class="n">${known}/${v.items.length}</div><div class="l">${v.icon} ${v.name}</div><div class="bar"><i style="width:${pct}%"></i></div></div>`;
+    }).join('')+
+    `<div class="tile"><div class="n">${store.tests}</div><div class="l">✍️ Odpovědí (úspěšnost ${store.tests?Math.round(100*store.ok/store.tests)+'%':'–'})</div></div>
+     <div class="tile"><div class="n">${store.fknown.length}/${allF}</div><div class="l">📐 Vzorečky umíš</div><div class="bar"><i style="width:${Math.round(100*store.fknown.length/allF)}%"></i></div></div>
+     <div class="tile"><div class="n">${okrDone}/${okrTot}</div><div class="l">✅ Okruhy hotové</div><div class="bar"><i style="width:${Math.round(100*okrDone/okrTot)}%"></i></div></div>`;
+  document.getElementById('achGrid').innerHTML=ACH.map(a=>{
+    const on=store.ach.indexOf(a.id)>=0;
+    return `<div class="ach${on?'':' locked'}"><span class="e">${a.e}</span><span><b>${a.n}</b>${a.d}</span></div>`;
+  }).join('');
+}
+
 /* init */
-refreshCats();renderSubj();rebuild();renderList();initFPL();
+buildApp();refreshCats();renderSubj();rebuild();renderList();initFPL();
+document.querySelector('.mode[data-m="home"]').click();
 </script>
 </body>
 </html>
