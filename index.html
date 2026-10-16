@@ -179,6 +179,10 @@ body.nav-open #sidebar{transform:none}
 #cBox.doflip{animation:flipx .35s ease}
 @keyframes flipx{50%{transform:rotateY(90deg) scale(.98)}}
 .tile .bar i,#subjProg .bar i,.bar i{transition:width .6s ease}
+.app .mono{background:#f8faf6;color:#0b2422;border:1px solid #e3ded0}
+.app .cardbox small{color:#cfe3dd;opacity:1}
+.app .opt{color:#0f172a}
+.app select option{color:#0f172a;background:#fff}
 
 </style>
 </head>
@@ -1007,7 +1011,7 @@ draw:h=>`<line x1="20" y1="115" x2="280" y2="115" stroke="#9fb0c7" stroke-width=
 {id:"obvod",s:"fyzika",t:"Jednoduchý obvod",parts:["Zdroj (baterie)","Rezistor","Ampérmetr","Žárovka","Vodiče"],pts:[[150,36],[264,115],[150,194],[36,115],[100,170]],
 draw:h=>`<rect x="60" y="60" width="180" height="110" fill="none" stroke="#0b2422" stroke-width="3"/><line x1="140" y1="45" x2="140" y2="75" stroke="#0b2422" stroke-width="5"/><line x1="160" y1="50" x2="160" y2="70" stroke="#0b2422" stroke-width="5"/><polyline points="240,95 232,105 248,105 240,115 248,125 232,125 240,135" fill="none" stroke="#d63d3d" stroke-width="3"/><circle cx="150" cy="170" r="16" fill="#fff" stroke="#0b2422" stroke-width="2"/><text x="150" y="176" text-anchor="middle" font-size="14" font-weight="800" fill="#0b2422">A</text><circle cx="60" cy="115" r="16" fill="#fff8d6" stroke="#0b2422" stroke-width="2"/><path d="M52,115 l5,-6 5,12 5,-12 5,12 5,-6" stroke="#f5a524" stroke-width="2" fill="none"/>`}
 ];
-function svgFig(fig,hide){let s=`<svg viewBox="0 0 300 230" style="width:100%;max-width:430px;height:auto;background:rgba(255,255,255,.07);border-radius:12px" role="img" aria-label="${fig.t}">`;s+=fig.draw(hide);fig.pts.forEach((p,i)=>{s+=MK(p[0],p[1],i+1,i===hide);});return s+'</svg>';}
+function svgFig(fig,hide){let s=`<svg viewBox="0 0 300 230" style="width:100%;max-width:430px;height:auto;background:#f8faf6;border:1px solid #e3ded0;border-radius:12px" role="img" aria-label="${fig.t}">`;s+=fig.draw(hide);fig.pts.forEach((p,i)=>{s+=MK(p[0],p[1],i+1,i===hide);});return s+'</svg>';}
 
 /* ================= MNEMOTECHNIKY (jak si to zapamatovat) ================= */
 const MNEMO={"pH":"Citron (2) < voda (7) < mýdlo (10). Čím menší číslo, tím kyselejší.","Mitochondrie":"MITO = MOTOR buňky. Bez kyslíku stojí.","Fotosyntéza (rovnice)":"Šestka všude: 6 – 6 – 6 – 6.","Ohmův zákon":"U = R·I. Holka (U) Ráda Jí (R·I).","Redoxní reakce":"Oxidace = Odevzdání elektronů. Obě začínají na O.","Alkany":"Koncovka -an jako metAN.","Sonet":"14 veršů jako Valentýn 14. 2.","Metafora":"Bez JAKO. Když je tam JAKO, je to přirovnání.","Jamb":"JAmb JUpe vzhůru: u-U.","Trochej":"TROchej TROubí z kopce: U-u.","Hybnost":"Hmotnost krát rychlost — těžké a rychlé bolí.","Kinetická energie":"Rychlost se počítá dvakrát (na druhou). Proto bouračky.","Hardy-Weinbergův zákon":"p + q = 1, tedy celých 100 %.","Mitóza":"MITóza = MIT stejně: dvě stejné dcery.","Meióza":"MEIóza = MÉNĚ: polovina chromozomů.","Hemoglobin":"HEM veze kyslík díky železu (Fe).","Sklovina":"Nejtvrdší v těle, ale kyseliny z cukru ji rozpustí.","Zubní kaz":"Mutans miluje cukr. Bez cukru hladoví.","BMI":"Váha dělená výškou na druhou.","Komplementarita DNA":"A–T drží 2 můstky, G–C drží 3.","Dýchací řetězec":"Kyslík stojí na konci fronty a chytá elektrony.","Interference vlnění":"Stejný krok = hlasitěji, protikrok = ticho."};
