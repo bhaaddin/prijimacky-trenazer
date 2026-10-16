@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maturita + Přijímačky – Trenažér pojmů, vzorců a příkladů</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<style>
+:root{--bg:#f1f5f9;--card:#fff;--ink:#0f172a;--mut:#64748b;--blue:#2563eb;--green:#16a34a;--red:#dc2626;--amber:#d97706;--vio:#7c3aed;--r:14px}
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",system-ui,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 14px 60px}
+header{background:linear-gradient(135deg,#1e3a8a,#7c3aed);color:#fff;border-radius:18px;padding:22px 22px 18px;box-shadow:0 8px 28px rgba(30,58,138,.3)}
+header h1{margin:0;font-size:24px}header p{margin:6px 0 0;opacity:.9;font-size:14px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.stat{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:10px;padding:6px 12px;font-size:13px;font-weight:700}
+.bar{height:8px;background:rgba(255,255,255,.25);border-radius:99px;margin-top:10px;overflow:hidden}
+.bar i{display:block;height:100%;background:#4ade80;border-radius:99px;transition:width .3s}
+.panel{background:var(--card);border:1px solid #e2e8f0;border-radius:var(--r);padding:14px;margin-top:14px;box-shadow:0 4px 16px rgba(15,23,42,.06)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font-family:inherit;cursor:pointer;border-radius:10px;border:1.5px solid #cbd5e1;background:#fff;padding:9px 14px;font-size:14px;font-weight:700;color:var(--ink)}
+button:hover{border-color:var(--blue)}button.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+button.good{background:var(--green);border-color:var(--green);color:#fff}button.bad{background:var(--red);border-color:var(--red);color:#fff}
+button.warn{background:var(--amber);border-color:var(--amber);color:#fff}button.vio{background:var(--vio);border-color:var(--vio);color:#fff}
+button:disabled{opacity:.5;cursor:default}
+.subj{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.subj button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:10px}
+@media(max-width:700px){.modes{grid-template-columns:1fr 1fr}}
+.mode{border:2px solid #e2e8f0;border-radius:12px;padding:12px;text-align:center;background:#f8fafc}
+.mode.on{border-color:var(--blue);background:#eff6ff}
+.mode b{display:block;font-size:15px}.mode span{font-size:12px;color:var(--mut)}
+select,input[type=text],textarea{width:100%;padding:10px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:15px;font-family:inherit}
+textarea{min-height:110px;resize:vertical}
+.cardbox{background:#0f172a;color:#fff;border-radius:16px;padding:28px 20px;text-align:center;min-height:230px;display:flex;flex-direction:column;justify-content:center;margin-top:12px;cursor:pointer;user-select:none}
+.cardbox small{opacity:.7;letter-spacing:1px;font-size:12px}
+.cardbox h2{margin:10px 0;font-size:30px}.cardbox p{font-size:17px;line-height:1.55}
+.cardbox .ex{margin-top:10px;font-size:13px;background:rgba(255,255,255,.12);border-radius:8px;padding:8px}
+.badge{display:inline-block;font-size:12px;font-weight:800;border-radius:99px;padding:3px 10px;background:#e0e7ff;color:#3730a3}
+.kv{font-size:13px;color:var(--mut);margin-top:8px}
+.opts{display:grid;gap:8px;margin-top:12px}
+.opt{text-align:left;padding:12px;font-size:15px}
+.opt.ok{background:#dcfce7;border-color:var(--green)}.opt.no{background:#fee2e2;border-color:var(--red)}
+.feedback{border-radius:10px;padding:10px 12px;margin-top:10px;font-size:14px;display:none}
+.feedback.ok{display:block;background:#dcfce7;border:1px solid var(--green)}
+.feedback.no{display:block;background:#fef3c7;border:1px solid var(--amber)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+th,td{border-bottom:1px solid #e2e8f0;padding:8px 6px;text-align:left;vertical-align:top}
+th{background:#f8fafc;position:sticky;top:0}
+.prog{font-size:12px;color:#fff;background:var(--green);border-radius:99px;padding:2px 8px}
+.prog.no{background:#cbd5e1;color:#475569}
+h3.sec{margin:18px 0 6px;font-size:15px;color:var(--vio);text-transform:uppercase;letter-spacing:.5px}
+.hint{font-size:13px;color:var(--mut)}
+.kbd{background:#f1f5f9;border:1px solid #cbd5e1;border-radius:6px;padding:1px 7px;font-size:12px;font-weight:700}
+.score{font-size:15px;font-weight:800}
+.searchrow{display:flex;gap:8px;margin-top:10px}.searchrow input{flex:1}
+details{margin-top:8px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px 12px}
+summary{cursor:pointer;font-weight:800}
+.mono{font-family:Consolas,"Courier New",monospace;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 10px;font-size:19px;font-weight:700;margin-top:8px}
+.steps{text-align:left;background:#f8fafc;color:var(--ink);border-radius:10px;padding:10px 14px;margin-top:10px;font-size:14px;line-height:1.7}
+.steps li{margin-bottom:4px}
+.linkgrid{display:grid;gap:8px;margin-top:10px}
+.linksec{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:8px 12px;font-size:14px;line-height:1.55}
+.linksec b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+select.mini{width:auto;max-width:220px;padding:8px}
+body.dark{--bg:#0b1220;--card:#16213a;--ink:#e8eef7;--mut:#9fb0c7}
+body.dark .panel{background:var(--card);border-color:#2b3b5c;box-shadow:none}
+body.dark button{background:#1e2c4d;color:var(--ink);border-color:#33456b}
+body.dark button.primary{background:var(--blue);border-color:var(--blue)}
+body.dark button.good{background:var(--green);border-color:var(--green)}
+body.dark button.bad{background:var(--red);border-color:var(--red)}
+body.dark button.warn{background:var(--amber);border-color:var(--amber)}
+body.dark select,body.dark input[type=text],body.dark textarea{background:#0f1a30;color:var(--ink);border-color:#33456b}
+body.dark .mode{background:#101b33;border-color:#2b3b5c}
+body.dark .mode.on{background:#1e3a8a;border-color:var(--blue)}
+body.dark .steps,body.dark .linksec,body.dark details{background:#101b33;color:var(--ink);border-color:#2b3b5c}
+body.dark table th{background:#101b33}body.dark th,body.dark td{border-color:#2b3b5c}
+body.dark .hint{color:#9fb0c7}body.dark .kbd{background:#0f1a30;border-color:#33456b}
+body.dark .opt.ok{color:#052e16}body.dark .opt.no{color:#450a0a}
+body.sepia{--bg:#efe6d0;--card:#fffaf0;--ink:#433422;--mut:#8a7a5f}
+body.sepia .panel{background:var(--card);border-color:#e0d3b3}
+body.sepia .mode{background:#f7efdc;border-color:#e0d3b3}
+body.sepia .mode.on{background:#f3e5c3;border-color:var(--amber)}
+body.f-s{font-size:15px}body.f-m{font-size:16.5px}body.f-l{font-size:18px}body.f-xl{font-size:20px}
+footer{margin-top:20px;font-size:12px;color:var(--mut);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>🎓 Maturita + Přijímačky – Trenažér</h1>
+<p>Chemie • Fyzika • Biologie • Literatura • 🦷 Zubní lékařství — pojmy, <b>vzorečky</b>, <b>řešené příklady</b>, <b>hádanky</b>, <b>mluvení</b>, <b>cvičné otázky LF</b> a <b>propojení F–Ch–B</b>. Rozsah: GVBT maturita → přijímačky na zubní. Funguje offline, pokrok se ukládá.</p>
+<div class="stats">
+<span class="stat">📦 <span id="sTotal">0</span> pojmů</span>
+<span class="stat">📐 Vzorečky: <span id="sF">0</span></span>
+<span class="stat">✅ Umím: <span id="sKnow">0</span></span>
+<span class="stat">✍️ Testy: <span id="sTests">0</span> (úspěšnost <span id="sAcc">–</span>)</span>
+<span class="stat">🔥 Série: <span id="sStreak">0</span></span>
+<span class="stat">🎯 Dnes: <span id="sDay">0</span>/<span id="sGoal">20</span></span>
+</div>
+<div class="bar"><i id="progBar" style="width:0%"></i></div>
+</header>
+
+<div class="panel" id="ctrlPanel" style="position:sticky;top:8px;z-index:50">
+<div class="row"><b>Předmět:</b></div>
+<div class="subj" id="subjBtns"></div>
+<div class="row" style="margin-top:10px"><b>Kategorie:</b>
+<select id="catSel" style="max-width:280px"><option value="">Všechny kategorie</option></select>
+<button id="btnShuffle" title="Zamíchat pořadí">🔀 Zamíchat</button>
+<button id="btnSet">⚙️ Nastavení</button>
+<button id="btnReset">♻️ Reset pokroku</button>
+</div>
+<div id="setPanel" style="display:none;margin-top:10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px">
+<div class="row">
+<label class="hint">Vzhled: <select id="setTheme" class="mini"><option value="light">☀️ Světlý</option><option value="sepia">📜 Sépiový (na čtení)</option><option value="dark">🌙 Tmavý (na večer)</option></select></label>
+<label class="hint">Písmo: <select id="setFont" class="mini"><option value="s">Menší</option><option value="m" selected>Normální</option><option value="l">Velké</option><option value="xl">Extra velké</option></select></label>
+<label class="hint">Denní cíl: <select id="setGoal" class="mini"><option>10</option><option selected>20</option><option>30</option><option>50</option><option>100</option></select></label>
+<label class="hint"><input type="checkbox" id="setHide" style="width:auto"> Skrýt uměné karty</label>
+</div>
+<div class="row" style="margin-top:8px">
+<button id="btnExport">💾 Stáhnout pokrok (na jiné zařízení)</button>
+<label class="hint" style="cursor:pointer;border:1.5px solid #cbd5e1;border-radius:10px;padding:9px 14px;font-weight:700;background:#fff">📂 Nahrát pokrok <input type="file" id="fileImport" accept=".json" hidden></label>
+<span class="hint">Pokrok se ukládá v prohlížeči. Pro učení na mobilu/tabletu si ho přeneseš souborem.</span>
+</div>
+</div>
+<div class="modes">
+<div class="mode on" data-m="cards"><b>🃏 Kartičky</b><span>pojem → definice</span></div>
+<div class="mode" data-m="write"><b>✍️ Hra: napiš definici</b><span>musíš napsat vlastními slovy</span></div>
+<div class="mode" data-m="abc"><b>🔘 ABC test</b><span>vyber správný pojem</span></div>
+<div class="mode" data-m="vzorce"><b>📐 Vzorečky</b><span>napiš vzorec zpaměti</span></div>
+<div class="mode" data-m="priklady"><b>🧮 Příklady</b><span>řešené úlohy s postupem</span></div>
+<div class="mode" data-m="propoj"><b>🔗 Propojení F–Ch–B</b><span>jedno téma třemi vědami</span></div>
+<div class="mode" data-m="hadanky"><b>🧩 Hádanky</b><span>3 nápovědy → uhodni pojem</span></div>
+<div class="mode" data-m="mluveni"><b>🗣️ Mluvení</b><span>vysvětli pojem nahlas</span></div>
+<div class="mode" data-m="cvicne"><b>🎯 Cvičné otázky LF</b><span>test jako na přijímačkách</span></div>
+<div class="mode" data-m="okruhy"><b>✅ Maturitní okruhy</b><span>GVBT + zubní checklist</span></div>
+<div class="mode" data-m="list"><b>📖 Přehled</b><span>všechny pojmy + hledání</span></div>
+</div>
+</div>
+
+<div class="panel" id="viewCards">
+<div class="row"><span class="badge" id="cSubj">–</span><span class="hint" id="cCount">–</span>
+<span style="margin-left:auto"></span>
+<button id="cPrev">◀</button><button id="cFlip" class="primary">Otočit (mezerník)</button><button id="cNext">▶</button></div>
+<div class="cardbox" id="cBox"><small id="cSide">POJEM – uhodni definici</small><h2 id="cTerm">–</h2><p id="cDef" style="display:none">–</p><div class="ex" id="cEx" style="display:none"></div></div>
+<div class="row" style="margin-top:10px">
+<button id="cNo" class="bad">✖ Neumím</button>
+<button id="cYes" class="good">✔ Umím</button>
+<span class="hint">Klikni na kartu nebo zmáčkni <span class="kbd">mezerník</span> pro otočení. <span class="kbd">←</span><span class="kbd">→</span> pohyb.</span>
+</div>
+</div>
+
+<div class="panel" id="viewWrite" style="display:none">
+<div class="row"><span class="badge" id="wSubj">–</span><span class="hint" id="wCount">–</span><span class="score" id="wScore" style="margin-left:auto"></span></div>
+<div class="cardbox" style="cursor:default;min-height:130px"><small>DEFINUJ VLASTNÍMI SLOVY POJEM</small><h2 id="wTerm">–</h2><div class="hint" style="color:#cbd5e1" id="wCat"></div></div>
+<label style="font-weight:800;margin-top:10px;display:block">Tvoje definice:</label>
+<textarea id="wInput" placeholder="Napiš definici… např. co to je, jak funguje, příklad. Hodnotí se klíčová slova, ne přesné znění."></textarea>
+<div class="row" style="margin-top:8px">
+<button id="wCheck" class="primary">Zkontrolovat (Enter)</button>
+<button id="wNext">Další pojem ➜</button>
+<button id="wShow">👁 Ukázat vzor</button>
+</div>
+<div class="feedback" id="wFb"></div>
+<div class="hint" id="wModel" style="display:none;margin-top:8px"></div>
+</div>
+
+<div class="panel" id="viewAbc" style="display:none">
+<div class="row"><span class="badge" id="aSubj">–</span><span class="hint" id="aCount">–</span><span class="score" id="aScore" style="margin-left:auto"></span></div>
+<div class="cardbox" style="cursor:default;min-height:150px"><small>CO JE TOHLE? VYBER SPRÁVNÝ POJEM</small><p id="aDef">–</p></div>
+<div class="opts" id="aOpts"></div>
+<div class="row" style="margin-top:8px"><button id="aNext" class="primary">Další otázka ➜</button><span class="hint" id="aFb"></span></div>
+</div>
+
+<div class="panel" id="viewF" style="display:none">
+<div class="row"><span class="badge" id="fSubjName">–</span>
+<select id="fSubj" class="mini"><option value="">Všechny předměty</option></select>
+<span class="hint" id="fCount">–</span><span class="score" id="fScore" style="margin-left:auto"></span></div>
+<div class="cardbox" style="cursor:default"><small>NAPIŠ VZOREC ZPAMĚTI (bez mezer to taky bere, × můžeš psát jako *)</small><h2 id="fName" style="font-size:24px">–</h2><div class="hint" style="color:#cbd5e1" id="fLeg"></div><div class="mono" id="fAns" style="display:none"></div></div>
+<div class="row" style="margin-top:8px"><input type="text" id="fInput" placeholder="Napiš vzorec… např. F=m*a" style="flex:1;min-width:200px"></div>
+<div class="row" style="margin-top:8px">
+<button id="fCheck" class="primary">Zkontrolovat (Enter)</button>
+<button id="fShowBtn">👁 Ukázat vzorec</button>
+<button id="fNext">Další ➜</button>
+</div>
+<div class="feedback" id="fFb"></div>
+</div>
+
+<div class="panel" id="viewP" style="display:none">
+<div class="row"><select id="pSubj" class="mini"><option value="">Všechny předměty</option></select>
+<span class="hint" id="pCount">–</span>
+<span style="margin-left:auto"></span>
+<button id="pPrev">◀</button><button id="pNext" class="primary">Další ➜</button></div>
+<div class="cardbox" style="cursor:default"><small id="pSubjName">PŘÍKLAD</small><h2 id="pTitle" style="font-size:23px">–</h2><p id="pZad">–</p></div>
+<div class="row" style="margin-top:8px"><button id="pShow" class="warn">📝 Zkusil jsem – ukázat postup</button></div>
+<div class="steps" id="pSteps" style="display:none"></div>
+<div class="row" style="margin-top:8px">
+<button id="pNo" class="bad">✖ Neumím</button>
+<button id="pYes" class="good">✔ Umím</button>
+<span class="hint">Nejdřív počítej sám na papír, pak si ukaž postup.</span>
+</div>
+</div>
+
+<div class="panel" id="viewL" style="display:none">
+<div class="row"><span class="hint" id="lCount">–</span>
+<span style="margin-left:auto"></span>
+<button id="lPrev">◀</button><button id="lNext" class="primary">Další téma ➜</button></div>
+<div class="cardbox" style="cursor:default;min-height:120px"><small>🔗 PROPOJENÍ FYZIKY – CHEMIE – BIOLOGIE</small><h2 id="lTitle" style="font-size:24px">–</h2><p id="lDesc" style="font-size:15px">–</p></div>
+<div class="linkgrid">
+<div class="linksec"><b>🔭 Fyzika</b><span id="lF"></span></div>
+<div class="linksec"><b>⚗️ Chemie</b><span id="lC"></span></div>
+<div class="linksec"><b>🧬 Biologie</b><span id="lB"></span></div>
+<div class="linksec" style="border-color:var(--amber)"><b>🎯 Maturitní tip</b><span id="lTip"></span></div>
+</div>
+</div>
+
+<div class="panel" id="viewH" style="display:none">
+<div class="row"><span class="badge">🧩 Hádanka</span><span class="hint" id="hCount">–</span><span class="score" id="hScore" style="margin-left:auto"></span></div>
+<div class="cardbox" style="cursor:default"><small>UHODNI POJEM PODLE NÁPOVĚD (od nejtěžší po nejlehčí)</small>
+<div id="hHints" style="text-align:left;font-size:15px;line-height:1.8"></div>
+<h2 id="hAns" style="display:none;font-size:26px">–</h2></div>
+<div class="row" style="margin-top:8px"><input type="text" id="hInput" placeholder="Tvůj tip…" style="flex:1;min-width:180px"></div>
+<div class="row" style="margin-top:8px">
+<button id="hTip" class="warn">💡 Další nápověda</button>
+<button id="hGuess" class="primary">Hádat (Enter)</button>
+<button id="hGive">🙈 Vzdát – ukázat</button>
+<button id="hNext">Další ➜</button>
+</div>
+<div class="feedback" id="hFb"></div>
+</div>
+
+<div class="panel" id="viewM" style="display:none">
+<div class="row"><span class="badge">🗣️ Mluvení</span><span class="hint" id="mCount">–</span></div>
+<div class="cardbox" style="cursor:default;min-height:130px"><small>VYSVĚTLI NAHLAS, JAKO U ZKOUŠKY</small><h2 id="mTerm">–</h2><div class="hint" style="color:#cbd5e1" id="mCat"></div></div>
+<div class="linksec" style="margin-top:10px"><b>🎤 Návodné otázky – odpověz nahlas</b><span id="mQ"></span></div>
+<div class="row" style="margin-top:8px">
+<button id="mShow" class="warn">📖 Domluvil jsem – ukázat vzor</button>
+<button id="mNext" class="primary">Další pojem ➜</button>
+</div>
+<div class="steps" id="mModel" style="display:none"></div>
+<div class="row" style="margin-top:8px" id="mRate" hidden>
+<span class="hint">Jak ti to šlo?</span>
+<button id="mNo" class="bad">✖ Špatně</button>
+<button id="mHalf" class="warn">➖ Napůl</button>
+<button id="mYes" class="good">✔ Skvěle</button>
+</div>
+</div>
+
+<div class="panel" id="viewQ" style="display:none">
+<div class="row"><select id="qSubj" class="mini"><option value="">Všechny předměty</option></select>
+<span class="hint" id="qqCount">–</span><span class="score" id="qqScore" style="margin-left:auto"></span></div>
+<div class="cardbox" style="cursor:default;min-height:150px"><small id="qqSubj">CVIČNÁ OTÁZKA – JAKO NA LF</small><p id="qqText">–</p></div>
+<div class="opts" id="qqOpts"></div>
+<div class="linksec" id="qqWhy" style="display:none;border-color:var(--green)"><b>💡 Vysvětlení</b><span id="qqWhyT"></span></div>
+<div class="row" style="margin-top:8px"><button id="qqNext" class="primary">Další otázka ➜</button></div>
+</div>
+
+<div class="panel" id="viewO" style="display:none">
+<div class="row"><span class="badge">✅ Maturitní okruhy</span><span class="hint">GVBT Slaný 2026/27 + přijímačky zubní • odškrtávej, co umíš</span></div>
+<div id="okrBox"></div>
+</div>
+
+<div class="panel" id="viewList" style="display:none">
+<div class="searchrow"><input type="text" id="q" placeholder="Hledat pojem nebo slovo v definici…"><button id="qBtn" class="primary">Hledat</button></div>
+<div id="listBox"></div>
+</div>
+
+<div class="panel">
+<h3 class="sec">📋 Co testy k přijímačkám nejčastěji chtějí (rozbor typických úloh)</h3>
+<details open><summary>⚗️ Chemie – na co se ptají</summary>
+<p class="hint">Částicové složení atomu (p⁺/n⁰/e⁻, protonové vs. nukleonové číslo), ionty, typy vazeb, kyseliny–hydroxidy–soli + pH a neutralizace, redox (oxidace = odevzdání e⁻), názvosloví oxidů, alkany/alkeny/alkyny + alkoholy a kyseliny, zákon zachování hmotnosti a výpočty z molu. V testech: doplň vzorec, vyber správný typ vazby/reakce, seřaď pH.</p></details>
+<details><summary>🔭 Fyzika – na co se ptají</summary>
+<p class="hint">Veličiny + jednotky + vzorce (v=s/t, F=m·a, W=F·s, P=W/t, ρ=m/V, p=F/S, Q=m·c·Δt, U=R·I), Newtonovy zákony, páka/kladka, tlak (Pascal, Archimedes), skupenské přeměny, elektřina (Ohmův zákon, sériové/paralelní zapojení), optika (odraz/lom, čočky), zvuk a jádro (radioaktivita, poločas). V testech: dosaď do vzorce, převeď jednotky, rozhodni která čočka/zapojení.</p></details>
+<details><summary>🧬 Biologie – na co se ptají</summary>
+<p class="hint">Buňka a organely (mitochondrie = dýchání, chloroplast = fotosyntéza), DNA×RNA, mitóza×meióza, dominantní×recesivní + jednoduché křížení, člověk (srdce, plíce, neuron/reflex, hormony, imunita, ledviny), virus×bakterie, ekosystém a potravní řetězce. V testech: přiřaď organelu k funkci, vyber správné tvrzení o dědičnosti, popiš cestu krve/vzduchu.</p></details>
+<details><summary>📚 Literatura – na co se ptají</summary>
+<p class="hint">Epika×lyrika×drama, žánry (román/povídka/novela/bajka/balada/sonet), figury a tropy (metafora, přirovnání, personifikace, metonymie, hyperbola, epiteton…), verš/strofa/rým/metrum (jamb, trochej, daktyl), vypravěč (er/ich-forma), téma×motiv, období (baroko, obrození, romantismus, realismus) + autoři (Mácha, Němcová, Neruda, Hašek, Čapek). V testech: poznej figuru v ukázce, urči žánr, přiřaď autora k dílu.</p></details>
+</div>
+
+<footer>Jednoduchý soubor – můžeš ho otevřít dvojklikem, poslat spolužákům, funguje bez internetu. • Zdroj definic: učivo ZŠ/SŠ pro přijímačky.</footer>
+</div>
+
+<script>
+"use strict";
+/* ================= DATA ================= */
+const DATA = {
+// ---------- CHEMIE ----------
+chemie:{name:"Chemie",icon:"⚗️",items:[
+["Atom","Nejmenší částice prvku, která si zachovává jeho chemické vlastnosti; skládá se z jádra a obalu.","Ex: H, O, Fe","Stavba hmoty"],
+["Proton","Kladně nabitá částice v jádře atomu; jejich počet = protonové číslo Z.","Ex: vodík má 1 proton","Stavba hmoty"],
+["Neutron","Elektricky neutrální částice v jádře atomu; s protony tvoří téměř celou hmotnost atomu.","Spolu s protony = nukleony","Stavba hmoty"],
+["Elektron","Záporně nabitá částice v obalu atomu; podílí se na chemické vazbě.","e⁻, téměř nulová hmotnost","Stavba hmoty"],
+["Protonové číslo (Z)","Počet protonů v jádře; určuje, o který prvek jde, a pořadí v tabulce.","Ex: uhlík Z = 6","Stavba hmoty"],
+["Nukleonové číslo (A)","Součet protonů a neutronů v jádře.","A = Z + N; Ex: ¹²C má A = 12","Stavba hmoty"],
+["Izotop","Atomy téhož prvku se stejným Z, ale různým počtem neutronů (různé A).","Ex: ¹²C, ¹³C, ¹⁴C","Stavba hmoty"],
+["Ion","Elektricky nabitá částice vzniklá přijetím nebo odevzdáním elektronů.","Kation +, anion −","Stavba hmoty"],
+["Kation","Kladný ion vzniklý odevzdáním elektronů.","Ex: Na⁺, Ca²⁺, Fe³⁺","Stavba hmoty"],
+["Anion","Záporný ion vzniklý přijetím elektronů.","Ex: Cl⁻, O²⁻, SO₄²⁻","Stavba hmoty"],
+["Prvek","Látka složená ze stejných atomů; nelze ji chemicky rozložit.","Ex: kyslík O₂, železo Fe","Látky a směsi"],
+["Sloučenina","Látka ze dvou a více prvků sloučených v pevném poměru chemickou vazbou.","Ex: H₂O, CO₂, NaCl","Látky a směsi"],
+["Směs","Soustava dvou a více látek, které nejsou vázány chemicky a lze je oddělit fyzikálně.","Různorodá × stejnorodá","Látky a směsi"],
+["Roztok","Stejnorodá směs rozpouštědla a rozpuštěné látky.","Ex: slaná voda, vzduch","Látky a směsi"],
+["Mol","Látkové množství obsahující 6,022×10²³ částic (Avogadrova konstanta).","n = m/M","Výpočty"],
+["Molární hmotnost (M)","Hmotnost 1 molu látky v g/mol; číselně = relativní atomové/molekulové hmotnosti.","Ex: M(H₂O) = 18 g/mol","Výpočty"],
+["Avogadrova konstanta","Počet částic v 1 molu: 6,022×10²³ mol⁻¹.","NA","Výpočty"],
+["Chemická vazba","Soudržnost atomů sdílením, předáním nebo sdílením elektronů v mřížce.","Vzniká úspora energie","Vazby a reakce"],
+["Iontová vazba","Vazba předáním elektronů mezi kovem a nekovem; vznikají ionty.","Ex: NaCl","Vazby a reakce"],
+["Kovalentní vazba","Vazba sdílením elektronových párů mezi nekovy.","Jednoduchá/dvojná/trojná; Ex: H₂, O₂, N₂","Vazby a reakce"],
+["Kovová vazba","Vazba v kovech: kationty v 'moři' volných elektronů; vodivost a kujnost.","Ex: Fe, Cu, Al","Vazby a reakce"],
+["Oxidace","Reakce, při níž látka odevzdává elektrony (oxidační číslo roste).","Mnemonika: oxidace = odevzdání","Reakce"],
+["Redukce","Reakce, při níž látka přijímá elektrony (oxidační číslo klesá).","Opak oxidace","Reakce"],
+["Redoxní reakce","Reakce, kde současně probíhá oxidace jedné a redukce druhé látky.","Ex: hoření, koroze","Reakce"],
+["Kyselina","Sloučenina odštěpující H⁺; má pH < 7, leptá a barví lakmus červeně.","Ex: HCl, H₂SO₄, ocet","Kyseliny, zásady, soli"],
+["Hydroxid (zásada)","Sloučenina uvolňující OH⁻; má pH > 7, hořká, kluzká.","Ex: NaOH, Ca(OH)₂","Kyseliny, zásady, soli"],
+["Sůl","Sloučenina vzniklá neutralizací kyseliny a hydroxidu (kation kovu + anion kyseliny).","Ex: NaCl, CaCO₃","Kyseliny, zásady, soli"],
+["pH","Stupnice 0–14 pro kyselost: pod 7 kyselé, 7 neutrální, nad 7 zásadité.","Měří se indikátorem","Kyseliny, zásady, soli"],
+["Neutralizace","Reakce kyseliny s hydroxidem za vzniku soli a vody.","HCl + NaOH → NaCl + H₂O","Kyseliny, zásady, soli"],
+["Oxid","Sloučenina prvku s kyslíkem (oxidační číslo O je −II).","Ex: CO₂, CaO, Fe₂O₃","Anorganika"],
+["Koroze","Postupné narušování kovů氧化 prostředím, typicky rezivění železa.","Ochrana: nátěr, zinek","Anorganika"],
+["Katalyzátor","Látka urychlující reakci, sama se přitom nespotřebuje.","Ex: platina ve výfuku, enzymy","Reakce"],
+["Zákon zachování hmotnosti","Při reakci se hmotnost nemění: součet hmotností reaktantů = součet hmotností produktů.","Nutno vyčíslit rovnici","Výpočty"],
+["Alkany","Nasycené uhlovodíky s jednoduchými vazbami; koncovka -an.","Ex: methan, ethan, propan, butan","Organika"],
+["Alkeny","Nenasycené uhlovodíky s dvojnou vazbou; koncovka -en.","Ex: ethen (ethylen)","Organika"],
+["Alkyny","Nenasycené uhlovodíky s trojnou vazbou; koncovka -yn.","Ex: ethyn (acetylen)","Organika"],
+["Alkoholy","Deriváty s -OH skupinou; koncovka -ol.","Ex: methanol, ethanol","Organika"],
+["Karboxylové kyseliny","Deriváty s -COOH skupinou; kyselé.","Ex: octová, mravenčí","Organika"],
+["Periodická tabulka","Tabulka prvků podle rostoucího Z; sloupce = skupiny s podobnými vlastnostmi, řádky = periody.","8 skupin A, 7 period","Stavba hmoty"],
+["Fotosyntéza (rovnice)","6 CO₂ + 6 H₂O →(světlo, chlorofyl) C₆H₁₂O₆ + 6 O₂.","Probíhá v chloroplastech","Organika"],
+["Elektronegativita","Schopnost atomu přitahovat vazebné elektrony; roste doprava a nahoru v tabulce.","Nejvyšší má fluor (4,0)","★ Fyzikální chemie"],
+["Polarita vazby","Nerovnoměrné sdílení elektronů při rozdílné elektronegativitě; vzniká dipól δ+/δ−.","Rozhoduje o rozpustnosti","★ Fyzikální chemie"],
+["Vazba sigma (σ)","Přímý překryv orbitalů na spojnici jader; základ každé jednoduché vazby, rotace možná.","Nejsilnější typ překryvu","★ Fyzikální chemie"],
+["Vazba pí (π)","Boční překryv orbitalů mimo spojnici jader; 2. a 3. vazba násobné vazby, rotace nemožná.","Ex: C=C, C≡C","★ Fyzikální chemie"],
+["Hybridizace","Mísení orbitalů: sp³ tetraedr 109°, sp² rovina 120°, sp přímka 180°.","Ex: methan sp³, ethen sp²","★ Fyzikální chemie"],
+["Tvar molekul (VSEPR)","Tvar určuje odpuzování elektronových párů včetně volných párů.","Ex: H₂O lomená, NH₃ pyramida","★ Fyzikální chemie"],
+["Reakční kinetika","Nauka o rychlosti reakcí: v = k·[A]^a·[B]^b; roste s koncentrací a teplotou.","Katalyzátor zrychluje","★ Fyzikální chemie"],
+["Aktivační energie","Energetická bariéra, kterou musí částice překonat; katalyzátor ji snižuje.","Ea v kJ/mol","★ Fyzikální chemie"],
+["Chemická rovnováha","Stav, kdy rychlost přímé = rychlosti zpětné reakce; koncentrace se nemění.","Dynamická rovnováha","★ Fyzikální chemie"],
+["Rovnovážná konstanta (Kc)","Poměr součinů koncentrací produktů a reaktantů v mocninách koeficientů.","Velké K = posun k produktům","★ Fyzikální chemie"],
+["Le Chatelierův princip","Porušená rovnováha se posouvá proti zásahu (teplota, tlak, koncentrace).","Ex: vyšší tlak → méně molů plynu","★ Fyzikální chemie"],
+["Entalpie (H)","Tepelný obsah soustavy; ΔH<0 exotermní, ΔH>0 endotermní děj.","kJ/mol","★ Fyzikální chemie"],
+["Entropie (S)","Míra neuspořádanosti; roste táním, varem a růstem molů plynu.","J/(mol·K)","★ Fyzikální chemie"],
+["Gibbsova energie","Rozhoduje o samovolnosti: ΔG = ΔH − T·ΔS; při ΔG<0 běží reakce sama.","Ex: hoření","★ Fyzikální chemie"],
+["Amfoterní látka","Chová se jako kyselina i zásada podle prostředí.","Ex: H₂O, Al(OH)₃","★ Fyzikální chemie"],
+["Hydrolýza solí","Reakce iontů soli s vodou měnící pH roztoku.","Ex: Na₂CO₃ je zásaditá","★ Fyzikální chemie"],
+["Pufry","Roztoky držící pH při přidání kyseliny/zásady (slabá kyselina + její sůl).","Ex: krevní hydrogenuhličitanový","★ Fyzikální chemie"],
+["Komplexní sloučeniny","Centrální atom + ligandy v koordinační sféře [ ].","Ex: hemoglobin, [Cu(NH₃)₄]²⁺","★ Fyzikální chemie"],
+["Elektrochemický článek","Mění chemickou energii v elektrickou (anoda − oxidace, katoda + redukce).","Ex: Daniellův článek","★ Elektrochemie"],
+["Standardní potenciál","Napětí poločlánku proti vodíkové elektrodě; řada napětí kovů.","Určuje, co se vyloučí dřív","★ Elektrochemie"],
+["Elektrolýza","Rozklad látky stejnosměrným proudem; na katodě redukce, na anodě oxidace.","Ex: výroba Al, pokovování","★ Elektrochemie"],
+["Faradayovy zákony","Hmotnost vyloučená proudem: m = M·I·t/(z·F); F = 96485 C/mol.","1 mol e⁻ = 1 F","★ Elektrochemie"],
+["Nernstova rovnice","Potenciál závisí na koncentraci: E = E° − (RT/zF)·ln Q.","Měření pH elektrodou","★ Elektrochemie"],
+["Izomerie","Stejný vzorec, jiné uspořádání: řetězcová, polohová, prostorová (cis/trans).","Ex: butan vs. isobutan","★ Organika M/VŠ"],
+["Aromatické uhlovodíky","Cyklické s delokalizovanými π elektrony; typická je substituce.","Ex: benzen C₆H₆, toluen","★ Organika M/VŠ"],
+["Aldehydy","Deriváty s −CHO; koncovka -al; snadno se oxidují (Tollens, Fehling).","Ex: formaldehyd","★ Organika M/VŠ"],
+["Ketony","Deriváty s C=O uvnitř řetězce; koncovka -on.","Ex: aceton (propanon)","★ Organika M/VŠ"],
+["Estery","R−COO−R′; vznikají esterifikací kyseliny s alkoholem, voní.","Ex: ethyl-acetát","★ Organika M/VŠ"],
+["Amidy","Deriváty s −CONH₂; stejná vazba jako peptidová v bílkovinách.","Ex: močovina, nylon","★ Organika M/VŠ"],
+["Aminy","Dusíkaté deriváty s −NH₂; zásadité.","Ex: anilin, aminokyseliny","★ Organika M/VŠ"],
+["Sacharidy","Cukry (C,H,O): mono-, di- a polysacharidy; zdroj a zásoba energie.","Ex: glukóza, škrob, celulóza","★ Biochemie"],
+["Lipidy","Tuky a oleje (estery glycerolu + mastných kyselin); zásoba energie a membrány.","37 kJ/g","★ Biochemie"],
+["Aminokyseliny","Stavební kameny bílkovin: −NH₂ + −COOH + postranní řetězec; asi 20 typů.","Spojuje je peptidová vazba","★ Biochemie"],
+["Bílkoviny","Řetězce aminokyselin; struktury primární až kvartérní; teplem denaturují.","Ex: hemoglobin, enzymy","★ Biochemie"],
+["Nukleové kyseliny (detail)","DNA dvoušroubovice (A-T, G-C), RNA jednovlákno; cukr + fosfát + báze.","Nesou a realizují informaci","★ Biochemie"],
+["Polymery","Makromolekuly z monomerů: přírodní (škrob) i syntetické (PE, PVC).","Polymerace × polykondenzace","★ Organika M/VŠ"],
+["Kvalitativní analýza","Zjišťuje, CO ve vzorku je: důkazové a srážecí reakce, plamenové zkoušky.","Ex: důkaz Cl⁻ stříbrem","★ Analytika (GVBT)"],
+["Kvantitativní analýza","Zjišťuje, KOLIK toho je: vážková (gravimetrie) a odměrná (titrace).","Přesnost a chyba měření","★ Analytika (GVBT)"],
+["Titrace","Odměrná analýza: z objemu činidla o známé c se spočte c vzorku; bod ekvivalence.","Indikátor, byreta","★ Analytika (GVBT)"],
+["Alkalické kovy (I.A)","Li, Na, K…; měkké, prudce reagují s vodou (H₂ + hydroxid).","Uchovávat pod olejem","★ Anorganika (GVBT)"],
+["Kovy alkalických zemin (II.A)","Ca, Mg…; tvrdost vody; CaCO₃, Mg v chlorofylu.","Sádra, vápno","★ Anorganika (GVBT)"],
+["Halogeny (VII.A)","F, Cl, Br, I; reaktivní nekovy; chlor dezinfikuje, jód patří do štítné žlázy.","Těkavé, dráždivé","★ Anorganika (GVBT)"],
+["Chalkogeny (VI.A)","O, S…; síra (SO₂, kyselé deště), ozonová vrstva.","Kyslíkaté kyseliny","★ Anorganika (GVBT)"],
+["Vzácné plyny (VIII.A)","Nereaktivní (plný oktet): He, Ne, Ar.","Žárovky, potápění, svařování","★ Anorganika (GVBT)"],
+["Železo a jeho výroba","Vysoká pec (koks + vápenec): ruda → surové železo → ocel.","Rudy: hematit, magnetit","★ Anorganika (GVBT)"],
+["Měď a zinek","Cu (vodiče, bronz) a Zn (mosaz, pozinkování proti korozi).","Slitiny mění vlastnosti","★ Anorganika (GVBT)"],
+["Vodík a jeho sloučeniny","Nejlehčí plyn, s kyslíkem výbušný; hydridy; palivo budoucnosti.","H₂ + ½O₂ → H₂O","★ Anorganika (GVBT)"],
+["Kyslík a jeho sloučeniny","Oxidy a peroxidy; ozon; dýchání vs. hoření.","Nejrozšířenější prvek","★ Anorganika (GVBT)"],
+["Substituce","Nahrazení atomu či skupiny jinou (radikálová/elektrofilní/nukleofilní).","Ex: chlorace methanu","★ Reakce (GVBT)"],
+["Adice a eliminace","Připojení přes násobnou vazbu (adice) vs. odštěpení a vznik vazby (eliminace).","Markovnikovo pravidlo","★ Reakce (GVBT)"],
+["Heterocyklické sloučeniny","Cyklus s heteroatomem (N/O/S); báze DNA, alkaloidy, léky.","Ex: pyridin, pyrimidin","★ Organika (GVBT)"],
+["Alkaloidy","Dusíkaté rostlinné látky s účinkem na nervy; morfin, kofein, nikotin.","Léky i drogy","★ Organika (GVBT)"],
+["Ethery a thioly","R−O−R′ (diethylether, anestézie) vs. R−SH (zápach, česnek).","Těkavé látky","★ Organika (GVBT)"],
+["Vitaminy rozpustné ve vodě","B-komplex + C; kofaktory enzymů; denně doplňovat.","Nedostatek = kurděje, beri-beri","★ Biochemie (GVBT)"],
+["Vitaminy rozpustné v tucích","A (zrak), D (vápník/kosti), E, K (srážení krve); ukládají se v játrech.","Předávkování hrozí","★ Biochemie (GVBT)"],
+["Glykolýza","Rozklad glukózy na pyruvát v cytoplazmě bez O₂; zisk 2 ATP.","Vstup do Krebsu i kvašení","★ Metabolismus (GVBT)"],
+["Krebsův cyklus","Citrátový cyklus v mitochondriích: acetyl-CoA → CO₂ + NADH/FADH₂.","Centrála metabolismu","★ Metabolismus (GVBT)"],
+["Dýchací řetězec","Přenos e⁻ na O₂ + čerpání H⁺ → ATP syntasa (oxidativní fosforylace).","~30 ATP z glukózy","★ Metabolismus (GVBT)"],
+["Močovinový cyklus","Detoxikace amoniaku na močovinu v játrech (ornithinový cyklus).","Vyloučí ledviny","★ Metabolismus (GVBT)"],
+["Glukoneogeneze","Tvorba glukózy z necukerných zdrojů (laktát, aminokyseliny) v játrech.","Při hladovění","★ Metabolismus (GVBT)"]
+]},
+// ---------- FYZIKA ----------
+fyzika:{name:"Fyzika",icon:"🔭",items:[
+["Rychlost","Dráha za čas: v = s/t; jednotka m/s (×3,6 = km/h).","Rovnoměrný × nerovnoměrný pohyb","Mechanika"],
+["Zrychlení","Změna rychlosti za čas: a = Δv/t; jednotka m/s².","Volný pád g ≈ 9,8 m/s²","Mechanika"],
+["Síla","Vektorová veličina způsobující změnu pohybu či deformaci; F = m·a; jednotka newton (N).","Měří se siloměrem","Mechanika"],
+["1. Newtonův zákon (setrvačnost)","Těleso zůstává v klidu/rovnoměrném pohybu, dokud na něj nepůsobí síla.","Ex: pásy v autě","Zákony"],
+["2. Newtonův zákon (síly)","F = m·a: zrychlení je úměrné síle a nepřímo úměrné hmotnosti.","Čím větší síla, tím větší a","Zákony"],
+["3. Newtonův zákon (akce–reakce)","Každá akce vyvolá stejně velkou opačnou reakci.","Ex: raketa, odraz","Zákony"],
+["Hmotnost","Míra setrvačnosti a množství látky; jednotka kg.","× tíha: hmotnost je všude stejná","Mechanika"],
+["Tíha (gravitační síla)","Síla, kterou Země přitahuje těleso: G = m·g.","g ≈ 9,8 N/kg","Mechanika"],
+["Tření","Síla brzdící pohyb dotýkajících se těles; závisí na povrchu a přítlaku.","Klidové × smykové; ložiska ho snižují","Mechanika"],
+["Hustota","Hmotnost objemu: ρ = m/V; jednotka kg/m³.","Ex: voda 1000 kg/m³","Mechanika"],
+["Tlak","Síla na plochu: p = F/S; jednotka pascal (Pa).","Větší plocha = menší tlak","Mechanika"],
+["Pascalův zákon","Tlak v kapalině/plynu se šíří všemi směry stejně.","Hydraulika, brzdy","Mechanika"],
+["Archimedův zákon","Těleso ponořené do tekutiny je nadlehčováno silou rovnou tíze vytlačené tekutiny.","Plavání vs. potopení","Mechanika"],
+["Práce","Síla po dráze: W = F·s; jednotka joule (J).","Koná se jen při pohybu ve směru síly","Energie"],
+["Výkon","Práce za čas: P = W/t; jednotka watt (W).","1 kW = 1000 W","Energie"],
+["Energie","Schopnost konat práci; jednotka joule; zachovává se, jen se přeměňuje.","Druhy: kinetická, potenciální…","Energie"],
+["Kinetická energie","Energie pohybu: Ek = ½·m·v².","Roste s druhou mocninou rychlosti","Energie"],
+["Potenciální energie","Energie polohy: Ep = m·g·h.","Padající kámen ji mění v kinetickou","Energie"],
+["Účinnost","Poměr využité a dodané energie: η = Wuž/Wdod (v %).","Vždy pod 100 %","Energie"],
+["Páka","Tyč otáčivá kolem osy; rovnováha: F₁·r₁ = F₂·r₂.","Jednozvratná × dvojzvratná","Jednoduché stroje"],
+["Teplota","Míra tepelného pohybu částic; jednotky °C a K (0 °C = 273,15 K).","Měří se teploměrem","Termika"],
+["Teplo (Q)","Energie předaná ohřevem: Q = m·c·Δt; jednotka joule.","c = měrná tepelná kapacita","Termika"],
+["Tání a tuhnutí","Přeměna pevné látky v kapalnou a zpět při teplotě tání.","Ex: led 0 °C","Přeměny"],
+["Vypařování a kondenzace","Přeměna kapaliny v plyn a zpět; var = vypařování z celého objemu při teplotě varu.","Ex: voda 100 °C","Přeměny"],
+["Elektrický proud","Usměrněný pohyb náboje: I = Q/t; jednotka ampér (A).","Měří se ampérmetrem (sériově)","Elektřina"],
+["Elektrické napětí","Rozdíl potenciálů ženoucí proud; jednotka volt (V).","Měří se voltmetrem (paralelně)","Elektřina"],
+["Elektrický odpor","Překážka proudu; jednotka ohm (Ω).","Závisí na materiálu, délce a průřezu","Elektřina"],
+["Ohmův zákon","U = R·I: proud je úměrný napětí a nepřímo úměrný odporu.","Základ výpočtů obvodů","Elektřina"],
+["Sériové zapojení","Spotřebiče za sebou: proud stejný, napětí se dělí; porucha jednoho = tma všude.","Vánoční řetěz (starý typ)","Elektřina"],
+["Paralelní zapojení","Spotřebiče vedle sebe: napětí stejné, proudy se sčítají.","Domácí zásuvky","Elektřina"],
+["Magnet","Těleso s póly S a J; souhlasné se odpuzují, opačné přitahují; kolem magnetu je pole.","Elektromagnet = cívka + proud","Elektřina"],
+["Odraz světla","Úhel dopadu = úhel odrazu; rovinné zrcadlo tvoří stejně velký zdánlivý obraz.","Zákon odrazu","Optika"],
+["Lom světla","Změna směru světla na rozhraní prostředí; čočka jím zobrazuje.","Ke kolmici × od kolmice","Optika"],
+["Spojka a rozptylka","Spojka paprsky sbíhá (lupa, dalekozrakost +), rozptylka rozbíhá (krátkozrakost −).","Značí se +/− dioptrie","Optika"],
+["Zvuk","Podélné vlnění z kmitání zdroje; výška = frekvence (Hz), hlasitost = amplituda.","Šíří se vzduchem ~340 m/s","Vlnění"],
+["Vlnová délka","Vzdálenost dvou sousedních stejných bodů vlny: λ = v/f.","f = frekvence","Vlnění"],
+["Atomové jádro","Protony + neutrony držící téměř celou hmotnost atomu; při štěpení/slučování uvolňuje jadernou energii.","E = m·c²","Atom"],
+["Radioaktivita","Samovolný rozpad nestabilních jader za záření alfa, beta, gama.","Měří se Geigerem","Atom"],
+["Poločas rozpadu","Doba, za kterou se rozpadne polovina jader vzorku.","Každý izotop má svůj","Atom"],
+["Hybnost","Míra pohybu: p = m·v; vektor; jednotka kg·m/s.","Zachovává se v izolované soustavě","★ Mechanika M/VŠ"],
+["Zákon zachování hybnosti","Celková hybnost izolované soustavy se nemění.","Ex: srážky, raketa, zpětný ráz","★ Mechanika M/VŠ"],
+["Moment síly","Otáčivý účinek síly: M = F·r; jednotka N·m.","Rovnováha: součet momentů = 0","★ Mechanika M/VŠ"],
+["Těžiště","Bod, v němž působí tíha tělesa; podpora pod těžištěm = stabilita.","Ex: nakloněná věž","★ Mechanika M/VŠ"],
+["Newtonův gravitační zákon","Fg = G·m₁·m₂/r²; G = 6,67×10⁻¹¹ N·m²/kg².","Klesá s druhou mocninou vzdálenosti","★ Gravitace"],
+["Intenzita gravitačního pole","Síla na 1 kg: K = Fg/m; u Země ≈ 9,8 N/kg.","= tíhové zrychlení g","★ Gravitace"],
+["Keplerovy zákony","Dráhy planet jsou elipsy; plošná rychlost stálá; T²/a³ stejné pro všechny planety.","Slunce v ohnisku elipsy","★ Gravitace"],
+["Hookův zákon","Deformace úměrná síle: F = k·Δl; k = tuhost pružiny.","Platí v pružné oblasti","★ Mechanika M/VŠ"],
+["Bernoulliova rovnice","V zúžení proudí tekutina rychleji a tlak klesá.","Ex: křídlo letadla","★ Mechanika M/VŠ"],
+["Povrchové napětí","Blána na hladině z přitažlivosti molekul; kapilarita = vzlínání v trubicích.","Ex: jehla na vodě","★ Mechanika M/VŠ"],
+["Harmonické kmitání","Pohyb kolem rovnováhy: y = ym·sin(ωt); perioda T, frekvence f = 1/T.","Ex: pružina, kyvadlo","★ Kmity a vlny"],
+["Matematické kyvadlo","Perioda T = 2π·√(l/g); nezávisí na hmotnosti ani amplitudě.","Měření g","★ Kmity a vlny"],
+["Rezonance","Rozkmitání velkou amplitudou při shodě budicí a vlastní frekvence.","Ex: houpačka, most","★ Kmity a vlny"],
+["Interference vlnění","Skládání vln: maximum při dráhovém rozdílu k·λ, minimum při lichém λ/2.","Vznik stojatého vlnění","★ Kmity a vlny"],
+["Difrakce (ohyb)","Ohýbání vln za překážkou; důkaz vlnové povahy světla.","Užší štěrbina = větší ohyb","★ Kmity a vlny"],
+["Dopplerův jev","Změna vnímané frekvence při pohybu zdroje či pozorovatele.","Ex: houkačka sanitky","★ Kmity a vlny"],
+["Coulombův zákon","F = k·Q₁·Q₂/r²; k ≈ 9×10⁹ N·m²/C².","Stejnojmenné se odpuzují","★ Elektřina M/VŠ"],
+["Intenzita elektrického pole","Síla na 1 C: E = F/Q; jednotka V/m.","Siločáry vedou od + k −","★ Elektřina M/VŠ"],
+["Kapacita a kondenzátor","Schopnost pojmout náboj: C = Q/U; jednotka farad.","Energie W = ½CU²","★ Elektřina M/VŠ"],
+["Magnetická indukce","Veličina magnetického pole B; jednotka tesla (T).","Na vodič: F = B·I·l","★ Magnetismus"],
+["Elektromagnetická indukce","Změna magnetického toku indukuje napětí.","Generátory, transformátory","★ Magnetismus"],
+["Faradayův zákon indukce","Ui = −ΔΦ/Δt; znaménko minus = Lenzovo pravidlo (působí proti změně).","Základ elektráren","★ Magnetismus"],
+["Transformátor","Mění střídavé napětí: U₂/U₁ = N₂/N₁; jen pro střídavý proud.","Ztráty vířivými proudy","★ Magnetismus"],
+["Střídavý proud","Sinusově mění směr; v síti 230 V / 50 Hz; efektivní hodnoty U, I.","Výhoda dálkového přenosu","★ Elektřina M/VŠ"],
+["Fotoelektrický jev","Světlo vyráží elektrony: E = h·f; hranice daná výstupní prací.","Důkaz částic (Einstein)","★ Moderní fyzika"],
+["Foton a kvantum","Částice světla s energií E = h·f; h = 6,63×10⁻³⁴ J·s.","Dualismus vlna–částice","★ Moderní fyzika"],
+["Základy relativity","Rychlost světla je mezní a stálá; dilatace času, kontrakce délek, E = m·c².","Při rychlostech ~c","★ Moderní fyzika"],
+["Jaderné štěpení a syntéza","Štěpení těžkých jader (U-235) vs. slučování lehkých (Slunce: H→He).","Uvolňují vazebnou energii","★ Moderní fyzika"],
+["Rovnoměrný a zrychlený pohyb","s = v·t vs. s = ½at²; grafy dráha–čas a rychlost–čas.","Volný pád, šikmý vrh = parabola","★ Kinematika (GVBT)"],
+["Mechanika tuhého tělesa","Těžiště, momentová věta, rovnovážné polohy (stálá/vratká/volná).","Páka, kladka, kolo","★ Mechanika (GVBT)"],
+["Kruhový děj","Cyklus motoru: práce = plocha v p-V diagramu; Carnot η = 1 − T₂/T₁.","Chladnička = obráceně","★ Termika (GVBT)"],
+["Polovodiče","Vodivost mezi kovem a izolantem; vlastní vs. příměsové (N/P).","Dioda, tranzistor, čip","★ Elektřina (GVBT)"],
+["Proud v plynech a vakuu","Výboj (blesk, zářivka), katodové záření; ionizace nárazem.","Zářivka, rentgenka","★ Elektřina (GVBT)"],
+["Elektromagnetické spektrum","Radiové → mikrovlny → IR → viditelné → UV → X → gama.","λ klesá, energie roste","★ Vlnění (GVBT)"],
+["Optické přístroje","Lupa (spojka), mikroskop (objektiv+okulár), dalekohled.","Zvětšení a rozlišení","★ Optika (GVBT)"]
+]},
+// ---------- BIOLOGIE ----------
+bio:{name:"Biologie",icon:"🧬",items:[
+["Buňka","Základní stavební a funkční jednotka organismů.","Živočišná × rostlinná","Buňka"],
+["Cytoplazma","Polotekutý obsah buňky, v němž probíhají děje a jsou organely.","Vnitřní prostředí buňky","Buňka"],
+["Buněčné jádro","Řídí buňku, nese DNA s dědičnou informací.","Chybí u bakterií","Buňka"],
+["Buněčná membrána","Polopropustný obal buňky řídící vstup a výstup látek.","Selektivní transport","Buňka"],
+["Buněčná stěna","Pevný obal rostlin, hub a bakterií (celulóza/chitin).","U živočichů chybí","Buňka"],
+["Mitochondrie","Organely buněčného dýchání – uvolňují energii (ATP) z cukrů.","'Elektrárna buňky'","Buňka"],
+["Chloroplast","Zelené barvivo chlorofyl; místo fotosyntézy u rostlin.","Jen rostlinné buňky","Buňka"],
+["Fotosyntéza","Tvorba cukru z CO₂ a vody za světla: 6CO₂+6H₂O→C₆H₁₂O₆+6O₂.","V chloroplastech","Fyziologie"],
+["Buněčné dýchání","Uvolnění energie z cukru kyslíkem: C₆H₁₂O₆+6O₂→6CO₂+6H₂O+energie.","V mitochondriích","Fyziologie"],
+["Osmóza","Průnik rozpouštědla (vody) polopropustnou membránou za vyrovnáním koncentrací.","Kořeny nasávají vodu","Fyziologie"],
+["Difúze","Samovolné šíření částic z vyšší do nižší koncentrace.","Ex: vůně po místnosti","Fyziologie"],
+["Chromozom","Vláknitá struktura z DNA nesoucí geny; člověk má 46 (23 párů).","Viditelné při dělení","Genetika"],
+["Gen","Úsek DNA určující jeden znak; má varianty = alely.","Základ dědičnosti","Genetika"],
+["DNA","Dvoušroubovice nesoucí dědičnou informaci (A-T, C-G).","V jádře","Genetika"],
+["RNA","Jednovláknová nukleová kyselina pro přepis a výrobu bílkovin.","mRNA, tRNA, rRNA","Genetika"],
+["Mitóza","Dělení buňky na 2 stejné dcery; růst a obnova.","Profáze→…→telofáze","Genetika"],
+["Meióza","Redukční dělení na pohlavní buňky s polovičním počtem chromozomů.","Vznik gamet","Genetika"],
+["Dominantní alela","Prosadí se i v jedné kopii (Aa stačí); značí se velkým písmenem.","Ex: hnědé oči","Genetika"],
+["Recesivní alela","Projeví se jen ve dvou kopiích (aa); značí se malým písmenem.","Ex: modré oči","Genetika"],
+["Genotyp a fenotyp","Genotyp = soubor genů; fenotyp = pozorovatelný projev + prostředí.","Genotyp + prostředí = fenotyp","Genetika"],
+["Srdce","Svalová pumpa se 4 oddíly ženoucí malý a velký krevní oběh.","~70 tepů/min v klidu","Člověk"],
+["Malý a velký oběh","Malý: srdce→plíce→srdce (okysličení); velký: srdce→tělo→srdce.","Objev: Harvey","Člověk"],
+["Plíce a sklípky","Výměna O₂/CO₂ ve sklípcích (alveolách); bránice řídí dýchání.","~300 mil. sklípků","Člověk"],
+["Neuron","Nervová buňka vedoucí vzruch: tělo, dendrity, axon, synapse.","Základ soustavy","Člověk"],
+["Reflex","Automatická odpověď na podnět přes reflexní oblouk bez vůle.","Ex: cuknutí při píchnutí","Člověk"],
+["Hormon","Chemický posel žláz s vnitřní sekrecí krví k cílovému orgánu.","Ex: inzulin, adrenalin","Člověk"],
+["Protilátka","Bílkovina imunity ničící konkrétní antigen (vetřelce).","Vyrábějí lymfocyty","Člověk"],
+["Očkování (vakcinace)","Podání oslabeného antigenu k vytvoření paměťových protilátek.","Aktivní imunita","Člověk"],
+["Enzym","Bílkovinný katalyzátor zrychlující reakci (trávení aj.).","Ex: amyláza, pepsin","Člověk"],
+["Nefron","Základní jednotka ledviny filtrující krev a tvořící moč.","~1 mil. v ledvině","Člověk"],
+["Kost a sval","Kostra = opora + ochrana; svaly tahem za kosti hýbou (úpony, šlachy).","Dvojice: biceps/triceps","Člověk"],
+["Virus","Nebuněčný parazit množitelný jen v hostiteli; menší než bakterie.","Antibiotika na něj neplatí","Mikroby"],
+["Bakterie","Jednobuněčné organismy bez jádra; užitečné i škodlivé.","Ex: E. coli, lactobacil","Mikroby"],
+["Houba","Organismus s chitinem; rozkladač + mykorhiza se stromy.","Plodnice × podhoubí","Mikroby"],
+["Ekosystém","Společenstvo + prostředí s koloběhem látek a tokem energie.","Ex: rybník, les","Ekologie"],
+["Potravní řetězec","Cesta energie: producent → konzument → rozkladač.","Ex: tráva→zajíc→liška","Ekologie"],
+["Symbióza","Soužití prospěšné oběma (oboustranně výhodné).","Ex: lišejník, mykorhiza","Ekologie"],
+["Parazitismus","Soužití, kde jeden žije na úkor hostitele a škodí mu.","Ex: klíště, tasemnice","Ekologie"],
+["Květ a opylení","Rozmnožovací orgán krytosemenných; opylení = přenos pylu na bliznu.","Samčí × samičí část","Rostliny"],
+["Kořen, stonek, list","Kořen čerpá vodu; stonek vede a nese; list fototetizuje (průduchy).","Cévní svazky","Rostliny"],
+["Buněčný cyklus","Interfáze (G1, S, G2) + mitóza (M); kontrolní body hlídají chyby.","S-fáze = replikace DNA","★ Molekulární bio"],
+["Replikace DNA","Semikonzervativní zdvojení ve S-fázi (helicasa, polymerasa 5′→3′).","Dcera: 1 staré + 1 nové vlákno","★ Molekulární bio"],
+["Transkripce","Přepis DNA do mRNA v jádře (RNA-polymerasa, párování A-U).","První krok proteosyntézy","★ Molekulární bio"],
+["Translace","Překlad mRNA do bílkoviny na ribozomu; tRNA nosí aminokyseliny.","Start kodon AUG","★ Molekulární bio"],
+["Genetický kód","Trojice bází (kodony) kódují aminokyseliny; univerzální, degenerovaný.","64 kodonů → 20 aminokyselin","★ Molekulární bio"],
+["Mutace","Náhodná změna DNA: bodové, chromozomové, genomové; zdroj variability i nemocí.","Mutageny: záření, chemikálie","★ Molekulární bio"],
+["Crossing-over","Výměna úseků homologních chromozomů v meióze; nové kombinace alel.","Zdroj variability","★ Molekulární bio"],
+["Mendelovy zákony","Uniformita F1, štěpení 3:1 ve F2, nezávislá kombinace 9:3:3:1.","Hrách setý","★ Genetika M/VŠ"],
+["Krevní skupiny","AB0 (alely Iᴬ, Iᴮ, i) + Rh faktor; dárce/příjemce podle aglutinogenů.","Univerzální dárce 0−","★ Genetika M/VŠ"],
+["Gonozomální dědičnost","Znaky na X/Y: hemofilie, daltonismus — recesivní, častější u mužů.","Criss-cross dědičnost","★ Genetika M/VŠ"],
+["Hardy-Weinbergův zákon","p² + 2pq + q² = 1; frekvence alel v ideální populaci jsou stálé.","Velká populace, náhodné páření","★ Genetika M/VŠ"],
+["Homeostáza","Stálost vnitřního prostředí (teplota, pH, glykémie) zpětnými vazbami.","Ex: inzulin × glukagon","★ Fyziologie"],
+["Termoregulace","Udržování teploty: pocení/třes, cévy; centrum v hypotalamu.","Homoiotermní vs. poikilotermní","★ Fyziologie"],
+["Krev","Plazma + erytrocyty (hemoglobin, O₂) + leukocyty (imunita) + trombocyty (srážení).","~5–6 l, pH 7,4","★ Fyziologie"],
+["Srdeční cyklus","Systola/diastola, chlopně brání zpětnému toku; řídí sinusový uzel.","Ozvy = zavírání chlopní","★ Fyziologie"],
+["Svalový stah","Aktin + myosin + Ca²⁺ + ATP; vzruch přes nervosvalovou ploténku.","Šlachy vedou sílu na kost","★ Fyziologie"],
+["CNS a mozek","Mícha + mozek (koncový, mozeček, prodloužená mícha).","Prodloužená mícha = dech a srdce","★ Soustavy"],
+["Autonomní soustava","Sympatikus (útok/útěk) × parasympatikus (klid/trávení).","Neovlivníme vůlí","★ Soustavy"],
+["Oko","Čočka ostří obraz na sítnici (tyčinky/čípky).","Krátkozrakost = rozptylka","★ Soustavy"],
+["Ucho","Boltec → bubínek → kůstky → hlemýžď + rovnovážné ústrojí.","Frekvence = výška tónu","★ Soustavy"],
+["Endokrinní soustava","Hypofýza, štítná žláza (tyroxin, jód), nadledviny (adrenalin), slinivka (inzulin).","Zpětné vazby","★ Soustavy"],
+["Trávicí soustava","Ústa (amyláza) → žaludek (pepsin, HCl) → tenké střevo (klky) + játra/slinivka.","Peristaltika","★ Soustavy"],
+["Vylučování a nefron","Glomerulus filtruje → tubuly vstřebávají → moč; ADH řídí vodu.","Ledviny + močovody + měchýř","★ Soustavy"],
+["Buněčná vs. humorální imunita","T-lymfocyty ničí napadené buňky; B-lymfocyty tvoří protilátky.","Očkování trénuje obojí","★ Imunita"],
+["Alergie a autoimunita","Přemrštěná reakce na neškodné (histamin) vs. útok na vlastní tkáně.","Ex: astma; diabetes I","★ Imunita"],
+["Přirozený výběr","Přežívají nejzdatnější; mutace + selekce + izolace = nové druhy.","Darwin, 1859","★ Evoluce"],
+["Důkazy evoluce","Fosilie, homologie končetin, rudimenty, embrya, příbuznost DNA.","Ex: archeopteryx","★ Evoluce"],
+["Taxonomie","Systém: doména–říše–kmen–třída–řád–čeleď–rod–druh; Linné.","Ex: Homo sapiens","★ Evoluce"],
+["Koloběhy látek","C (fotosyntéza↔dýchání), N (nitrifikace), H₂O (výpar–srážky–odtok).","Rozkladači vracejí živiny","★ Ekologie M/VŠ"],
+["Sukcese","Postupné osidlování (pionýři → klimax); primární vs. sekundární.","Roste biodiverzita","★ Ekologie M/VŠ"],
+["Retroviry a HIV","RNA viry s reverzní transkriptázou; HIV ničí T-pomocné lymfocyty → AIDS.","Antiretrovirotika","★ Mikroby M/VŠ"],
+["Protista (prvoci a řasy)","Jednobuněčná eukaryota: prvoci (trepka, améba) a řasy (rozsivky, zelené).","Základ vodních potravních sítí","★ Systematika (GVBT)"],
+["Mechorosty a kapradiny","Výtrusné rostliny s rodozměnou; mechy bez cév, kapradiny s cévami.","Ex: plavuň, přeslička","★ Systematika (GVBT)"],
+["Nahosemenné rostliny","Semena bez plodu, většinou šišky; jehličnany.","Ex: smrk, borovice, tis","★ Systematika (GVBT)"],
+["Houby (dělení)","Vřeckovýtrusné (kvasinky, smrž) vs. stopkovýtrusné (hřiby); chitin, mykorhiza.","Rozkladači","★ Systematika (GVBT)"],
+["Lišejníky","Symbióza houby + řasy/sinice; bioindikátory čistoty vzduchu.","Dlouhověké, pomalé","★ Systematika (GVBT)"],
+["Žahavci a houbovci","Žahavci (nezmar, medúza; žahavé buňky) vs. houbovci (bez tkání, filtrují vodu).","První mnohobuněční","★ Systematika (GVBT)"],
+["Ploštěnci","Ploché tělo; tasemnice a motolice = paraziti; planárka se regeneruje.","Bez tělní dutiny","★ Systematika (GVBT)"],
+["Hlístice","Oblé tělo s kutikulou; škrkavka, roup — paraziti člověka.","Pseudocel","★ Systematika (GVBT)"],
+["Měkkýši","Plž + mlž + hlavonožec; noha, ulita/lastura, žábry.","Ex: hlemýžď, škeble, oliheň","★ Systematika (GVBT)"],
+["Kroužkovci","Článkované tělo; žížala (rozkladač, hermafrodit), pijavice.","Cévy + nervová páska","★ Systematika (GVBT)"],
+["Členovci","Články + končetiny + chitin (svlékání); hmyz, korýši, klepítkatci.","Nejpočetnější kmen","★ Systematika (GVBT)"],
+["Ostnokožci","Pětičetná souměrnost, ambulakrální soustava; hvězdice, ježovka.","Druhoústí jako my","★ Systematika (GVBT)"],
+["Paryby","Chrupavčitá kostra; žralok, rejnok; placoidní šupiny.","Stálý růst zubů","★ Systematika (GVBT)"],
+["Obojživelníci","Larva ve vodě (žábry), dospělec na souši (plíce+kůže); metamorfóza.","Ex: mlok, ropucha","★ Systematika (GVBT)"],
+["Plazi","Suchá kůže s rohovinou, vejce s obaly; ještěrka, had, želva, krokodýl.","Ektotermní","★ Systematika (GVBT)"],
+["Ptáci","Peří, duté kosti, stálá teplota; vejce se skořápkou.","Let + zpěv","★ Systematika (GVBT)"],
+["Savci","Srst, mléčné žlázy, bránice; živorodost (kromě ptakořitných).","Ex: kytovci, netopýři","★ Systematika (GVBT)"],
+["Etologie","Nauka o chování: vrozené (reflexy, instinkty) vs. naučené (vtiskávání, podmiňování).","Ex: Lorenzovy husy","★ Systematika (GVBT)"],
+["Ontogeneze","Individuální vývoj: zárodek → plod → narození → dospělost; kritická období.","Teratogeny škodí","★ Člověk (GVBT)"],
+["Rozmnožovací soustava","Pohlavní orgány + gamety; oplození, těhotenství ~40 týdnů, porod.","Pohlavní hormony","★ Člověk (GVBT)"],
+["Geologie","Minerály (nerosty, Mohsova tvrdost) vs. horniny (vyvřelé/usazené/přeměněné).","Ex: křemen, žula, vápenec","★ Geologie (GVBT)"]
+]},
+// ---------- LITERATURA ----------
+literatura:{name:"Literatura",icon:"📚",items:[
+["Epika","Literární druh vyprávějící děj s postavami a vypravěčem.","Ex: román, povídka","Druhy a žánry"],
+["Lyrika","Druh vyjadřující city a nálady, bez souvislého děje.","Ex: báseň, sonet","Druhy a žánry"],
+["Drama","Druh určený k jevišti: dialogy, monology, scénické poznámky.","Ex: komedie, tragédie","Druhy a žánry"],
+["Román","Rozsáhlá epika s více dějovými liniemi a vývojem postav.","Ex: Babička, Saturnin","Druhy a žánry"],
+["Povídka","Kratší epika s jedním dějem a málo postavami, často s pointou.","Ex: Nerudovy povídky","Druhy a žánry"],
+["Novela","Epika delší než povídka s dramatickým spádem k překvapivému závěru.","Ex: Stařec a moře","Druhy a žánry"],
+["Bajka","Krátké alegorické vyprávění se zvířaty a ponaučením.","Ex: Ezop, La Fontaine","Druhy a žánry"],
+["Pohádka","Fantastický příběh dobra proti zlu se šťastným koncem.","Lidová × autorská","Druhy a žánry"],
+["Balada","Báseň s dějem a pochmurným, často tragickým koncem.","Ex: Erben: Kytice","Druhy a žánry"],
+["Sonet","Lyrická báseň o 14 verších (4+4+3+3).","Ex: Shakespeare, Mácha","Druhy a žánry"],
+["Epos","Rozsáhlá veršovaná epika o hrdinech.","Ex: Homér: Odyssea","Druhy a žánry"],
+["Óda","Oslavná vznešená báseň.","Opak elegie","Druhy a žánry"],
+["Elegie","Žalozpěv, smutná báseň nad ztrátou.","Ex: Mácha","Druhy a žánry"],
+["Komedie","Veselohra s humorem a šťastným koncem.","Ex: Molière, Gogol: Revizor","Druhy a žánry"],
+["Tragédie","Hra s vážným konfliktem a smrtí hrdiny.","Ex: Sofoklés, Shakespeare","Druhy a žánry"],
+["Metafora","Přenesení významu na základě podobnosti (skryté přirovnání).","Ex: moře světel, hlava rodiny","Figury a tropy"],
+["Přirovnání","Spojení 'jako' srovnávající dvě věci.","Ex: silný jako lev","Figury a tropy"],
+["Personifikace","Zosobnění: neživé věci dostávají lidské vlastnosti.","Ex: vítr zpívá","Figury a tropy"],
+["Metonymie","Záměna na základě souvislosti (autor za dílo, nádoba za obsah).","Ex: číst Nerudu, vypít skleničku","Figury a tropy"],
+["Hyperbola","Nadsázka, zveličení.","Ex: stokrát jsem říkal","Figury a tropy"],
+["Epiteton","Básnický přívlastek dokreslující podstatné jméno.","Ex: bílé labutě, sladké sny","Figury a tropy"],
+["Eufemismus","Zjemnění drsného výrazu.","Ex: zesnul místo umřel","Figury a tropy"],
+["Ironie","Výsměch: říká se opak toho, co se myslí.","Ex: 'to se ti povedlo'","Figury a tropy"],
+["Symbol","Znak nesoucí hlubší význam než doslovný.","Ex: holubice = mír","Figury a tropy"],
+["Alegorie","Rozvinutý jinotaj: celý příběh znamená něco jiného.","Ex: Bajka o lišce","Figury a tropy"],
+["Verš a strofa","Verš = jeden řádek básně; strofa/sloka = skupina veršů.","Dvojverší = distichon","Verš"],
+["Rým","Zvuková shoda konců veršů: sdružený (aabb), střídavý (abab), obkročný (abba).","Mužský × ženský","Verš"],
+["Metrum (stopa)","Pravidelné střídání přízvučných/nepřízvučných slabik.","Jamb, trochej, daktyl","Verš"],
+["Jamb","Vzestupná stopa: nepřízvučná + přízvučná (u-U).","Ex: 'jdu tmou'","Verš"],
+["Trochej","Sestupná stopa: přízvučná + nepřízvučná (U-u).","Nejčastější v češtině","Verš"],
+["Daktyl","Stopa: přízvučná + 2 nepřízvučné (U-u-u).","Ex: 'růže, máky'","Verš"],
+["Er-forma a ich-forma","Er-forma = vypravěč ve 3. osobě; ich-forma = v 1. osobě.","Ich = subjektivnější","Kompozice"],
+["Vypravěč","Ten, kdo vypráví; není totožný s autorem.","Vševědoucí × personální","Kompozice"],
+["Téma a motiv","Téma = hlavní myšlenka; motiv = dílčí jednotka (láska, cesta…).","Motiv se opakuje","Kompozice"],
+["Kompozice","Uspořádání díla: chronologická, retrospektivní, rámcová…","Expozice→kolize→krize→peripetie→katastrofa","Kompozice"],
+["Baroko","Sloh 17.–18. stol.: protiklady, pomíjivost, Bůh; Komenský, Bridel.","Labyrint světa a ráj srdce","Období a autoři"],
+["Národní obrození","19. stol.: obnova češtiny; Jungmann (slovník), Tyl (Kde domov můj).","Divadlo, noviny","Období a autoři"],
+["Romantismus","Cit, individualita, příroda, tajemno; Mácha: Máj.","Byron, Puškin","Období a autoři"],
+["Realismus","Věrné zobrazení skutečnosti; Němcová: Babička, Neruda: Povídky malostranské.","Kritika poměrů","Období a autoři"],
+["K. H. Mácha","Romantický básník, autor Máje (1836).","'Hynku, Viléme, Jarmilo…'","Období a autoři"],
+["Božena Němcová","Autorka Babičky a Divé Báry; zakladatelka moderní prózy.","Realismus","Období a autoři"],
+["Jaroslav Hašek","Autor Švejka – satira války a byrokracie.","Osudy dobrého vojáka Švejka","Období a autoři"],
+["Karel Čapek","R.U.R. (robot), Bílá nemoc, Krakatit; Hordubal, Povětroň.","Humanismus, antiutopie","Období a autoři"],
+["Antická literatura","Homér (Ilias, Odyssea), Sofoklés (Antigona), Sapfó; epos a tragédie.","Základ evropské kultury","★ Dějiny literatury"],
+["Středověká literatura","Legendy, kroniky (Kosmas), duchovní hry; anonymita, Bůh.","Ex: legenda o sv. Václavu","★ Dějiny literatury"],
+["Renesance a humanismus","Návrat k antice, člověk středem; Shakespeare, Cervantes, Komenský.","Sonet, román","★ Dějiny literatury"],
+["Osvícenství","Rozum a výchova; satira, bajka, měšťanské drama.","Revoluce myšlení","★ Dějiny literatury"],
+["Obrození a preromantismus","Cit a národ; Jungmannův slovník, Čelakovský, Tyl: Kde domov můj.","Divadlo a noviny","★ Dějiny literatury"],
+["Realismus světový","Balzac, Dickens, Tolstoj (Vojna a mír), Dostojevskij (Zločin a trest).","Společnost a psychologie","★ Dějiny literatury"],
+["Moderna a symbolismus","Náznak a hudba verše; Březina, Sova; Baudelaire: Květy zla.","Proti popisnosti","★ Dějiny literatury"],
+["Dekadence a impresionismus","Úpadek a okamžik; Karásek ze Lvovic; barvy a nálady.","Konec 19. století","★ Dějiny literatury"],
+["Májovci, ruchovci, lumírovci","Almanach Máj (1858); kosmopolitismus (Vrchlický) vs. vlastenectví (Čech).","Spor generací","★ Dějiny literatury"],
+["Meziválečná česká próza","Čapek, Hašek, Vančura, Olbracht; demokracie a satira.","Zlatý věk prózy","★ Dějiny literatury"],
+["Poetismus","Hravost a optimismus; Nezval, Seifert: Na vlnách TSF.","Jediný český -ismus","★ Dějiny literatury"],
+["Surrealismus","Sen a automatická tvorba; podvědomí; Breton, Teige.","Později i Nezval","★ Dějiny literatury"],
+["Kafka a existencialismus","Absurdita a úzkost; Proměna, Proces, Zámek.","Odcizení člověka","★ Dějiny literatury"],
+["Válečná literatura","Remarque (Na západní frontě klid), Drda, Fuks.","Varování před válkou","★ Dějiny literatury"],
+["Absurdní drama","Nesmyslnost jazyka a byrokracie; Beckett, Havel: Zahradní slavnost.","Čekání na Godota","★ Dějiny literatury"],
+["Poválečná doba a normalizace","Hrabal, Kundera, Škvorecký; samizdat a exil.","Rok 1968 jako zlom","★ Dějiny literatury"],
+["Disent a samizdat","Zakázaní autoři opisovaní doma; Charta 77, Vaculík.","Odpor slovem","★ Dějiny literatury"],
+["Současná česká literatura","Viewegh, Topol, Hakl, Tučková (Žítkovské bohyně).","Pluralita po roce 1989","★ Dějiny literatury"],
+["Shakespeare","Hamlet, Romeo a Julie, Othello; blankvers, alžbětinské divadlo.","Být, či nebýt","★ Světoví autoři"],
+["Goethe","Faust — touha po poznání za cenu duše; Výmarská klasika.","Faustovské téma","★ Světoví autoři"],
+["Orwell","Farma zvířat, 1984 (Velký bratr tě sleduje); antiutopie a totalita.","Varování před mocí","★ Světoví autoři"],
+["Seifert","Nobelova cena 1984; Maminka, Morový sloup.","Jediný český nobelista za literaturu","★ Čeští autoři M"],
+["Erben","Kytice (Vodník, Svatební košile); sběratel lidových pohádek.","Balada + folklor","★ Čeští autoři M"],
+["Neruda","Povídky malostranské, Balady a romance; fejeton.","Májovec, Praha","★ Čeští autoři M"],
+["Hrabal","Pábitelé, Ostře sledované vlaky; hovorová poetika.","Pábitel = povídálek","★ Čeští autoři M"],
+["Kundera","Směšné lásky, Nesnesitelná lehkost bytí; exil a identita.","Světový český autor","★ Čeští autoři M"]
+]},
+zuby:{name:"Zubní lékařství",icon:"🦷",items:[
+["Stavba zubu","Sklovina (nejtvrdší tkáň těla) + dentin + dřeň (nervy a cévy) + cement + parodont.","Vrstvy od povrchu dovnitř","Zub"],
+["Mléčný vs. stálý chrup","20 mléčných zubů → 32 stálých; prořezávání a výměna; vzorec 2-1-2-3.","První stolička ~6 let","Zub"],
+["Zubní kaz","Streptococcus mutans + cukry → kyseliny → demineralizace skloviny.","Prevence: fluor + hygiena","Kaz a prevence"],
+["Fluoridace","Fluorid mění sklovinu na odolnější fluorapatit; pasty a laky.","Pozor na fluorózu u dětí","Kaz a prevence"],
+["Sliny","Voda + amyláza + lysozym + pufry; natravují škroby, chrání a pufrují pH.","~1 l denně","Dutina ústní"],
+["Parodont a dáseň","Závěsný aparát zubu; zánět dásně → parodontitida → viklavost.","Zubní kámen dráždí dáseň","Parodont"],
+["Čelisti a žvýkací svaly","Horní čelist srostlá, dolní jediný pohyblivý kloub hlavy; masseter, temporalis.","Nejsilnější sval = masseter","Anatomie"],
+["Trojklanný nerv","V. hlavový nerv: citlivost obličeje a zubů; cíl zubní anestezie.","3 větve: oční, čelistní, dolnočelistní","Anatomie"],
+["Sklovina vs. dentin","Sklovinu tvoří ameloblasty (bez buněk, neregeneruje); dentin odontoblasty (regeneruje).","Kaz nebolí, dokud je ve sklovině","Zub"],
+["Ortodoncie","Rovnání zubů rovnátky; malokluze (předkus, zkřížený skus); retence.","Růst čelistí u dětí","Obory"],
+["Endodoncie","Ošetření kořenových kanálků: dřeň ven, dezinfekce, výplň.","Kaz → pulpitis → endodoncie","Obory"],
+["Rentgen u zubaře","OPG (panoramatický) + intraorální snímky; pravidlo ALARA = co nejnižší dávka.","Těhotné jen nutné","Vyšetření"],
+["Anestezie u zubaře","Lokální: infiltrativní/svodná; artikain + adrenalin (stahuje cévy).","Necitlivost ~2 hodiny","Výkony"],
+["Diabetes a zuby","Cukrovka zhoršuje hojení i parodont; vztah je obousměrný.","Součást anamnézy","Souvislosti"],
+["Ústní hygiena","Bassova technika, mezizubní kartáčky a nit; plak (měkký) vs. kámen (tvrdý).","2× denně + mezizubně","Kaz a prevence"],
+["Úraz zubu","Vyražený zub do mléka/slin a do hodiny k zubaři; zlomeninu chladit.","Nečistit kořen!","První pomoc"]
+]}
+};
+
+/* ================= VZOREČKY (n = název, f = vzorec, alternativy oddělené |, l = legenda) ================= */
+const FORMULAS = {
+fyzika:[
+{n:"Rychlost rovnoměrného pohybu",f:"v=s/t|s=v/t|t=s/v",l:"v [m/s] rychlost, s [m] dráha, t [s] čas"},
+{n:"Zrychlení",f:"a=v/t|a=Δv/t|v=a*t",l:"a [m/s²] zrychlení, v [m/s], t [s]"},
+{n:"Síla (2. Newtonův zákon)",f:"F=m*a|F=m·a",l:"F [N] síla, m [kg] hmotnost, a [m/s²]"},
+{n:"Tíha",f:"G=m*g",l:"G [N] tíha, m [kg], g ≈ 9,8 N/kg"},
+{n:"Hybnost",f:"p=m*v",l:"p [kg·m/s] hybnost, m [kg], v [m/s]"},
+{n:"Moment síly",f:"M=F*r",l:"M [N·m] moment, F [N], r [m] rameno síly"},
+{n:"Gravitační zákon",f:"Fg=G*m1*m2/r^2|Fg=G*m1*m2/r²",l:"Fg [N], G = 6,67×10⁻¹¹, m [kg], r [m]"},
+{n:"Hustota",f:"ρ=m/V|m=ρ*V|V=m/ρ",l:"ρ [kg/m³] hustota, m [kg], V [m³]"},
+{n:"Tlak",f:"p=F/S",l:"p [Pa] tlak, F [N], S [m²] plocha"},
+{n:"Hydrostatická vztlaková síla",f:"Fvz=ρ*V*g",l:"Fvz [N], ρ [kg/m³] kapaliny, V [m³] ponořené části"},
+{n:"Práce",f:"W=F*s",l:"W [J] práce, F [N], s [m]"},
+{n:"Výkon",f:"P=W/t",l:"P [W] výkon, W [J], t [s]"},
+{n:"Kinetická energie",f:"Ek=1/2*m*v^2|Ek=0,5*m*v^2|Ek=0.5*m*v^2",l:"Ek [J], m [kg], v [m/s]"},
+{n:"Potenciální energie",f:"Ep=m*g*h",l:"Ep [J], m [kg], g, h [m] výška"},
+{n:"Účinnost",f:"η=Wuž/Wdod|η=Puž/Pdod",l:"η (bez jednotky, ×100 = %)"},
+{n:"Teplo při ohřevu",f:"Q=m*c*Δt|Q=m*c*(t2-t1)",l:"Q [J], m [kg], c [J/kg·°C] měrná kapacita, Δt [°C]"},
+{n:"Ohmův zákon",f:"U=R*I|I=U/R|R=U/I",l:"U [V] napětí, I [A] proud, R [Ω] odpor"},
+{n:"Odpor vodiče",f:"R=ρ*l/S",l:"R [Ω], ρ [Ω·m] rezistivita, l [m] délka, S [m²] průřez"},
+{n:"Elektrický výkon a práce",f:"P=U*I|W=U*I*t",l:"P [W], W [J], U [V], I [A], t [s]"},
+{n:"Coulombův zákon",f:"F=k*Q1*Q2/r^2|F=k*Q1*Q2/r²",l:"F [N], k ≈ 9×10⁹, Q [C] náboj, r [m]"},
+{n:"Kapacita kondenzátoru",f:"C=Q/U",l:"C [F] farad, Q [C], U [V]"},
+{n:"Perioda kyvadla",f:"T=2π*√(l/g)|T=2*pi*√(l/g)",l:"T [s] perioda, l [m] délka, g [m/s²]"},
+{n:"Vlnění",f:"v=λ*f|λ=v/f|f=v/λ",l:"v [m/s], λ [m] vlnová délka, f [Hz] frekvence"},
+{n:"Energie fotonu",f:"E=h*f",l:"E [J], h = 6,63×10⁻³⁴ J·s, f [Hz]"},
+{n:"Einsteinův vztah",f:"E=m*c^2|E=m*c²",l:"E [J], m [kg], c = 3×10⁸ m/s"}
+],
+chemie:[
+{n:"Látkové množství",f:"n=m/M|m=n*M|M=m/n",l:"n [mol], m [g] hmotnost, M [g/mol] molární hmotnost"},
+{n:"Molární koncentrace",f:"c=n/V|n=c*V",l:"c [mol/l] koncentrace, n [mol], V [l] objem"},
+{n:"Hmotnostní zlomek",f:"w=ms/m|w=ms/m(roztoku)",l:"w (×100 = %), ms [g] rozpuštěná látka, m [g] roztok"},
+{n:"Hustota roztoku",f:"ρ=m/V",l:"ρ [g/ml] nebo [kg/m³], m hmotnost, V objem"},
+{n:"pH",f:"pH=-log[H3O+]",l:"pH 0–14; [H₃O⁺] v mol/l; každá jednotka = 10×"},
+{n:"Ředění roztoků",f:"c1*V1=c2*V2",l:"c koncentrace, V objem; 1 = před, 2 = po naředění"},
+{n:"Stavová rovnice ideálního plynu",f:"p*V=n*R*T",l:"p [Pa], V [m³], n [mol], R = 8,314, T [K]"},
+{n:"Výtěžek reakce",f:"η=m(prakt)/m(teor)|η=m(prakt)/m(teor)*100%",l:"η (×100 = %); teor. = z rovnice"},
+{n:"Rovnovážná konstanta",f:"Kc=[C]^c*[D]^d/[A]^a*[B]^b",l:"Kc; [ ] = rovnovážné koncentrace; mocniny = koeficienty"},
+{n:"Gibbsova energie",f:"ΔG=ΔH-T*ΔS",l:"ΔG [kJ/mol]; ΔG<0 = běží sama; T [K]"},
+{n:"Faradayův zákon (elektrolýza)",f:"m=M*I*t/z*F|m=M*I*t/(z*F)",l:"m [g], M [g/mol], I [A], t [s], z počet e⁻, F = 96485 C/mol"},
+{n:"Rychlost reakce",f:"v=k*[A]^a*[B]^b",l:"v [mol/l·s], k rychlostní konstanta, [ ] koncentrace"}
+],
+bio:[
+{n:"Hardy-Weinberg (genotypy)",f:"p^2+2pq+q^2=1|p+q=1",l:"p, q frekvence alel A, a; p² = AA, 2pq = Aa, q² = aa"},
+{n:"Štěpný poměr F2 (1 znak)",f:"3:1",l:"3 dominantní : 1 recesivní (Aa × Aa)"},
+{n:"Štěpný poměr F2 (2 znaky)",f:"9:3:3:1",l:"dihybridní křížení AaBb × AaBb"},
+{n:"Testovací křížení",f:"1:1",l:"Aa × aa → 1:1; odhalí heterozygota"},
+{n:"Komplementarita DNA",f:"A-T|G-C|A=T|G≡C",l:"adenin–thymin (2 vodíkové vazby), guanin–cytosin (3)"},
+{n:"Komplementarita RNA",f:"A-U",l:"v RNA místo thyminu uracil; přepis A→U"},
+{n:"BMI",f:"BMI=m/h^2|BMI=m/h²",l:"m [kg], h [m] výška; norma 18,5–25"},
+{n:"Energie živin",f:"cukry 17|bílkoviny 17|tuky 37",l:"kJ/g: cukry a bílkoviny 17, tuky 37 (×4,2 = kcal→kJ)"},
+{n:"Minutový srdeční výdej",f:"MSV=SF*SO|CO=SF*SO",l:"MSV [l/min] ≈ 5; SF tepová frekvence, SO systolický objem"},
+{n:"Zvětšení mikroskopu",f:"Z=okulár*objektiv",l:"Ex: 10× okulár × 40× objektiv = 400×"},
+{n:"Pravidlo 10 % (pyramida)",f:"10%",l:"do další trofické úrovně přejde ~10 % energie"},
+{n:"Fotosyntéza (rovnice)",f:"6CO2+6H2O→C6H12O6+6O2",l:"světlo + chlorofyl; v chloroplastech"},
+{n:"Buněčné dýchání (rovnice)",f:"C6H12O6+6O2→6CO2+6H2O",l:"v mitochondriích; uvolní energii (ATP)"}
+],
+literatura:[
+{n:"Šablona: rozbor prózy",f:"autor-dílo-období|děj-kompozice-postavy-jazyk-myšlenka",l:"1 autor+zařazení, 2 děj, 3 kompozice, 4 postavy, 5 jazyk, 6 myšlenka"},
+{n:"Šablona: rozbor básně",f:"forma-obrazy-figury-rytmus-nálada",l:"1 verš/strofa/rým, 2 obrazy, 3 figury a tropy, 4 metrum, 5 nálada a téma"},
+{n:"Šablona: rozbor dramatu",f:"dialog-kompozice-konflikt-postavy-inscenace",l:"1 dialog/monolog, 2 5 částí kompozice, 3 konflikt, 4 postavy, 5 možnosti inscenace"},
+{n:"Šablona: charakteristika postavy",f:"vzhled-chování-vztahy-vývoj-jazyk",l:"1 vzhled, 2 chování a činy, 3 vztahy, 4 vývoj, 5 mluva"},
+{n:"Šablona: zařazení do období",f:"znaky-období-souvislost",l:"1 znaky v textu → 2 období/sloh → 3 souvislost s dobou"},
+{n:"Šablona: srovnání dvou děl",f:"společné-rozdílné-hodnocení",l:"1 společné, 2 rozdílné (téma, forma, doba), 3 vlastní hodnocení"}
+]};
+
+/* ================= ŘEŠENÉ PŘÍKLADY ================= */
+const EXAMPLES = [
+{s:"chemie",t:"Molární hmotnost H₂SO₄",z:"Vypočítej molární hmotnost kyseliny sírové H₂SO₄. (Ar: H=1, S=32, O=16)",k:["M = 2·Ar(H) + Ar(S) + 4·Ar(O)","M = 2·1 + 32 + 4·16","M = 2 + 32 + 64 = 98 g/mol"],r:"M(H₂SO₄) = 98 g/mol"},
+{s:"chemie",t:"Látkové množství NaOH",z:"Kolik molů je 80 g NaOH? (M = 40 g/mol)",k:["n = m / M","n = 80 / 40","n = 2 mol"],r:"2 moly NaOH"},
+{s:"chemie",t:"Koncentrace roztoku",z:"V 0,5 l roztoku je rozpuštěno 2 moly soli. Jaká je koncentrace?",k:["c = n / V","c = 2 / 0,5","c = 4 mol/l"],r:"c = 4 mol/l"},
+{s:"chemie",t:"pH kyseliny",z:"Jaké pH má roztok HCl o koncentraci 0,01 mol/l? (úplná disociace)",k:["HCl → H⁺ + Cl⁻, tedy [H⁺] = 0,01","pH = −log(0,01)","pH = 2"],r:"pH = 2 (silně kyselé)"},
+{s:"chemie",t:"Vyčíslení rovnice",z:"Vyčísli: H₂ + O₂ → H₂O",k:["Vpravo jsou 2 kyslíky, vlevo 1 → před H₂O dej 2","Teď vpravo 4 vodíky → vlevo před H₂ dej 2","Kontrola: 4 H a 2 O na obou stranách"],r:"2 H₂ + O₂ → 2 H₂O"},
+{s:"chemie",t:"Ředění roztoku",z:"Kolik ml vody přidáš ke 100 ml 20% roztoku, aby byl 5%?",k:["c₁V₁ = c₂V₂ → 20·100 = 5·V₂","V₂ = 400 ml (celkový objem)","Přidat 400 − 100 = 300 ml vody"],r:"Přidej 300 ml vody"},
+{s:"chemie",t:"Výtěžek reakce",z:"Teoreticky mělo vzniknout 50 g, vzniklo 40 g. Výtěžek?",k:["η = m(prakt) / m(teor)","η = 40/50 = 0,8 → 80 %"],r:"η = 80 %"},
+{s:"fyzika",t:"Rychlost auta",z:"Auto ujelo 180 km za 2 hodiny. Jaká je průměrná rychlost?",k:["v = s / t","v = 180 / 2 = 90 km/h","90 / 3,6 = 25 m/s"],r:"90 km/h = 25 m/s"},
+{s:"fyzika",t:"Síla pro zrychlení",z:"Jakou silou musíš tlačit vozík 10 kg, aby zrychlil o 2 m/s²?",k:["F = m·a","F = 10·2","F = 20 N"],r:"F = 20 N"},
+{s:"fyzika",t:"Práce a výkon jeřábu",z:"Jeřáb zvedl 500 kg do 12 m za 10 s. Práce? Výkon?",k:["G = m·g = 500·10 = 5000 N (g≈10)","W = F·s = 5000·12 = 60 000 J","P = W/t = 60 000/10 = 6000 W"],r:"W = 60 kJ, P = 6 kW"},
+{s:"fyzika",t:"Hustota kostky",z:"Kostka 2 kg má objem 0,0008 m³. Hustota? Plave ve vodě?",k:["ρ = m/V = 2/0,0008","ρ = 2500 kg/m³","Voda má 1000 → kostka klesne"],r:"2500 kg/m³, klesne ke dnu"},
+{s:"fyzika",t:"Tlak lyžaře",z:"Lyžař 80 kg stojí na lyžích o ploše 0,4 m². Jaký tlak?",k:["F = m·g = 80·10 = 800 N","p = F/S = 800/0,4","p = 2000 Pa = 2 kPa"],r:"p = 2 kPa (proto se neboří)"},
+{s:"fyzika",t:"Ohřev vody",z:"Kolik tepla ohřeje 2 l vody z 20 °C na 80 °C? (c = 4200)",k:["m = 2 kg, Δt = 60 °C","Q = m·c·Δt = 2·4200·60","Q = 504 000 J"],r:"Q ≈ 504 kJ"},
+{s:"fyzika",t:"Ohmův zákon",z:"Žárovkou s odporem 46 Ω protéká proud 5 A. Napětí?",k:["U = R·I","U = 46·5","U = 230 V"],r:"U = 230 V (síťové napětí)"},
+{s:"fyzika",t:"Kinetická energie auta",z:"Auto 1000 kg jede 20 m/s. Jaká je jeho Ek?",k:["Ek = ½·m·v²","Ek = 0,5·1000·400","Ek = 200 000 J"],r:"Ek = 200 kJ (proto brzdná dráha roste s v²)"},
+{s:"bio",t:"Křížení Aa × Aa",z:"Oba rodiče mají hnědé oči (Aa). Pravděpodobnost modrookého dítěte (aa)?",k:["Možnosti: AA, Aa, aA, aa","aa je 1 ze 4","→ 25 %"],r:"25 % (poměr 3:1)"},
+{s:"bio",t:"Krevní skupiny 0 × AB",z:"Matka 0 (ii), otec AB (IᴬIᴮ). Jaké skupiny mohou mít děti?",k:["Děti: Iᴬi nebo Iᴮi","Tedy skupina A nebo B","Nikdy 0 ani AB"],r:"A nebo B, každá 50 %"},
+{s:"bio",t:"Komplementární vlákno DNA",z:"Doplň komplementární vlákno k 5′-ATGCCG-3′.",k:["A↔T, G↔C","Komplement: TACGGC","Antiparalelně 3′-TACGGC-5′"],r:"3′-TACGGC-5′"},
+{s:"bio",t:"BMI",z:"Student 70 kg, 180 cm. BMI? Hodnocení?",k:["h = 1,8 m; BMI = m/h²","BMI = 70/3,24 ≈ 21,6","Norma 18,5–25"],r:"BMI ≈ 21,6 — v normě"},
+{s:"bio",t:"Energie svačiny",z:"Svačina: 60 g sacharidů + 10 g tuku. Energie?",k:["Sacharidy: 60·17 = 1020 kJ","Tuky: 10·37 = 370 kJ","Celkem 1390 kJ"],r:"≈ 1390 kJ (≈ 330 kcal)"},
+{s:"bio",t:"Potravní pyramida",z:"Na 1. úrovni je 10 000 kJ. Kolik zbude pro 3. úroveň?",k:["Pravidlo 10 % na úroveň","2. úroveň: 1000 kJ","3. úroveň: 100 kJ"],r:"100 kJ (proto jsou šelmy vzácné)"},
+{s:"literatura",t:"Urči figuru",z:"'Moře světel zalilo náměstí.' Jaká figura? Proč?",k:["Není tam 'jako' → není přirovnání","Význam přenesený podobností (světla jako moře)","Skryté přirovnání"],r:"Metafora"},
+{s:"literatura",t:"Urči metrum",z:"Verš 'Růže máky chrpy zvonky'. Jaká stopa?",k:["Rozděl slabiky: RŮ-že MÁ-ky CHRP-ky ZVON-ky","Vzorec: přízvučná + 2 nepřízvučné","U-u-u"],r:"Daktyl"},
+{s:"literatura",t:"Urči žánr",z:"Krátký veršovaný příběh se zvířaty a ponaučením na konci. Žánr?",k:["Veršovaný + děj → epika ve verších","Zvířata jednají jako lidé = alegorie","Ponaučení = typický znak"],r:"Bajka"}
+];
+
+/* ================= PROPOJENÍ FYZIKA–CHEMIE–BIOLOGIE ================= */
+const LINKS = [
+{t:"Energie a ATP",d:"Všechny děje potřebují energii. Buňka ji skladuje v ATP a platí zákon zachování energie.",f:"Energie se neztrácí, jen přeměňuje (Ek ↔ Ep ↔ teplo). Účinnost svalů je jen ~25 %, zbytek je teplo.",c:"Rozkladem glukózy (ΔG<0) se uvolní energie; část se uloží do ATP, zbytek zahřeje tělo.",b:"ATP = univerzální 'baterka' buňky: svalový stah, nervový vzruch i tvorba látek. Denně recykluješ ~vlastní váhu ATP.",tip:"Maturitní evergreen: proč je člověk teplý? Protože metabolismus má účinnost pod 100 %."},
+{t:"Fotosyntéza ↔ buněčné dýchání",d:"Dva opačné děje, které se navzájem živí: rostliny vyrábějí, co všichni dýchají.",f:"Světlo je elektromagnetické vlnění; foton nese energii E = h·f. Chlorofyl chytá hlavně červenou a modrou.",c:"6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂ (endotermní, +energie) a zpět dýcháním (exotermní, −energie).",b:"Chloroplast × mitochondrie: první energii chytá, druhá ji uvolňuje. Koloběh O₂/CO₂ drží atmosféru.",tip:"U maturity nakresli obě rovnice pod sebe — komise to miluje."},
+{t:"Voda — nejdůležitější molekula",d:"Život = chemie ve vodě. Vlastnosti vody vysvětlují biologii.",f:"Vysoká měrná tepelná kapacita (4200): oceány a tělo drží teplotu. Anomálie: led plave → život pod ledem.",c:"Polární molekula + vodíkové vazby: rozpouští soli, vede k hydrolýze a pufrům.",b:"70 % těla je voda; krev, cytoplazma i pot. Ledviny hospodaří s vodou přes ADH.",tip:"Otázka 'proč je voda kapalná?' spojí vazby (Ch) + teplo (F) + buňku (B)."},
+{t:"pH a pufry v krvi",d:"Krev musí držet pH 7,4 ± 0,05, jinak denaturují bílkoviny.",f:"pH = −log[H⁺]: logaritmická stupnice, rozdíl 1 = 10× koncentrace.",c:"Hydrogenuhličitanový pufr H₂CO₃/HCO₃⁻ + dýchání (vydech CO₂ = méně kyseliny).",b:"Chemoreceptory hlídají pH; při zátěži dýcháš rychleji. Ledviny dolaďují dlouhodobě.",tip:"Propoj: hyperventilace → zásadité pH → brnění prstů."},
+{t:"Tlak: krevní, osmotický, atmosférický",d:"Stejný pascal měří vzduch, krev i vodu v kořenech.",f:"p = F/S; srdce vyvine ~16 kPa (120 mmHg). Atmosféra tlačí 101 kPa.",c:"Osmóza: voda jde za rozpuštěnými látkami přes membránu; osmotický tlak drží tvar buněk.",b:"Srdce–cévy–ledviny: tlak filtruje krev v glomerulu; rostliny ženou mízu odpařováním (transpirace).",tip:"Proč omdlíš v horku? Cévy se rozšíří → tlak klesne → mozek má málo krve."},
+{t:"Difúze a dýchání",d:"Kyslík necestuje pumpou, ale sám — z vyšší koncentrace do nižší.",f:"Rychlost difúze roste s teplotou a plochou, klesá se vzdáleností (Fickův zákon).",c:"Plyny se rozpouštějí podle parciálního tlaku (vzduch → krev → tkáně).",b:"Sklípky: 300 milionů × tenká stěna = obří plocha. Proto fungují plíce i bez 'míchání'.",tip:"Kouření ničí stěny sklípků → menší plocha → dušnost. Fyzika vysvětluje nemoc."},
+{t:"Elektřina v těle",d:"Nervy a srdce běží na ionty — živá elektrochemie.",f:"Napětí = rozdíl potenciálů; klidový potenciál neuronu je −70 mV. EKG měří srdeční proudy.",c:"Na⁺/K⁺ pumpa a kanály: akční potenciál je vlna propustnosti membrány.",b:"Neuron → synapse → sval; myelin zrychluje vedení až na 120 m/s. EKG/EEG čtou lékaři.",tip:"Maturita: nakresli akční potenciál a popiš Na⁺/K⁺ fáze."},
+{t:"Světlo: fotosyntéza a zrak",d:"Stejné fotony živí rostliny i tvé oči.",f:"Odraz, lom, čočky: oko je čočka (spojka) ostřící na sítnici. Barvy = vlnové délky.",c:"Chlorofyl a rodopsin: molekuly měnící tvar po dopadu fotonu.",b:"Tyčinky (černobíle, citlivé) × čípky (barvy). Rostliny se otáčejí za světlem (fototropismus).",tip:"Proč je list zelený? Chlorofyl zelenou neodchytává, ale odráží."},
+{t:"Zvuk a sluch",d:"Tlakové vlny ve vzduchu → kmitání kůstek → signál do mozku.",f:"Výška = frekvence (Hz), hlasitost = amplituda (dB). Člověk slyší 20 Hz–20 kHz.",c:"Zvukovod a rezonance boltce; vláskové buňky mění pohyb v iontový signál.",b:"Hlemýžď rozkládá frekvence jako piano; hlasitá hudba ničí vláskové buňky trvale.",tip:"Doppler + sanitka je oblíbená otázka; přidej stavbu ucha."},
+{t:"Radioaktivita a mutace",d:"Záření z jádra trhá molekuly — i DNA.",f:"Alfa (jádra He), beta (elektrony), gama (fotony); poločas rozpadu; dozimetr.",c:"Ionizující záření vyráží elektrony → volné radikály → zlomy DNA.",b:"Mutace = riziko rakoviny, ale i nástroj: radioterapie ničí nádory, mutace živí evoluci.",tip:"Proč vede radon k rakovině plic? Alfa zářič usazený ve sklípku."},
+{t:"Kovy, stopové prvky a enzymy",d:"Železo, hořčík nebo zinek v enzymech rozhodují o životě.",f:"Kovy vedou proud 'mořem elektronů'; Fe je magnetické — hemoglobin chytá O₂.",c:"Komplexy: hemoglobin (Fe), chlorofyl (Mg), enzymy (Zn, Cu). Nedostatek = nemoc.",b:"Anémie (málo Fe), struma (málo jódu), křeče (málo Mg/Ca). Pestrá strava = chemie.",tip:"Proč je krev červená a list zelený? Fe vs. Mg v centru komplexu."},
+{t:"Uhlík — páteř života",d:"Uhlík tvoří 4 vazby, a proto existují miliony organických molekul.",f:"Diamant × grafit × fullereny: stejný prvek, jiné uspořádání, jiné vlastnosti.",c:"Hybridizace sp³/sp², řetězce, kruhy, funkční skupiny: od methanu po DNA.",b:"Sacharidy, lipidy, bílkoviny, DNA — všechno uhlíkové řetězce. Koloběh uhlíku.",tip:"Otázka 'proč je chemie života organická?' — odpověď je čtyřvaznost uhlíku."},
+{t:"Vápník: kosti, signály, svaly",d:"Jeden prvek — tři práce: stavba, signál i pohyb.",f:"Kosti: páky a opora; tlak pevnosti; Ca²⁺ gradient řídí vzruch (Nernstův potenciál).",c:"CaCO₃ (vápenec, schránky), Ca²⁺ jako druhý posel v buňce.",b:"Kosti = zásobárna; sval se stahuje až po příchodu Ca²⁺; srážení krve; vitamín D.",tip:"Křeče při nedostatku vápníku? Nervy jsou dráždivější — propoj F+Ch+B."},
+{t:"Trávení: kyseliny a enzymy",d:"Žaludek je chemická továrna s pH 2, která nestráví sama sebe.",f:"Teplota a míchání (peristaltika) zrychlují reakce; povrch klků = obří plocha.",c:"HCl + pepsin (bílkoviny), amyláza (škroby), lipáza (tuky), žluč emulguje tuk.",b:"Hlen chrání stěnu; vředy = porucha ochrany. Vstřebávání v tenkém střevě.",tip:"Proč enzymy fungují jen při svém pH? Denaturace = ztráta tvaru."},
+{t:"Dusík a bílkoviny",d:"Bez dusíku nejsou bílkoviny ani DNA — a vzduch ho má 78 %, ale neumíme ho.",f:"Haber-Bosch: N₂ + 3 H₂ → 2 NH₃ za tlaku a katalyzátoru (Le Chatelier v praxi).",c:"Nitrifikace, hnojiva, aminokyseliny (−NH₂); přebytek dusíku = eutrofizace vod.",b:"Hlízkové bakterie fixují N₂ pro rostliny; člověk ho získává bílkovinami v potravě.",tip:"Eutrofizace rybníka: hnojivo → sinice → kyslík padá → ryby hynou. Koloběh N."},
+{t:"Termodynamika a metabolismus",d:"Tělo je tepelný stroj, který podléhá entropii.",f:"1. věta: energie se zachovává (jídlo = palivo). 2. věta: entropie roste — proto musíme jíst.",c:"ΔG<0: dýchání samovolné; ΔG>0 (tvorba bílkovin) se platí ATP.",b:"Bazální metabolismus ~7000 kJ/den; horečka zrychluje reakce (Q10 pravidlo).",tip:"Proč nemůže být perpetuum mobile ani věčný metabolismus? 2. věta termodynamiky."}
+];
+
+/* ================= CVIČNÉ OTÁZKY VE STYLU PŘIJÍMAČEK NA LF (1 správná + vysvětlení, vlastní tvorba) ================= */
+const QUESTIONS = [
+{s:"bio",q:"Bakterie se rozmnožují:",o:["příčným dělením","redukčním dělením (meiózou)","pučením","spájením gamet"],a:0,w:"Bakterie jsou prokaryota — dělí se prostým příčným (binárním) dělením. Meiózu ani gamety nemají."},
+{s:"bio",q:"Jeden řetězec DNA má úsek ACGAT. Druhý řetězec má:",o:["TCGAT","TGCTA","ACGAT","UGCUA"],a:1,w:"Komplementarita A-T, C-G: A→T, C→G, G→C, A→T, T→A = TGCTA. Uracil v DNA není."},
+{s:"bio",q:"Matka má skupinu 0 (ii), otec AB. Děti mohou mít:",o:["0 nebo AB","A nebo B","pouze A","libovolnou"],a:1,w:"Děti dostanou i od matky a Iᴬ/Iᴮ od otce → genotyp Iᴬi (A) nebo Iᴮi (B)."},
+{s:"bio",q:"Energie se v buňce krátkodobě ukládá v:",o:["AMP","ATP","ribóze","glukóze"],a:1,w:"ATP je univerzální energetická 'baterka'; AMP je vybitá forma, glukóza je zásobárna."},
+{s:"bio",q:"Podmíněné reflexy jsou:",o:["vrozené","druhově specifické","trvalé od narození","získané učením"],a:3,w:"Nepodmíněné jsou vrozené; podmíněné (Pavlovův pes) vznikají učením a vyhasínají."},
+{s:"bio",q:"Uhlíkaté látky s dusíkem a silným účinkem na organismus:",o:["alkaloidy","sacharidy","lipidy","třísloviny"],a:0,w:"Alkaloidy (morfin, kofein, nikotin) — dusíkaté rostlinné látky působící na nervovou soustavu."},
+{s:"bio",q:"V lýku (floému) vedou látky:",o:["cévy a cévice","sítkovice","průduchy","kořenové vlásky"],a:1,w:"Lýko = sítkovice (asimiláty dolů/nahoru); cévy a cévice patří do dřeva (xylému)."},
+{s:"bio",q:"Aktivní centrum enzymu určuje:",o:["rychlost syntézy enzymu","místo tvorby v buňce","katalytickou funkci a specificitu","teplotní optimum"],a:2,w:"Tvar aktivního centra = zámek ke klíči (substrát). Určuje, CO enzym katalyzuje."},
+{s:"bio",q:"Streptokoky tvoří:",o:["hrozny","spirály","řetízky","vlákna"],a:2,w:"Strepto- = řetízek (angína); stafylo- = hrozen (zlatý stafylokok)."},
+{s:"bio",q:"Při fotosyntéze:",o:["vzniká CO₂","spotřebovává se kyslík","vzniká glukóza a kyslík","vzniká močovina"],a:2,w:"6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂. Kyslík je odpadní produkt světelné fáze."},
+{s:"chemie",q:"Vzorec Ca(ClO₃)₂ je:",o:["chlorečnan vápenatý","chloristan vápenatý","chlornan vápenatý","chlorid vápenatý"],a:0,w:"ClO₃⁻ = chlorečnan; ClO₄⁻ by byl chloristan. Vápenatý = Ca²⁺."},
+{s:"chemie",q:"Náboj nenese:",o:["proton","elektron","neutron","kation"],a:2,w:"Neutron je neutrální; proton +, elektron −, kation +."},
+{s:"chemie",q:"Iontovou vazbu NENAJDEME v:",o:["NaCl","CaCl₂","PCl₃","KBr"],a:2,w:"PCl₃ je sloučenina dvou nekovů → kovalentní. Sůl kov+nekov = iontová."},
+{s:"chemie",q:"pH = 6 znamená roztok:",o:["neutrální","silně kyselý","slabě kyselý","zásaditý"],a:2,w:"Pod 7 = kyselé; 6 je jen mírně pod neutrální 7 → slabě kyselé."},
+{s:"chemie",q:"[H₃O⁺] = 10⁻⁹ mol/l. Pak [OH⁻] je:",o:["10⁻⁹ mol/l","10⁻⁵ mol/l","10⁻⁷ mol/l","10⁻¹⁴ mol/l"],a:1,w:"Iontový součin vody: [H⁺]·[OH⁻] = 10⁻¹⁴ → [OH⁻] = 10⁻¹⁴/10⁻⁹ = 10⁻⁵."},
+{s:"chemie",q:"Oxidační účinky NEMÁ:",o:["Cl₂","O₂","Zn","konc. H₂SO₄"],a:2,w:"Zinek je neušlechtilý kov — sám se oxiduje (je redukčním činidlem), neoxiduje jiné."},
+{s:"chemie",q:"Počet valenčních elektronů určuje:",o:["číslo periody","číslo skupiny","nukleonové číslo","hmotnost"],a:1,w:"Číslo skupiny (hlavní podskupiny) = počet valenčních elektronů. Perioda = počet slupek."},
+{s:"chemie",q:"Vyzářením částice alfa se protonové číslo:",o:["zvětší o 2","zmenší o 2","nezmění","zmenší o 1"],a:1,w:"Alfa = jádro helia (2p + 2n) → Z klesá o 2, A o 4."},
+{s:"chemie",q:"Při elektrolýze zředěné H₂SO₄ se H₃O⁺:",o:["neutralizují","vylučují na anodě","vylučují na katodě","nemění"],a:2,w:"Kationty putují ke katodě (−), kde přijímají elektrony → H₂."},
+{s:"chemie",q:"Hybridizace uhlíku v methanu je:",o:["sp","sp²","sp³","sp³d"],a:2,w:"Methan = 4 jednoduché vazby do tetraedru → sp³, úhel 109°."},
+{s:"fyzika",q:"Jednotkou výkonu je:",o:["joule","watt","newton","pascal"],a:1,w:"Watt = joule za sekundu. Joule = práce, newton = síla, pascal = tlak."},
+{s:"fyzika",q:"Vodičem 2 Ω prochází proud 3 A. Napětí je:",o:["1,5 V","5 V","6 V","0,66 V"],a:2,w:"U = R·I = 2·3 = 6 V."},
+{s:"fyzika",q:"Krátkozrakost se koriguje:",o:["spojkou","rozptylkou","hranolem","zrcadlem"],a:1,w:"Obraz vzniká před sítnicí → rozptylka (− dioptrie) ho posune dozadu."},
+{s:"fyzika",q:"Poločas rozpadu uplynul 3×. Zbylo:",o:["1/3","1/6","1/8","nic"],a:2,w:"Po každém poločase polovina: ½ → ¼ → ⅛."},
+{s:"fyzika",q:"Transformátor funguje:",o:["i na stejnosměrný proud","pouze na střídavý proud","bez magnetického pole","se 100% účinností"],a:1,w:"Indukce potřebuje ZMĚNU toku → jen střídavý proud. Reálná účinnost ~95 %."},
+{s:"fyzika",q:"Zvuk 340 m/s, frekvence 170 Hz. Vlnová délka:",o:["2 m","0,5 m","57 800 m","170 m"],a:0,w:"λ = v/f = 340/170 = 2 m."},
+{s:"fyzika",q:"Auto zdvojnásobí rychlost. Kinetická energie:",o:["zdvojnásobí se","zčtyřnásobí se","vzroste 8×","neklesne"],a:1,w:"Ek = ½mv² — roste s DRUHOU mocninou rychlosti. Proto je rychlost zabiják."},
+{s:"fyzika",q:"Tlak 2 kPa na ploše 0,5 m² znamená sílu:",o:["1000 N","4000 N","250 N","4 N"],a:0,w:"F = p·S = 2000·0,5 = 1000 N."},
+{s:"zuby",q:"Kaz způsobuje hlavně:",o:["Streptococcus mutans + cukry","fluorid v pastě","tvrdý kartáček","studené nápoje"],a:0,w:"Bakterie kvasí cukry na kyseliny, které rozpouštějí sklovinu. Fluor chrání."},
+{s:"zuby",q:"Nejtvrdší tkáň lidského těla je:",o:["dentin","kost","sklovina","chrupavka"],a:2,w:"Sklovina (~96 % minerálů). Neregeneruje — proto kaz sám nezmizí."},
+{s:"zuby",q:"Sliny obsahují enzym:",o:["pepsin","amylázu","lipázu","trypsin"],a:1,w:"Slinná amyláza (ptyalin) natravuje škroby. Pepsin patří do žaludku."},
+{s:"zuby",q:"Vyražený trvalý zub:",o:["vyhodit a chladit tvář","vložit do mléka/slin, do hodiny k zubaři","vydrhnout kartáčkem","počkat do rána"],a:1,w:"Kořen nesmí vyschnout ani se drhnout. Mléko/sliny + rychlost = záchrana zubu."}
+];
+
+/* ================= MATURITNÍ OKRUHY GVBT + PŘIJÍMAČKY ZUBNÍ ================= */
+const OKRUHY = {
+bio:{name:"Biologie",icon:"🧬",topics:["Buňka: stavba, složení, mitóza a meióza","Metabolismus buňky + krev","Pletiva, tkáně, transport přes membrány","Výživa, fotosyntéza a dýchání rostlin","Vegetativní orgány + vodní režim","Generativní orgány, vývoj a pohyby rostlin","Viry, bakterie, archea","Protista (prvoci, řasy)","Mechorosty, kapradiny, přesličky","Nahosemenné rostliny","Krytosemenné rostliny","Vznik života a evoluce","Houby, žahavci, houbovci","Ploštěnci, kroužkovci, měkkýši","Hlístice, členovci","Ostnokožci, bezlebeční, kruhoústí","Paryby, obojživelníci","Plazi, ptáci","Savci + etologie","Fylogeneze cévní, dýchací, pokryvu","Fylogeneze trávicí a nervové","Genetika: Mendel, populace, mutace","Molekulární genetika a metody","Opěrná a pohybová soustava","Oběhová, mízní, dýchací soustava","Trávicí, vylučovací, termoregulace","Hormonální, nervová, smysly","Rozmnožovací, ontogeneze, genetika člověka","Geologie, mineralogie, petrologie","Ekologie a ochrana prostředí"]},
+chemie:{name:"Chemie",icon:"⚗️",topics:["Atom: jádro, obal, kvantová čísla","Chemická vazba + slabé interakce","Periodická tabulka + analýza","Vodík a kyslík","Směsi, roztoky, kyseliny/zásady, pH","p-prvky VI.A–VIII.A","p-prvky III.A–V.A","s-prvky I.A–II.A","d-prvky: železo a spol.","d-prvky: měď, zinek","Kinetika, termodynamika, anorganické reakce","Rovnováhy: redox, srážecí, pH","Organické sloučeniny (úvod)","Organické reakce a mechanismy","Nasycené uhlovodíky","Nenasycené uhlovodíky","Aromatické uhlovodíky","N a halogen deriváty","Hydroxysloučeniny, ethery, thioly","Karbonylové a karboxylové sloučeniny","Deriváty karboxylových kyselin","Syntetické polymery","Sacharidy","Lipidy a biomembrány","Proteiny a peptidy","Heterocykly, alkaloidy, nukleové kyseliny","Složení živých soustav, ATP","Metabolismus sacharidů","Metabolismus lipidů a proteinů","Enzymy a vitaminy"]},
+fyzika:{name:"Fyzika",icon:"🔭",topics:["Kinematika","Dynamika a energie","Gravitační pole","Tuhé těleso","Kapaliny a plyny","Molekulová fyzika a termodynamika","Plyny a stavová rovnice","Kruhový děj","Změny skupenství","Pevné látky a kapaliny","Kmitání","Mechanické vlnění","Elektrické pole","Proud v kovech","Proud v elektrolytech, plynech, vakuu","Stacionární magnetické pole","Nestacionární pole + střídavý proud","Střídavý proud v energetice","Elektromagnetické vlnění","Optika a zobrazení","Kvantová fyzika","Polovodiče","Atomový obal","Atomové jádro","Světlo a vlnové vlastnosti"]},
+zuby:{name:"Zubní lékařství – přijímačky",icon:"🦷",topics:["Biologie buňky + genetika (LF test)","Člověk: soustavy přehled (LF test)","Krev, imunita, hormony (LF test)","Chemie: atom, vazby, názvosloví (LF test)","Roztoky, pH, redox, výpočty (LF test)","Organika: skupiny, reakce (LF test)","Fyzika: mechanika + vzorce (LF test)","Elektřina, magnetismus, optika (LF test)","Atom, jádro, radioaktivita (LF test)","Stavba zubu + chrup","Kaz, fluor, hygiena","Sliny, parodont","Čelisti, svaly, trojklanný nerv","Obory: ortodoncie, endodoncie","Biochemie: cukry, tuky, bílkoviny","Metabolismus: glykolýza, Krebs, močovina"]}
+};
+
+/* ================= STATE ================= */
+const store = JSON.parse(localStorage.getItem("prijimacky_v1")||'{"known":[],"tests":0,"ok":0,"streak":0}');
+store.fknown=store.fknown||[];store.eknown=store.eknown||[];
+function save(){localStorage.setItem("prijimacky_v1",JSON.stringify(store));}
+let subj="chemie", mode="cards", order=[], idx=0, flipped=false;
+let wStreak=0,wTotal=0,wOk=0,aTotal=0,aOk=0,aLock=false;
+
+const $=id=>document.getElementById(id);
+function flatItems(){
+  const cat=$("catSel").value;
+  let arr=[];DATA[subj].items.forEach((it,i)=>{if(!cat||it[3]===cat)arr.push({p:it[0],d:it[1],ex:it[2],cat:it[3],i});});
+  if(store.set&&store.set.hide)arr=arr.filter(it=>!store.known.includes(key(it.p)));
+  return arr;
+}
+function refreshCats(){
+  const s=$("catSel"),cats=[...new Set(DATA[subj].items.map(x=>x[3]))];
+  s.innerHTML='<option value="">Všechny kategorie</option>'+cats.map(c=>`<option>${c}</option>`).join("");
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function rebuild(){order=shuffle(flatItems());idx=0;flipped=false;render();}
+
+/* header stats */
+function stats(){
+  const all=Object.values(DATA).reduce((n,s)=>n+s.items.length,0);
+  const allF=Object.values(FORMULAS).reduce((n,a)=>n+a.length,0);
+  $("sTotal").textContent=all;$("sKnow").textContent=store.known.length;
+  $("sF").textContent=store.fknown.length+"/"+allF;
+  $("sTests").textContent=store.tests;$("sAcc").textContent=store.tests?Math.round(100*store.ok/store.tests)+"%":"–";
+  $("sStreak").textContent=store.streak;
+  try{bumpDay();$("sDay").textContent=store.day.n;$("sGoal").textContent=(store.set||{}).goal||20;}catch(_){}
+  const pct=Math.round(100*store.known.length/all);$("progBar").style.width=pct+"%";
+}
+function key(p){return subj+"::"+p;}
+
+/* subject buttons */
+function renderSubj(){
+  $("subjBtns").innerHTML=Object.entries(DATA).map(([k,v])=>
+   `<button data-s="${k}" class="${k===subj?'on':''}">${v.icon} ${v.name} <span class="hint">(${v.items.length})</span></button>`).join("");
+  document.querySelectorAll("#subjBtns button").forEach(b=>b.onclick=()=>{subj=b.dataset.s;refreshCats();rebuild();renderSubj();});
+  $("cSubj").textContent=DATA[subj].icon+" "+DATA[subj].name;
+  $("wSubj").textContent=DATA[subj].icon+" "+DATA[subj].name;
+  $("aSubj").textContent=DATA[subj].icon+" "+DATA[subj].name;
+}
+
+/* ===== CARDS ===== */
+function render(){
+  stats();
+  if(!order.length){$("cTerm").textContent="V této kategorii nic není.";$("cDef").textContent="";return;}
+  const it=order[idx%order.length];
+  $("cCount").textContent=`Kartička ${idx%order.length+1} / ${order.length}`;
+  $("cTerm").textContent=it.p;
+  $("cDef").textContent=it.d;
+  $("cEx").innerHTML=it.ex?("💡 "+it.ex+" <span class='badge'>"+it.cat+"</span>"):"";
+  $("cSide").textContent=flipped?"DEFINICE – umíš?":"POJEM – uhodni definici";
+  $("cTerm").style.display=flipped?"none":"block";
+  $("cDef").style.display=flipped?"block":"none";
+  $("cEx").style.display=flipped?"block":"none";
+  renderWrite();renderAbcQ();
+}
+function flip(){flipped=!flipped;render();}
+$("cFlip").onclick=flip;$("cBox").onclick=flip;
+$("cNext").onclick=()=>{idx++;flipped=false;render();};
+$("cPrev").onclick=()=>{idx=(idx-1+order.length)%order.length;flipped=false;render();};
+function mark(know){
+  if(!order.length)return;const it=order[idx%order.length],k=key(it.p);
+  const has=store.known.includes(k);
+  if(know&&!has)store.known.push(k);if(!know&&has)store.known=store.known.filter(x=>x!==k);
+  tick();idx++;flipped=false;render();
+}
+$("cYes").onclick=()=>mark(true);$("cNo").onclick=()=>mark(false);
+
+/* ===== WRITE GAME ===== */
+let wCur=null;
+function norm(s){return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ");}
+function keywords(def){
+  const stop=new Set("který která které tento tato toto jako nebo jsou bylo mezi jeho její jejich pro při nad pod jehož jejichž se si na do ve ze ten ta to tenhle takhle velmi práv také".split(" "));
+  return [...new Set(norm(def).split(/\s+/).filter(w=>w.length>=4&&!stop.has(w)))];
+}
+function renderWrite(){
+  if(!order.length)return;
+  wCur=order[Math.floor(Math.random()*order.length)];
+  $("wTerm").textContent=wCur.p;$("wCat").textContent=wCur.cat;
+  $("wCount").textContent=`Procvičeno: ${wTotal} • správně ${wOk}`;
+  $("wInput").value="";$("wFb").className="feedback";$("wFb").textContent="";$("wModel").style.display="none";
+  $("wScore").textContent=wTotal?("✍️ "+Math.round(100*wOk/wTotal)+"%"):"";
+  setTimeout(()=>$("wInput").focus(),50);
+}
+$("wCheck").onclick=checkWrite;
+$("wInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.ctrlKey||!e.shiftKey)){e.preventDefault();checkWrite();}});
+$("wNext").onclick=renderWrite;
+$("wShow").onclick=()=>{if(!wCur)return;$("wModel").style.display="block";$("wModel").innerHTML="<b>Vzorová definice:</b> "+wCur.d+(wCur.ex?"<br><b>Příklad:</b> "+wCur.ex:"");};
+function checkWrite(){
+  if(!wCur)return;const ans=norm($("wInput").value);
+  if(ans.trim().length<8){$("wFb").className="feedback no";$("wFb").textContent="Napiš aspoň kousek definice vlastními slovy 🙂";return;}
+  const kw=keywords(wCur.d+" "+wCur.p),hit=kw.filter(k=>ans.includes(k));
+  const pct=kw.length?hit.length/kw.length:0;
+  wTotal++;store.tests++;tick();
+  const ok=pct>=0.45||(wCur.p.split(/\s+/).length>1&&norm(wCur.d).split(" ").slice(0,6).some(w=>w.length>4&&ans.includes(w))&&pct>=0.3);
+  if(ok){wOk++;store.ok++;store.streak++;store.streak=Math.max(store.streak,store.streak);}else{store.streak=0;}
+  if(ok&&!store.known.includes(key(wCur.p)))store.known.push(key(wCur.p));
+  save();stats();
+  $("wFb").className="feedback "+(ok?"ok":"no");
+  $("wFb").innerHTML=ok?`✅ <b>Správně!</b> Trefil/a jsi ${hit.length}/${kw.length} klíčových slov (${Math.round(pct*100)} %). <span class="hint">Nalezeno: ${hit.slice(0,8).join(", ")||"–"}</span>`
+   :`⚠️ <b>Ještě to dopiluj</b> – trefil/a jsi ${hit.length}/${kw.length} klíčových slov. Chybí např.: <b>${kw.filter(k=>!hit.includes(k)).slice(0,5).join(", ")}</b>. Klikni na „Ukázat vzor" a zkus další.`;
+  $("wCount").textContent=`Procvičeno: ${wTotal} • správně ${wOk}`;
+  $("wScore").textContent="✍️ "+Math.round(100*wOk/wTotal)+"%";
+}
+$("btnShuffle").onclick=()=>{rebuild();};
+$("btnReset").onclick=()=>{if(confirm("Opravdu smazat celý pokrok?")){store.known=[];store.tests=0;store.ok=0;store.streak=0;save();stats();render();renderList();}};
+$("catSel").onchange=rebuild;
+
+/* ===== ABC ===== */
+let aCur=null;
+function renderAbcQ(){
+  const pool=flatItems();if(!pool.length)return;
+  aCur=pool[Math.floor(Math.random()*pool.length)];
+  const others=shuffle(DATA[subj].items.filter(x=>x[0]!==aCur.p)).slice(0,3).map(x=>x[0]);
+  const opts=shuffle([aCur.p,...others]);aLock=false;
+  $("aDef").textContent=aCur.d;$("aCount").textContent=`Otázka • správně ${aOk}/${aTotal}`;
+  $("aScore").textContent=aTotal?("🔘 "+Math.round(100*aOk/aTotal)+"%"):"";
+  $("aOpts").innerHTML=opts.map(o=>`<button class="opt" data-o="${o.replace(/"/g,"&quot;")}">${o}</button>`).join("");
+  $("aFb").textContent="";
+  document.querySelectorAll("#aOpts .opt").forEach(b=>b.onclick=()=>{
+    if(aLock)return;aLock=true;aTotal++;store.tests++;tick();
+    const win=b.dataset.o===aCur.p;
+    if(win){aOk++;store.ok++;store.streak++;b.classList.add("ok");
+      if(!store.known.includes(key(aCur.p)))store.known.push(key(aCur.p));
+    }else{store.streak=0;b.classList.add("no");
+      document.querySelectorAll("#aOpts .opt").forEach(x=>{if(x.dataset.o===aCur.p)x.classList.add("ok");});
+    }
+    save();stats();
+    $("aFb").textContent=win?`✅ Správně! (${aCur.p} – ${aCur.cat})`:`❌ Správně je: ${aCur.p}. ${aCur.ex||""}`;
+    $("aScore").textContent="🔘 "+Math.round(100*aOk/aTotal)+"%";
+    $("aCount").textContent=`Otázka • správně ${aOk}/${aTotal}`;
+  });
+}
+$("aNext").onclick=renderAbcQ;
+
+/* ===== LIST ===== */
+function renderList(){
+  const q=norm($("q").value||"");
+  const items=flatItems().filter(it=>!q||norm(it.p+" "+it.d+" "+it.ex).includes(q));
+  $("listBox").innerHTML=`<p class="hint">${items.length} pojmů • klikni na řádek pro „umím"</p>
+  <table><tr><th>Pojem</th><th>Definice + příklad</th><th>Umím</th></tr>
+  ${items.map(it=>{const k=key(it.p),has=store.known.includes(k);
+   return `<tr><td><b>${it.p}</b><br><span class="hint">${it.cat}</span></td><td>${it.d}<br><span class="hint">${it.ex||""}</span></td>
+   <td><button data-k="${k.replace(/"/g,"")}" class="${has?'good':''}">${has?'✔':'○'}</button></td></tr>`;}).join("")}</table>`;
+  document.querySelectorAll("#listBox button").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k,has=store.known.includes(k);
+    store.known=has?store.known.filter(x=>x!==k):[...store.known,k];save();stats();renderList();
+  });
+}
+$("qBtn").onclick=renderList;$("q").addEventListener("input",renderList);
+
+/* modes */
+document.querySelectorAll(".mode").forEach(m=>m.onclick=()=>{
+  document.querySelectorAll(".mode").forEach(x=>x.classList.remove("on"));m.classList.add("on");mode=m.dataset.m;
+  $("viewCards").style.display=mode==="cards"?"block":"none";
+  $("viewWrite").style.display=mode==="write"?"block":"none";
+  $("viewAbc").style.display=mode==="abc"?"block":"none";
+  $("viewF").style.display=mode==="vzorce"?"block":"none";
+  $("viewP").style.display=mode==="priklady"?"block":"none";
+  $("viewL").style.display=mode==="propoj"?"block":"none";
+  $("viewH").style.display=mode==="hadanky"?"block":"none";
+  $("viewM").style.display=mode==="mluveni"?"block":"none";
+  $("viewQ").style.display=mode==="cvicne"?"block":"none";
+  $("viewO").style.display=mode==="okruhy"?"block":"none";
+  $("viewList").style.display=mode==="list"?"block":"none";
+  if(mode==="write")renderWrite();if(mode==="abc")renderAbcQ();if(mode==="list")renderList();
+  if(mode==="vzorce")fRebuild();if(mode==="priklady")pRebuild();if(mode==="propoj")renderL();
+  if(mode==="hadanky")hNew();if(mode==="mluveni")mNew();if(mode==="cvicne")qRebuild();if(mode==="okruhy")renderOkr();
+});
+document.addEventListener("keydown",e=>{
+  if(mode!=="cards")return;
+  if(e.code==="Space"&&document.activeElement.tagName!=="TEXTAREA"&&document.activeElement.tagName!=="INPUT"){e.preventDefault();flip();}
+  if(e.key==="ArrowRight"){$("cNext").click();}if(e.key==="ArrowLeft"){$("cPrev").click();}
+});
+
+/* ===== VZORCE: trénink psaní ===== */
+let fList=[],fIdx=0,fOk=0,fTotal=0,fShow=false;
+function fPool(){const s=$("fSubj").value;let a=[];Object.entries(FORMULAS).forEach(([k,v])=>{if(!s||s===k)v.forEach(o=>a.push(Object.assign({s:k},o)));});return a;}
+function fKey(it){return "vz::"+it.s+"::"+it.n;}
+function fnorm(s){return (s||"").toLowerCase().replace(/\s+/g,"").replace(/[×·•]/g,"*").replace(/[→⇒]/g,">").replace(/²/g,"^2").replace(/³/g,"^3").replace(/,/g,".").replace(/÷/g,"/").replace(/−/g,"-").replace(/π/g,"pi");}
+function fRebuild(){fList=shuffle(fPool());fIdx=0;fShow=false;renderF();}
+function renderF(){
+  if(!fList.length){$("fName").textContent="Nic tu není.";$("fLeg").textContent="";return;}
+  const it=fList[fIdx%fList.length];
+  $("fCount").textContent=`Vzoreček ${fIdx%fList.length+1} / ${fList.length} • správně ${fOk}/${fTotal}`;
+  $("fScore").textContent=fTotal?("📐 "+Math.round(100*fOk/fTotal)+"%"):"";
+  $("fSubjName").textContent=DATA[it.s].icon+" "+DATA[it.s].name;
+  $("fName").textContent=it.n;$("fLeg").textContent=it.l;
+  $("fAns").style.display=fShow?"block":"none";
+  if(fShow)$("fAns").textContent="✔ "+it.f.split("|")[0];
+  $("fInput").value="";$("fFb").className="feedback";$("fFb").textContent="";
+  setTimeout(()=>{if(mode==="vzorce")$("fInput").focus();},50);
+}
+function checkF(){
+  if(!fList.length)return;const it=fList[fIdx%fList.length];
+  const ans=fnorm($("fInput").value);
+  if(ans.length<2){$("fFb").className="feedback no";$("fFb").textContent="Nejdřív něco napiš 🙂";return;}
+  const alts=it.f.split("|").map(fnorm);
+  const ok=alts.includes(ans);
+  fTotal++;store.tests++;tick();
+  if(ok){fOk++;store.ok++;store.streak++;if(!store.fknown.includes(fKey(it)))store.fknown.push(fKey(it));}
+  else store.streak=0;
+  save();stats();
+  $("fFb").className="feedback "+(ok?"ok":"no");
+  $("fFb").innerHTML=ok?`✅ <b>Správně!</b> ${it.f.split("|")[0]} <span class="hint">${it.l}</span>`
+    :`❌ <b>Správně je:</b> <span class="mono" style="background:#fef3c7;color:#000;padding:2px 8px;border-radius:6px">${it.f.split("|")[0]}</span><br><span class="hint">${it.l}</span>`;
+  $("fCount").textContent=`Vzoreček ${fIdx%fList.length+1} / ${fList.length} • správně ${fOk}/${fTotal}`;
+  $("fScore").textContent="📐 "+Math.round(100*fOk/fTotal)+"%";
+}
+$("fCheck").onclick=checkF;
+$("fInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();checkF();}});
+$("fShowBtn").onclick=()=>{if(!fList.length)return;fShow=true;const it=fList[fIdx%fList.length];$("fAns").style.display="block";$("fAns").textContent="✔ "+it.f.split("|")[0];};
+$("fNext").onclick=()=>{if(!fList.length)return;fIdx++;fShow=false;renderF();};
+$("fSubj").onchange=fRebuild;
+
+/* ===== PŘÍKLADY ===== */
+let pList=[],pIdx=0,pShow=false;
+function pPool(){const s=$("pSubj").value;return EXAMPLES.map((o,i)=>Object.assign({i},o)).filter(o=>!s||s===o.s);}
+function pKey(o){return "ex::"+o.s+"::"+o.t;}
+function pRebuild(){pList=shuffle(pPool());pIdx=0;pShow=false;renderP();}
+function renderP(){
+  if(!pList.length){$("pTitle").textContent="Nic tu není.";$("pZad").textContent="";return;}
+  const o=pList[pIdx%pList.length];
+  $("pCount").textContent=`Příklad ${pIdx%pList.length+1} / ${pList.length}`;
+  $("pSubjName").textContent=DATA[o.s].icon+" "+DATA[o.s].name+" – PŘÍKLAD";
+  $("pTitle").textContent=o.t;$("pZad").textContent=o.z;
+  $("pSteps").style.display=pShow?"block":"none";
+  if(pShow)$("pSteps").innerHTML="<ol>"+o.k.map(s=>`<li>${s}</li>`).join("")+`</ol><b>✅ Výsledek: ${o.r}</b>`;
+}
+$("pShow").onclick=()=>{pShow=true;renderP();};
+$("pNext").onclick=()=>{if(!pList.length)return;pIdx++;pShow=false;renderP();};
+$("pPrev").onclick=()=>{if(!pList.length)return;pIdx=(pIdx-1+pList.length)%pList.length;pShow=false;renderP();};
+$("pSubj").onchange=pRebuild;
+function pMark(know){
+  if(!pList.length)return;const o=pList[pIdx%pList.length],k=pKey(o);
+  const has=store.eknown.includes(k);
+  if(know&&!has)store.eknown.push(k);if(!know&&has)store.eknown=store.eknown.filter(x=>x!==k);
+  save();pIdx++;pShow=false;renderP();
+}
+$("pYes").onclick=()=>pMark(true);$("pNo").onclick=()=>pMark(false);
+
+/* ===== PROPOJENÍ ===== */
+let lIdx=0;
+function renderL(){
+  const o=LINKS[lIdx%LINKS.length];
+  $("lCount").textContent=`Téma ${lIdx%LINKS.length+1} / ${LINKS.length}`;
+  $("lTitle").textContent=o.t;$("lDesc").textContent=o.d;
+  $("lF").textContent=o.f;$("lC").textContent=o.c;$("lB").textContent=o.b;$("lTip").textContent=o.tip;
+}
+$("lNext").onclick=()=>{lIdx++;renderL();};
+$("lPrev").onclick=()=>{lIdx=(lIdx-1+LINKS.length)%LINKS.length;renderL();};
+
+function initFPL(){
+  ["fSubj","pSubj","qSubj"].forEach(id=>{
+    $(id).innerHTML='<option value="">Všechny předměty</option>'+Object.entries(DATA).map(([k,v])=>`<option value="${k}">${v.icon} ${v.name}</option>`).join("");
+  });
+  applySet();fRebuild();pRebuild();renderL();
+}
+
+/* ===== NASTAVENÍ + DENNÍ CÍL ===== */
+store.set=Object.assign({theme:"light",font:"m",goal:20,hide:false},store.set||{});
+store.okr=store.okr||{};
+store.day=store.day||{d:"",n:0};
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function bumpDay(){const t=todayStr();if(store.day.d!==t)store.day={d:t,n:0};}
+function tick(){bumpDay();store.day.n++;save();stats();}
+function applySet(){
+  document.body.classList.toggle("dark",store.set.theme==="dark");
+  document.body.classList.toggle("sepia",store.set.theme==="sepia");
+  document.body.classList.remove("f-s","f-m","f-l","f-xl");
+  document.body.classList.add("f-"+store.set.font);
+  $("setTheme").value=store.set.theme;$("setFont").value=store.set.font;
+  $("setGoal").value=String(store.set.goal);$("setHide").checked=!!store.set.hide;
+  bumpDay();$("sDay").textContent=store.day.n;$("sGoal").textContent=store.set.goal;
+}
+$("btnSet").onclick=()=>{const p=$("setPanel");p.style.display=p.style.display==="none"?"block":"none";};
+$("setTheme").onchange=e=>{store.set.theme=e.target.value;save();applySet();};
+$("setFont").onchange=e=>{store.set.font=e.target.value;save();applySet();};
+$("setGoal").onchange=e=>{store.set.goal=parseInt(e.target.value,10)||20;save();applySet();};
+$("setHide").onchange=e=>{store.set.hide=e.target.checked;save();rebuild();renderList();};
+$("btnExport").onclick=()=>{
+  const blob=new Blob([JSON.stringify(store)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="prijimacky-pokrok.json";a.click();URL.revokeObjectURL(a.href);
+};
+$("fileImport").onchange=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{const s=JSON.parse(r.result);Object.assign(store,s);save();applySet();rebuild();renderList();renderOkr();alert("Pokrok nahrán ✔");}catch(_){alert("Soubor se nepodařilo načíst.");}};
+  r.readAsText(f);e.target.value="";
+};
+
+/* ===== HÁDANKY ===== */
+let hCur=null,hShown=1,hOk=0,hTotal=0;
+function hNew(){
+  const pool=flatItems();if(!pool.length){$("hHints").textContent="Nic tu není.";return;}
+  hCur=pool[Math.floor(Math.random()*pool.length)];hShown=1;
+  $("hInput").value="";$("hFb").className="feedback";$("hFb").textContent="";
+  $("hAns").style.display="none";hRender();
+}
+function hRender(){
+  const H=[
+    `1️⃣ Kategorie: <b>${hCur.cat}</b> • předmět ${DATA[subj].icon} ${DATA[subj].name} • má ${hCur.p.length} znaků`,
+    `2️⃣ 💡 ${hCur.ex||("(bez příkladu — vzpomeň si na definici)")}`,
+    `3️⃣ 📖 Definice bez klíčového slova: ${maskDef(hCur)}`
+  ];
+  $("hHints").innerHTML=H.slice(0,hShown).join("<br><br>");
+  $("hCount").textContent=`Hádanka • správně ${hOk}/${hTotal}`;
+  $("hScore").textContent=hTotal?("🧩 "+Math.round(100*hOk/hTotal)+"%"):"";
+}
+function maskDef(it){
+  let d=it.d;
+  it.p.split(/[\s\-\/()]+/).forEach(w=>{if(w.length>3)d=d.replace(new RegExp(w,"gi"),"___");});
+  return d;
+}
+$("hTip").onclick=()=>{if(!hCur)return;if(hShown<3){hShown++;hRender();}};
+$("hGive").onclick=()=>{if(!hCur)return;$("hAns").style.display="block";$("hAns").textContent="🙈 "+hCur.p+" — "+hCur.d;};
+$("hNext").onclick=hNew;
+function hGuess(){
+  if(!hCur)return;const ans=norm($("hInput").value);
+  if(ans.length<2)return;
+  const ok=norm(hCur.p)===ans||(ans.length>4&&norm(hCur.p).includes(ans))||(ans.length>4&&ans.includes(norm(hCur.p)));
+  hTotal++;store.tests++;tick();
+  if(ok){hOk++;store.ok++;store.streak++;if(!store.known.includes(key(hCur.p)))store.known.push(key(hCur.p));
+    $("hFb").className="feedback ok";$("hFb").innerHTML=`✅ <b>Uhodnuto!</b> ${hCur.p} — ${hCur.d}`;
+    $("hAns").style.display="none";save();stats();hRender();
+  }else{store.streak=0;save();stats();
+    $("hFb").className="feedback no";$("hFb").textContent="❌ To není ono. Vezmi si další nápovědu nebo to zkus znovu.";}
+}
+$("hGuess").onclick=hGuess;
+$("hInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();hGuess();}});
+
+/* ===== MLUVENÍ ===== */
+let mCur=null;
+function mNew(){
+  const pool=flatItems();if(!pool.length)return;
+  mCur=pool[Math.floor(Math.random()*pool.length)];
+  $("mTerm").textContent=mCur.p;$("mCat").textContent=mCur.cat+" • "+DATA[subj].icon+" "+DATA[subj].name;
+  $("mQ").innerHTML=`1. Co to <b>${mCur.p}</b> stručně je?<br>2. Jak to funguje / k čemu to slouží?<br>3. Uveď příklad a souvislost s jiným pojmem.`;
+  $("mModel").style.display="none";$("mRate").hidden=true;
+}
+$("mShow").onclick=()=>{
+  if(!mCur)return;
+  $("mModel").style.display="block";
+  $("mModel").innerHTML=`<b>Vzorové vysvětlení:</b> ${mCur.d}<br><b>Příklad:</b> ${mCur.ex||"–"}<br><span class="hint">Porovnej s tím, co jsi řekl/a nahlas. Pak se ohodnoť.</span>`;
+  $("mRate").hidden=false;
+};
+$("mNext").onclick=mNew;
+function mRate(kind){
+  if(!mCur)return;const k=key(mCur.p);
+  store.tests++;tick();
+  if(kind==="yes"){store.ok++;store.streak++;if(!store.known.includes(k))store.known.push(k);}
+  else if(kind==="no"){store.streak=0;store.known=store.known.filter(x=>x!==k);}
+  else{store.ok++;store.streak++;}
+  save();stats();mNew();
+}
+$("mYes").onclick=()=>mRate("yes");$("mHalf").onclick=()=>mRate("half");$("mNo").onclick=()=>mRate("no");
+
+/* ===== CVIČNÉ OTÁZKY LF ===== */
+let qList=[],qIdx=0,qOk=0,qTotal=0,qLock=false;
+function qPool(){const s=$("qSubj").value;return QUESTIONS.map((o,i)=>Object.assign({i},o)).filter(o=>!s||s===o.s);}
+function qRebuild(){qList=shuffle(qPool());qIdx=0;qRender();}
+function qRender(){
+  if(!qList.length){$("qqText").textContent="Nic tu není.";$("qqOpts").innerHTML="";return;}
+  const o=qList[qIdx%qList.length];qLock=false;
+  $("qqCount").textContent=`Otázka ${qIdx%qList.length+1} / ${qList.length} • správně ${qOk}/${qTotal}`;
+  $("qqScore").textContent=qTotal?("🎯 "+Math.round(100*qOk/qTotal)+"%"):"";
+  $("qqSubj").textContent="CVIČNÁ OTÁZKA – "+DATA[o.s].icon.toUpperCase()+" "+DATA[o.s].name.toUpperCase();
+  $("qqText").textContent=o.q;
+  $("qqWhy").style.display="none";
+  $("qqOpts").innerHTML=o.o.map((t,i)=>`<button class="opt" data-i="${i}">${"ABCD"[i]}) ${t}</button>`).join("");
+  document.querySelectorAll("#qqOpts .opt").forEach(b=>b.onclick=()=>{
+    if(qLock)return;qLock=true;qTotal++;store.tests++;tick();
+    const win=parseInt(b.dataset.i,10)===o.a;
+    if(win){qOk++;store.ok++;store.streak++;b.classList.add("ok");}
+    else{store.streak=0;b.classList.add("no");
+      document.querySelectorAll("#qqOpts .opt").forEach(x=>{if(parseInt(x.dataset.i,10)===o.a)x.classList.add("ok");});}
+    save();stats();
+    $("qqWhy").style.display="block";$("qqWhyT").textContent=(win?"✅ Správně! ":"❌ Správně je "+ "ABCD"[o.a] + "). ")+o.w;
+    $("qqScore").textContent="🎯 "+Math.round(100*qOk/qTotal)+"%";
+    $("qqCount").textContent=`Otázka ${qIdx%qList.length+1} / ${qList.length} • správně ${qOk}/${qTotal}`;
+  });
+}
+$("qqNext").onclick=()=>{if(!qList.length)return;qIdx++;qRender();};
+$("qSubj").onchange=qRebuild;
+
+/* ===== MATURITNÍ OKRUHY ===== */
+function oKey(s,i){return "okr::"+s+"::"+i;}
+function renderOkr(){
+  $("okrBox").innerHTML=Object.entries(OKRUHY).map(([k,v])=>{
+    const done=v.topics.filter((_,i)=>store.okr[oKey(k,i)]).length;
+    return `<h3 class="sec">${v.icon} ${v.name} — ${done}/${v.topics.length}</h3>
+    <table>${v.topics.map((t,i)=>{const on=!!store.okr[oKey(k,i)];
+      return `<tr><td style="width:34px"><b>${i+1}</b></td><td>${t}</td>
+      <td style="width:60px"><button data-o="${oKey(k,i)}" class="${on?'good':''}">${on?'✔':'○'}</button></td></tr>`;}).join("")}</table>`;
+  }).join("");
+  document.querySelectorAll("#okrBox button").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.o;
+    if(store.okr[k])delete store.okr[k];else{store.okr[k]=1;tick();}
+    save();renderOkr();
+  });
+}
+
+/* init */
+refreshCats();renderSubj();rebuild();renderList();initFPL();
+</script>
+</body>
+</html>
