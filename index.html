@@ -173,6 +173,12 @@ body.nav-open #sidebar{transform:none}
 *{animation:none!important;transition:none!important}
 }
 .app .main-col>header{display:none}
+.app .panel{animation:vin .28s ease}
+@keyframes vin{from{opacity:0;transform:translateY(10px)}}
+#cBox{transition:transform .2s}
+#cBox.doflip{animation:flipx .35s ease}
+@keyframes flipx{50%{transform:rotateY(90deg) scale(.98)}}
+.tile .bar i,#subjProg .bar i,.bar i{transition:width .6s ease}
 
 </style>
 </head>
@@ -197,6 +203,7 @@ body.nav-open #sidebar{transform:none}
 <div class="subj" id="subjBtns"></div>
 <div class="row" style="margin-top:10px"><b>Kategorie:</b>
 <select id="catSel" style="max-width:280px"><option value="">Všechny kategorie</option></select>
+<select id="lvlSel" class="mini" title="Úroveň učiva"><option value="3">🌍 Vše</option><option value="0">🎒 Základ</option><option value="1">🎓 Maturita</option><option value="2">🦷 VŠ + zubní</option></select>
 <button id="btnShuffle" title="Zamíchat pořadí">🔀 Zamíchat</button>
 <button id="btnSet">⚙️ Nastavení</button>
 <button id="btnReset">♻️ Reset pokroku</button>
@@ -226,6 +233,8 @@ body.nav-open #sidebar{transform:none}
 <div class="mode" data-m="mluveni"><b>🗣️ Mluvení</b><span>vysvětli pojem nahlas</span></div>
 <div class="mode" data-m="cvicne"><b>🎯 Cvičné otázky LF</b><span>test jako na přijímačkách</span></div>
 <div class="mode" data-m="okruhy"><b>✅ Maturitní okruhy</b><span>GVBT + zubní checklist</span></div>
+<div class="mode" data-m="zkouseni"><b>🎓 Zkoušení z okruhu</b><span>výklad + pojmy + obrázky</span></div>
+<div class="mode" data-m="obrazky"><b>🖼️ Obrázky</b><span>schémata a poznávačka</span></div>
 <div class="mode" data-m="list"><b>📖 Přehled</b><span>všechny pojmy + hledání</span></div>
 </div>
 </div>
@@ -364,6 +373,20 @@ body.nav-open #sidebar{transform:none}
 <div class="panel" id="viewO" style="display:none">
 <div class="row"><span class="badge">✅ Maturitní okruhy</span><span class="hint">GVBT Slaný 2026/27 + přijímačky zubní • odškrtávej, co umíš</span></div>
 <div id="okrBox"></div>
+</div>
+
+<div class="panel" id="viewZ" style="display:none">
+<div class="row"><select id="zSubj" class="mini"></select><select id="zOkr" class="mini" style="max-width:330px"></select><button id="zStart" class="primary">▶ Zkoušet tento okruh</button></div>
+<div id="zBody" style="margin-top:10px"></div>
+</div>
+
+<div class="panel" id="viewImg" style="display:none">
+<div class="row"><select id="iSubj" class="mini"><option value="">Všechny předměty</option></select><select id="iFig" class="mini" style="max-width:260px"></select>
+<button id="iStudy" class="primary">📖 Učit se</button><button id="iQuiz" class="warn">🎯 Zkoušet</button></div>
+<div class="cardbox" style="cursor:default"><small id="iTitle">SCHÉMA</small><div id="iSvg" style="margin-top:8px"></div></div>
+<div class="linkgrid" id="iLegend" style="margin-top:10px"></div>
+<div class="opts" id="iOpts"></div>
+<div class="feedback" id="iFb"></div>
 </div>
 
 <div class="panel" id="viewList" style="display:none">
@@ -756,6 +779,41 @@ zuby:{name:"Zubní lékařství",icon:"🦷",items:[
 ["Diabetes a zuby","Cukrovka zhoršuje hojení i parodont; vztah je obousměrný.","Součást anamnézy","Souvislosti"],
 ["Ústní hygiena","Bassova technika, mezizubní kartáčky a nit; plak (měkký) vs. kámen (tvrdý).","2× denně + mezizubně","Kaz a prevence"],
 ["Úraz zubu","Vyražený zub do mléka/slin a do hodiny k zubaři; zlomeninu chladit.","Nečistit kořen!","První pomoc"]
+]},
+cestina:{name:"Čeština",icon:"🇨🇿",items:[
+["Hláska a písmeno","Hláska je zvuk, který slyšíš. Písmeno je znak, který píšeš. Někdy píšeme jinak, než slyšíme.","Slyšíš × píšeš","Zvuky a písmo"],
+["Samohlásky a souhlásky","Samohlásky (a, e, i, o, u…) samy tvoří slabiku. Souhlásky ne (kromě r, l jako ve slově vlk).","Slabika = samohláska","Zvuky a písmo"],
+["Spodoba znělosti","Vyslovujeme jinak, než píšeme: dub čteme [dup]. Písmeno si pamatuj podle příbuzného slova (duby).","Výslovnost × pravopis","Zvuky a písmo"],
+["Psaní i/y po obojetných","Po b, f, l, m, p, s, v, z píšeme i/y podle vyjmenovaných slov a koncovek vzorů.","Vyjmenovaná slova + vzory","Pravopis"],
+["Předpony s-, z-, vz-","s- = shora nebo dolů (spadnout). z- = změna nebo dohromady (zbořit). vz- = vzhůru (vzlétout).","Shora s, změna z","Pravopis"],
+["Psaní mě/mně","Mně píšeme po předložkách a na začátku (ke mně). Jinde mě. Zkus nahradit tě/tebe: vidím tě → vidím mě.","Tě/tebe test","Pravopis"],
+["Podstatná jména","Názvy osob, zvířat a věcí. Poznáš je podle vzorů: pán, hrad, žena, město… Každý vzor má své koncovky.","Pád, číslo, rod, vzor","Tvarosloví"],
+["Přídavná jména","Popisují podstatná jména. Odpovídají na jaký? který? čí? Stupňují se: mladý – mladší – nejmladší.","Jaký? Který? Čí?","Tvarosloví"],
+["Zájmena","Zastupují jména, abychom se neopakovali: já, ty, můj, ten, kdo, někdo, nikdo… Je jich 7 druhů.","Místo jmen","Tvarosloví"],
+["Číslovky","Říkají kolik nebo kolikátý: dva, pátý, dvojí, dvakrát. Neurčité: mnoho, několik, málo.","Kolik? Kolikátý?","Tvarosloví"],
+["Slovesa","Slova děje: co dělá? Časují se podle vzorů (nese, peče, prosí, dělá…). Mají osobu, číslo a čas.","Osoba, číslo, čas","Tvarosloví"],
+["Slovesný vid","Dokonavý děj je hotový (napsat). Nedokonavý právě probíhá (psát). Zeptej se: co udělá? × co dělá?","Hotovo × probíhá","Tvarosloví"],
+["Příčestí","Tvary jako nesl, pekl, dělal. Tvoří složené časy (nesl jsem). Pozor na shodu: muži nesli, ženy nesly.","Tvary s -l","Tvarosloví"],
+["Příslovce","Říkají jak, kde, kdy a proč se něco děje. Stupňují se: rychle – rychleji – nejrychleji.","Jak? Kde? Kdy?","Tvarosloví"],
+["Předložky a spojky","Předložky stojí před jménem (na stole). Spojky spojují slova a věty (a, ale, že, když). Nemění tvar.","Neohebné","Tvarosloví"],
+["Podmět","Kdo nebo co dělá děj: Petr spí. Někdy chybí a musíš ho domyslet: Spím (= já).","Kdo? Co?","Skladba"],
+["Přísudek","Co podmět dělá: čte, je chytrý. Pozor na shodu: muži psali, ženy psaly, děti si hrály.","Muži psali (-i)","Skladba"],
+["Předmět","Koho nebo co zasahuje děj: vidím Petra. Ptáš se všemi pády kromě 1. a 5.","Koho? Co?","Skladba"],
+["Příslovečné určení","Jak, kde, kdy a proč: běží rychle, bydlí v Praze, přijde zítra, pláče radostí.","Okolnosti děje","Skladba"],
+["Přívlastek","Jaké je to podstatné jméno: mladý muž (shodný) × dům mých snů (neshodný).","Jaký? Čí? Který?","Skladba"],
+["Shoda přísudku s podmětem","Muži psali (-i), ženy psaly (-y), děti si hrály. Smíchaný podmět: muži a ženy psali.","Rod rozhoduje","Skladba"],
+["Věta hlavní a vedlejší","Hlavní věta stojí sama. Vedlejší na ní visí a začíná spojkou: říká, ŽE přijde.","Hlavní + závislá","Skladba"],
+["Souvětí souřadné a podřadné","Souřadné spojuje rovnocenné věty (a, ale, nebo). Podřadné má hlavní + vedlejší (že, když).","Rovné × závislé","Skladba"],
+["Interpunkce (čárky)","Před ale a avšak čárka vždy. Před a, i, ani ve výčtu ne. Před že, který, když ano.","Ale = čárka","Skladba"],
+["Slovotvorba","Nová slova vznikají: odvozováním (učit → učitel), skládáním (zeměkoule), zkracováním (ČR).","Předpona, kořen, přípona","Slovní zásoba"],
+["Synonyma a opozita","Synonyma znamenají totéž (hezký – pěkný). Antonyma jsou opak (den – noc). Homonyma stejně znějí (koruna).","Stejné × opačné","Slovní zásoba"],
+["Frazeologie","Ustálená rčení s přeneseným významem: mít máslo na hlavě. Nepřekládej je doslovně.","Rčení a přísloví","Slovní zásoba"],
+["Funkční styly","Podle účelu: pokec s kámošem, učebnice, noviny, román, úřední dopis. Každý mluví jinak.","Účel rozhoduje","Sloh"],
+["Vypravování","Příběh s dějem: úvod → zápletka → vyvrcholení → konec. Děj běží v čase, postavy mluví.","Jako film","Sloh"],
+["Popis a charakteristika","Popis říká, jak něco vypadá. Charakteristika říká, jaký člověk je, a hodnotí ho.","Vzhled × povaha","Sloh"],
+["Úvaha a esej","Tvůj názor + důvody: myslím si to, protože… Na konci shrň, k čemu jsi došel.","Názor + argumenty","Sloh"],
+["Jazyk a řeč","Jazyk je celý systém (čeština). Řeč je to, jak právě mluvíš ty. Spisovně × nespisovně.","Systém × použití","Jazykověda"],
+["Nářečí a spisovnost","Spisovně mluvíme ve škole a na úřadě. Doma a v regionu nářečím. Ve slohovce vždy spisovně!","Regionální mluva","Jazykověda"]
 ]}
 };
 
@@ -915,8 +973,44 @@ const OKRUHY = {
 bio:{name:"Biologie",icon:"🧬",topics:["Buňka: stavba, složení, mitóza a meióza","Metabolismus buňky + krev","Pletiva, tkáně, transport přes membrány","Výživa, fotosyntéza a dýchání rostlin","Vegetativní orgány + vodní režim","Generativní orgány, vývoj a pohyby rostlin","Viry, bakterie, archea","Protista (prvoci, řasy)","Mechorosty, kapradiny, přesličky","Nahosemenné rostliny","Krytosemenné rostliny","Vznik života a evoluce","Houby, žahavci, houbovci","Ploštěnci, kroužkovci, měkkýši","Hlístice, členovci","Ostnokožci, bezlebeční, kruhoústí","Paryby, obojživelníci","Plazi, ptáci","Savci + etologie","Fylogeneze cévní, dýchací, pokryvu","Fylogeneze trávicí a nervové","Genetika: Mendel, populace, mutace","Molekulární genetika a metody","Opěrná a pohybová soustava","Oběhová, mízní, dýchací soustava","Trávicí, vylučovací, termoregulace","Hormonální, nervová, smysly","Rozmnožovací, ontogeneze, genetika člověka","Geologie, mineralogie, petrologie","Ekologie a ochrana prostředí"]},
 chemie:{name:"Chemie",icon:"⚗️",topics:["Atom: jádro, obal, kvantová čísla","Chemická vazba + slabé interakce","Periodická tabulka + analýza","Vodík a kyslík","Směsi, roztoky, kyseliny/zásady, pH","p-prvky VI.A–VIII.A","p-prvky III.A–V.A","s-prvky I.A–II.A","d-prvky: železo a spol.","d-prvky: měď, zinek","Kinetika, termodynamika, anorganické reakce","Rovnováhy: redox, srážecí, pH","Organické sloučeniny (úvod)","Organické reakce a mechanismy","Nasycené uhlovodíky","Nenasycené uhlovodíky","Aromatické uhlovodíky","N a halogen deriváty","Hydroxysloučeniny, ethery, thioly","Karbonylové a karboxylové sloučeniny","Deriváty karboxylových kyselin","Syntetické polymery","Sacharidy","Lipidy a biomembrány","Proteiny a peptidy","Heterocykly, alkaloidy, nukleové kyseliny","Složení živých soustav, ATP","Metabolismus sacharidů","Metabolismus lipidů a proteinů","Enzymy a vitaminy"]},
 fyzika:{name:"Fyzika",icon:"🔭",topics:["Kinematika","Dynamika a energie","Gravitační pole","Tuhé těleso","Kapaliny a plyny","Molekulová fyzika a termodynamika","Plyny a stavová rovnice","Kruhový děj","Změny skupenství","Pevné látky a kapaliny","Kmitání","Mechanické vlnění","Elektrické pole","Proud v kovech","Proud v elektrolytech, plynech, vakuu","Stacionární magnetické pole","Nestacionární pole + střídavý proud","Střídavý proud v energetice","Elektromagnetické vlnění","Optika a zobrazení","Kvantová fyzika","Polovodiče","Atomový obal","Atomové jádro","Světlo a vlnové vlastnosti"]},
-zuby:{name:"Zubní lékařství – přijímačky",icon:"🦷",topics:["Biologie buňky + genetika (LF test)","Člověk: soustavy přehled (LF test)","Krev, imunita, hormony (LF test)","Chemie: atom, vazby, názvosloví (LF test)","Roztoky, pH, redox, výpočty (LF test)","Organika: skupiny, reakce (LF test)","Fyzika: mechanika + vzorce (LF test)","Elektřina, magnetismus, optika (LF test)","Atom, jádro, radioaktivita (LF test)","Stavba zubu + chrup","Kaz, fluor, hygiena","Sliny, parodont","Čelisti, svaly, trojklanný nerv","Obory: ortodoncie, endodoncie","Biochemie: cukry, tuky, bílkoviny","Metabolismus: glykolýza, Krebs, močovina"]}
+zuby:{name:"Zubní lékařství – přijímačky",icon:"🦷",topics:["Biologie buňky + genetika (LF test)","Člověk: soustavy přehled (LF test)","Krev, imunita, hormony (LF test)","Chemie: atom, vazby, názvosloví (LF test)","Roztoky, pH, redox, výpočty (LF test)","Organika: skupiny, reakce (LF test)","Fyzika: mechanika + vzorce (LF test)","Elektřina, magnetismus, optika (LF test)","Atom, jádro, radioaktivita (LF test)","Stavba zubu + chrup","Kaz, fluor, hygiena","Sliny, parodont","Čelisti, svaly, trojklanný nerv","Obory: ortodoncie, endodoncie","Biochemie: cukry, tuky, bílkoviny","Metabolismus: glykolýza, Krebs, močovina"]},
+cestina:{name:"Čeština – maturita",icon:"🇨🇿",topics:["Zvuková stránka a písmo","Pravopis i/y a vyjmenovaná slova","Předpony, mě/mně, velká písmena","Tvarosloví: jména a vzory","Tvarosloví: slovesa a vid","Neohebné slovní druhy","Skladba: větné členy","Skladba: souvětí a čárky","Slovní zásoba a tvoření slov","Funkční styly a slohové útvary","Vypravování, popis, úvaha","Jazyk, řeč a nářečí"]}
 };
+
+/* ================= OBRÁZKY: SVG schémata s očíslovanými částmi ================= */
+function MK(x,y,t,hide){return `<g><circle cx="${x}" cy="${y}" r="11" fill="${hide?'#f5a524':'#0ea5a0'}"/><text x="${x}" y="${y+4.5}" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">${hide?'?':t}</text></g>`;}
+const FIGS=[
+{id:"bunka",s:"bio",t:"Živočišná buňka",parts:["Buněčná membrána","Jádro","Mitochondrie","Golgiho aparát","Ribozomy","Cytoplazma"],pts:[[208,115],[80,90],[168,88],[150,158],[56,150],[110,55]],
+draw:h=>`<ellipse cx="110" cy="115" rx="95" ry="80" fill="#e8f6f3" stroke="#0b2422" stroke-width="2"/><circle cx="80" cy="90" r="26" fill="#bcd7ff" stroke="#0b2422" stroke-width="2"/><circle cx="80" cy="90" r="8" fill="#7fb3ff"/><ellipse cx="168" cy="88" rx="24" ry="12" fill="#ffd9a8" stroke="#0b2422" stroke-width="2"/><path d="M150,88 q9,-8 18,0 q9,8 18,0" stroke="#0b2422" fill="none"/><path d="M130,150 q20,-14 40,0 M130,158 q20,-14 40,0 M130,166 q20,-14 40,0" stroke="#7fb069" stroke-width="3" fill="none"/><circle cx="55" cy="150" r="3" fill="#0b2422"/><circle cx="65" cy="160" r="3" fill="#0b2422"/><circle cx="48" cy="140" r="3" fill="#0b2422"/><circle cx="200" cy="150" r="3" fill="#0b2422"/><circle cx="210" cy="140" r="3" fill="#0b2422"/>`},
+{id:"atom",s:"chemie",t:"Atom",parts:["Atomové jádro","Proton","Neutron","Elektron","Elektronový obal"],pts:[[150,152],[135,102],[165,129],[245,115],[83,145]],
+draw:h=>`<ellipse cx="150" cy="115" rx="95" ry="42" fill="none" stroke="#9fb0c7" stroke-width="2"/><ellipse cx="150" cy="115" rx="42" ry="95" fill="none" stroke="#9fb0c7" stroke-width="2"/><circle cx="150" cy="115" r="22" fill="#ffd166" stroke="#0b2422" stroke-width="2"/><circle cx="143" cy="110" r="8" fill="#ff8a8a"/><circle cx="158" cy="121" r="8" fill="#bcd7ff"/><circle cx="245" cy="115" r="6" fill="#0ea5a0"/><circle cx="55" cy="115" r="6" fill="#0ea5a0"/><circle cx="150" cy="20" r="6" fill="#0ea5a0"/><circle cx="150" cy="210" r="6" fill="#0ea5a0"/>`},
+{id:"srdce",s:"bio",t:"Srdce",parts:["Pravá síň","Pravá komora","Levá síň","Levá komora","Aorta","Plicní kmen"],pts:[[190,72],[190,152],[105,72],[105,152],[150,32],[168,88]],
+draw:h=>`<rect x="150" y="45" width="80" height="55" rx="14" fill="#9ec5ff" stroke="#0b2422" stroke-width="2"/><rect x="150" y="110" width="80" height="85" rx="18" fill="#7fb3ff" stroke="#0b2422" stroke-width="2"/><rect x="70" y="45" width="70" height="55" rx="14" fill="#f7b2b2" stroke="#0b2422" stroke-width="2"/><rect x="70" y="110" width="70" height="85" rx="18" fill="#ff8a8a" stroke="#0b2422" stroke-width="2"/><path d="M105,110 C105,30 190,30 190,75" stroke="#d63d3d" stroke-width="13" fill="none" stroke-linecap="round"/><path d="M185,110 C185,85 150,85 145,65" stroke="#3d6ed6" stroke-width="9" fill="none" stroke-linecap="round"/>`},
+{id:"zub",s:"zuby",t:"Stavba zubu",parts:["Sklovina","Dentin","Dřeň (zubní nerv)","Cement","Dáseň","Čelistní kost"],pts:[[210,70],[168,95],[150,122],[108,160],[55,155],[230,195]],
+draw:h=>`<rect x="30" y="170" width="240" height="45" fill="#e5d3a8" stroke="#0b2422" stroke-width="2"/><rect x="30" y="140" width="240" height="30" fill="#ffb3c1" stroke="#0b2422" stroke-width="2"/><polygon points="120,115 108,168 132,168 138,115" fill="#fff" stroke="#0b2422" stroke-width="2"/><polygon points="180,115 192,168 168,168 162,115" fill="#fff" stroke="#0b2422" stroke-width="2"/><rect x="105" y="35" width="90" height="82" rx="20" fill="#fff" stroke="#0b2422" stroke-width="2"/><rect x="118" y="48" width="64" height="56" rx="14" fill="#ffe9a8" stroke="#0b2422" stroke-width="2"/><rect x="138" y="60" width="24" height="66" rx="10" fill="#ff9d9d" stroke="#0b2422" stroke-width="2"/>`},
+{id:"kvet",s:"bio",t:"Květ",parts:["Korunní plátek","Pestík (blizna)","Tyčinka (pyl)","Kališní lístek","Semeník","Stonek"],pts:[[190,55],[150,72],[120,80],[180,115],[150,120],[150,190]],
+draw:h=>`<line x1="150" y1="140" x2="150" y2="210" stroke="#2d6a4f" stroke-width="5"/><ellipse cx="150" cy="35" rx="16" ry="24" fill="#ffc7dd" stroke="#0b2422" stroke-width="2"/><ellipse cx="185" cy="58" rx="16" ry="24" fill="#ffc7dd" stroke="#0b2422" stroke-width="2" transform="rotate(72 185 58)"/><ellipse cx="172" cy="100" rx="16" ry="24" fill="#ffc7dd" stroke="#0b2422" stroke-width="2" transform="rotate(144 172 100)"/><ellipse cx="128" cy="100" rx="16" ry="24" fill="#ffc7dd" stroke="#0b2422" stroke-width="2" transform="rotate(216 128 100)"/><ellipse cx="115" cy="58" rx="16" ry="24" fill="#ffc7dd" stroke="#0b2422" stroke-width="2" transform="rotate(288 115 58)"/><circle cx="150" cy="72" r="12" fill="#ffd166" stroke="#0b2422" stroke-width="2"/><circle cx="150" cy="120" r="14" fill="#b7e4a8" stroke="#0b2422" stroke-width="2"/><line x1="150" y1="110" x2="120" y2="80" stroke="#0b2422" stroke-width="2"/><circle cx="120" cy="80" r="4" fill="#f5a524"/><line x1="150" y1="110" x2="180" y2="80" stroke="#0b2422" stroke-width="2"/><circle cx="180" cy="80" r="4" fill="#f5a524"/><path d="M120,105 L150,130 L180,105 L180,118 L150,143 L120,118 Z" fill="#7fb069" stroke="#0b2422" stroke-width="2"/>`},
+{id:"oko",s:"bio",t:"Oko",parts:["Bělima","Duhovka","Zornice","Čočka","Sítnice","Oční nerv"],pts:[[82,72],[140,89],[152,128],[100,100],[190,140],[240,115]],
+draw:h=>`<circle cx="140" cy="115" r="68" fill="#fff" stroke="#0b2422" stroke-width="2"/><circle cx="140" cy="115" r="26" fill="#7fb3ff" stroke="#0b2422" stroke-width="2"/><circle cx="140" cy="115" r="11" fill="#0b2422"/><ellipse cx="112" cy="115" rx="8" ry="20" fill="#cfe8ff" opacity="0.9" stroke="#0b2422" stroke-width="1.5"/><path d="M185,70 A60,60 0 0 1 185,160" stroke="#ff8a8a" stroke-width="4" fill="none"/><rect x="208" y="107" width="62" height="16" fill="#ffd9a8" stroke="#0b2422" stroke-width="2"/>`},
+{id:"neuron",s:"bio",t:"Neuron",parts:["Dendrity","Tělo s jádrem","Axon","Myelinová pochva","Synapse"],pts:[[35,85],[90,115],[160,132],[192,100],[272,115]],
+draw:h=>`<line x1="70" y1="115" x2="30" y2="70" stroke="#0b2422" stroke-width="3"/><line x1="70" y1="115" x2="25" y2="115" stroke="#0b2422" stroke-width="3"/><line x1="70" y1="115" x2="30" y2="160" stroke="#0b2422" stroke-width="3"/><line x1="70" y1="115" x2="55" y2="60" stroke="#0b2422" stroke-width="3"/><circle cx="90" cy="115" r="24" fill="#ffe1a8" stroke="#0b2422" stroke-width="2"/><circle cx="90" cy="115" r="9" fill="#7fb3ff"/><line x1="114" y1="115" x2="255" y2="115" stroke="#0b2422" stroke-width="4"/><rect x="140" y="107" width="28" height="16" rx="6" fill="#ffd166" stroke="#0b2422" stroke-width="2"/><rect x="178" y="107" width="28" height="16" rx="6" fill="#ffd166" stroke="#0b2422" stroke-width="2"/><rect x="216" y="107" width="28" height="16" rx="6" fill="#ffd166" stroke="#0b2422" stroke-width="2"/><line x1="255" y1="115" x2="275" y2="95" stroke="#0b2422" stroke-width="2"/><line x1="255" y1="115" x2="278" y2="115" stroke="#0b2422" stroke-width="2"/><line x1="255" y1="115" x2="275" y2="135" stroke="#0b2422" stroke-width="2"/><circle cx="275" cy="95" r="3.5" fill="#ff8a8a"/><circle cx="278" cy="115" r="3.5" fill="#ff8a8a"/><circle cx="275" cy="135" r="3.5" fill="#ff8a8a"/>`},
+{id:"nefron",s:"bio",t:"Nefron (ledvina)",parts:["Klubíčko","Bowmanovo pouzdro","Kanálky","Henleova klička","Sběrný kanálek"],pts:[[65,65],[36,94],[130,70],[115,185],[248,120]],
+draw:h=>`<circle cx="65" cy="65" r="30" fill="none" stroke="#7fb3ff" stroke-width="2" stroke-dasharray="5,3"/><circle cx="65" cy="65" r="20" fill="#ff9d9d" stroke="#0b2422" stroke-width="2"/><path d="M95,65 C140,65 140,120 120,140 C100,160 100,190 130,190 C170,190 175,150 200,140 L235,140" stroke="#0ea5a0" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="238" y="60" width="20" height="130" fill="#cfe8ff" stroke="#0b2422" stroke-width="2"/>`},
+{id:"dna",s:"bio",t:"DNA",parts:["Cukr-fosfátová kostra","Dusíkatá báze","Vodíková vazba","Pár A–T","Pár G–C"],pts:[[110,30],[140,44],[150,89],[150,134],[150,179]],
+draw:h=>`<path d="M110,15 L90,60 L110,105 L90,150 L110,195" stroke="#7fb3ff" stroke-width="5" fill="none"/><path d="M190,15 L210,60 L190,105 L210,150 L190,195" stroke="#7fb3ff" stroke-width="5" fill="none"/><line x1="100" y1="40" x2="200" y2="40" stroke="#0ea5a0" stroke-width="4"/><text x="132" y="45" font-size="13" font-weight="800" fill="#0b2422">A</text><text x="160" y="45" font-size="13" font-weight="800" fill="#0b2422">T</text><line x1="100" y1="85" x2="200" y2="85" stroke="#0ea5a0" stroke-width="4"/><text x="132" y="90" font-size="13" font-weight="800" fill="#0b2422">G</text><text x="160" y="90" font-size="13" font-weight="800" fill="#0b2422">C</text><line x1="100" y1="130" x2="200" y2="130" stroke="#0ea5a0" stroke-width="4"/><text x="132" y="135" font-size="13" font-weight="800" fill="#0b2422">T</text><text x="160" y="135" font-size="13" font-weight="800" fill="#0b2422">A</text><line x1="100" y1="175" x2="200" y2="175" stroke="#0ea5a0" stroke-width="4"/><text x="132" y="180" font-size="13" font-weight="800" fill="#0b2422">C</text><text x="160" y="180" font-size="13" font-weight="800" fill="#0b2422">G</text>`},
+{id:"ucho",s:"bio",t:"Ucho",parts:["Boltec","Zvukovod","Bubínek","Sluchové kůstky","Hlemýžď"],pts:[[55,80],[108,110],[140,132],[170,100],[225,115]],
+draw:h=>`<path d="M40,60 C70,50 80,90 60,110 C85,115 85,150 55,155" stroke="#0b2422" stroke-width="5" fill="none" stroke-linecap="round"/><line x1="75" y1="110" x2="140" y2="110" stroke="#0b2422" stroke-width="5"/><line x1="140" y1="95" x2="140" y2="125" stroke="#ff8a8a" stroke-width="5"/><circle cx="155" cy="110" r="5" fill="#0b2422"/><circle cx="170" cy="105" r="5" fill="#0b2422"/><circle cx="185" cy="112" r="5" fill="#0b2422"/><circle cx="225" cy="115" r="20" fill="none" stroke="#7fb3ff" stroke-width="3"/><circle cx="225" cy="115" r="13" fill="none" stroke="#7fb3ff" stroke-width="3"/><circle cx="225" cy="115" r="7" fill="none" stroke="#7fb3ff" stroke-width="3"/>`},
+{id:"paka",s:"fyzika",t:"Páka",parts:["Opěrný bod (osa)","Břemeno","Působící síla","Rameno břemene","Rameno síly"],pts:[[150,190],[77,112],[235,66],[105,148],[200,126]],
+draw:h=>`<polygon points="150,172 130,200 170,200" fill="#f5a524" stroke="#0b2422" stroke-width="2"/><line x1="45" y1="140" x2="255" y2="110" stroke="#0b2422" stroke-width="6" stroke-linecap="round"/><rect x="60" y="100" width="34" height="32" fill="#9ec5ff" stroke="#0b2422" stroke-width="2"/><line x1="235" y1="108" x2="235" y2="62" stroke="#d63d3d" stroke-width="4"/><polygon points="235,52 228,66 242,66" fill="#d63d3d"/>`},
+{id:"cocka",s:"fyzika",t:"Spojka",parts:["Spojka","Optická osa","Ohnisko","Rovnoběžný paprsek","Zlomený paprsek"],pts:[[150,168],[40,115],[195,115],[85,85],[220,140]],
+draw:h=>`<line x1="20" y1="115" x2="280" y2="115" stroke="#9fb0c7" stroke-width="2" stroke-dasharray="6,4"/><path d="M150,40 C130,80 130,150 150,190 C170,150 170,80 150,40 Z" fill="#cfe8ff" opacity="0.85" stroke="#0b2422" stroke-width="2"/><circle cx="105" cy="115" r="5" fill="#d63d3d"/><circle cx="195" cy="115" r="5" fill="#d63d3d"/><line x1="20" y1="85" x2="150" y2="85" stroke="#f5a524" stroke-width="3"/><line x1="150" y1="85" x2="250" y2="152" stroke="#d63d3d" stroke-width="3"/><line x1="20" y1="140" x2="280" y2="70" stroke="#0ea5a0" stroke-width="2"/>`},
+{id:"obvod",s:"fyzika",t:"Jednoduchý obvod",parts:["Zdroj (baterie)","Rezistor","Ampérmetr","Žárovka","Vodiče"],pts:[[150,36],[264,115],[150,194],[36,115],[100,170]],
+draw:h=>`<rect x="60" y="60" width="180" height="110" fill="none" stroke="#0b2422" stroke-width="3"/><line x1="140" y1="45" x2="140" y2="75" stroke="#0b2422" stroke-width="5"/><line x1="160" y1="50" x2="160" y2="70" stroke="#0b2422" stroke-width="5"/><polyline points="240,95 232,105 248,105 240,115 248,125 232,125 240,135" fill="none" stroke="#d63d3d" stroke-width="3"/><circle cx="150" cy="170" r="16" fill="#fff" stroke="#0b2422" stroke-width="2"/><text x="150" y="176" text-anchor="middle" font-size="14" font-weight="800" fill="#0b2422">A</text><circle cx="60" cy="115" r="16" fill="#fff8d6" stroke="#0b2422" stroke-width="2"/><path d="M52,115 l5,-6 5,12 5,-12 5,12 5,-6" stroke="#f5a524" stroke-width="2" fill="none"/>`}
+];
+function svgFig(fig,hide){let s=`<svg viewBox="0 0 300 230" style="width:100%;max-width:430px;height:auto;background:rgba(255,255,255,.07);border-radius:12px" role="img" aria-label="${fig.t}">`;s+=fig.draw(hide);fig.pts.forEach((p,i)=>{s+=MK(p[0],p[1],i+1,i===hide);});return s+'</svg>';}
+
+/* ================= MNEMOTECHNIKY (jak si to zapamatovat) ================= */
+const MNEMO={"pH":"Citron (2) < voda (7) < mýdlo (10). Čím menší číslo, tím kyselejší.","Mitochondrie":"MITO = MOTOR buňky. Bez kyslíku stojí.","Fotosyntéza (rovnice)":"Šestka všude: 6 – 6 – 6 – 6.","Ohmův zákon":"U = R·I. Holka (U) Ráda Jí (R·I).","Redoxní reakce":"Oxidace = Odevzdání elektronů. Obě začínají na O.","Alkany":"Koncovka -an jako metAN.","Sonet":"14 veršů jako Valentýn 14. 2.","Metafora":"Bez JAKO. Když je tam JAKO, je to přirovnání.","Jamb":"JAmb JUpe vzhůru: u-U.","Trochej":"TROchej TROubí z kopce: U-u.","Hybnost":"Hmotnost krát rychlost — těžké a rychlé bolí.","Kinetická energie":"Rychlost se počítá dvakrát (na druhou). Proto bouračky.","Hardy-Weinbergův zákon":"p + q = 1, tedy celých 100 %.","Mitóza":"MITóza = MIT stejně: dvě stejné dcery.","Meióza":"MEIóza = MÉNĚ: polovina chromozomů.","Hemoglobin":"HEM veze kyslík díky železu (Fe).","Sklovina":"Nejtvrdší v těle, ale kyseliny z cukru ji rozpustí.","Zubní kaz":"Mutans miluje cukr. Bez cukru hladoví.","BMI":"Váha dělená výškou na druhou.","Komplementarita DNA":"A–T drží 2 můstky, G–C drží 3.","Dýchací řetězec":"Kyslík stojí na konci fronty a chytá elektrony.","Interference vlnění":"Stejný krok = hlasitěji, protikrok = ticho."};
 
 /* ================= STATE ================= */
 const store = JSON.parse(localStorage.getItem("prijimacky_v1")||'{"known":[],"tests":0,"ok":0,"streak":0}');
@@ -926,9 +1020,11 @@ let subj="chemie", mode="home", order=[], idx=0, flipped=false;
 let wStreak=0,wTotal=0,wOk=0,aTotal=0,aOk=0,aLock=false;
 
 const $=id=>document.getElementById(id);
+function lvlOf(cat,s){if(s==='zuby')return 2;return (cat&&cat.charAt(0)==='★')?1:0;}
+function lvlOK(cat,s){const L=(store.set&&store.set.lvl!=null)?store.set.lvl:3;if(L>=3)return true;return lvlOf(cat,s)<=L;}
 function flatItems(){
   const cat=$("catSel").value;
-  let arr=[];DATA[subj].items.forEach((it,i)=>{if(!cat||it[3]===cat)arr.push({p:it[0],d:it[1],ex:it[2],cat:it[3],i});});
+  let arr=[];DATA[subj].items.forEach((it,i)=>{if((!cat||it[3]===cat)&&lvlOK(it[3],subj))arr.push({p:it[0],d:it[1],ex:it[2],cat:it[3],i});});
   if(store.set&&store.set.hide)arr=arr.filter(it=>!store.known.includes(key(it.p)));
   return arr;
 }
@@ -971,14 +1067,14 @@ function render(){
   $("cCount").textContent=`Kartička ${idx%order.length+1} / ${order.length}`;
   $("cTerm").textContent=it.p;
   $("cDef").textContent=it.d;
-  $("cEx").innerHTML=it.ex?("💡 "+it.ex+" <span class='badge'>"+it.cat+"</span>"):"";
+  $("cEx").innerHTML=(it.ex?("💡 "+it.ex+" "):"")+"<span class='badge'>"+it.cat+"</span>"+(MNEMO[it.p]?("<br>🧠 <b>Zapamatuj si:</b> "+MNEMO[it.p]):"");
   $("cSide").textContent=flipped?"DEFINICE – umíš?":"POJEM – uhodni definici";
   $("cTerm").style.display=flipped?"none":"block";
   $("cDef").style.display=flipped?"block":"none";
   $("cEx").style.display=flipped?"block":"none";
   renderWrite();renderAbcQ();
 }
-function flip(){flipped=!flipped;render();}
+function flip(){flipped=!flipped;const b=$("cBox");b.classList.remove("doflip");void b.offsetWidth;b.classList.add("doflip");render();}
 $("cFlip").onclick=flip;$("cBox").onclick=flip;
 $("cNext").onclick=()=>{idx++;flipped=false;render();};
 $("cPrev").onclick=()=>{idx=(idx-1+order.length)%order.length;flipped=false;render();};
@@ -1029,6 +1125,7 @@ function checkWrite(){
 $("btnShuffle").onclick=()=>{rebuild();};
 $("btnReset").onclick=()=>{if(confirm("Opravdu smazat celý pokrok?")){store.known=[];store.tests=0;store.ok=0;store.streak=0;save();stats();render();renderList();}};
 $("catSel").onchange=rebuild;
+$("lvlSel").onchange=()=>{store.set.lvl=parseInt($("lvlSel").value,10);save();rebuild();renderList();};
 
 /* ===== ABC ===== */
 let aCur=null;
@@ -1090,7 +1187,10 @@ document.querySelectorAll(".mode").forEach(m=>m.onclick=()=>{
   if(mode==="write")renderWrite();if(mode==="abc")renderAbcQ();if(mode==="list")renderList();
   if(mode==="vzorce")fRebuild();if(mode==="priklady")pRebuild();if(mode==="propoj")renderL();
   if(mode==="hadanky")hNew();if(mode==="mluveni")mNew();if(mode==="cvicne")qRebuild();if(mode==="okruhy")renderOkr();
+  if(mode==="zkouseni")zPick();if(mode==="obrazky")iOpen();
   $("viewHome").style.display=mode==="home"?"block":"none";
+  $("viewZ").style.display=mode==="zkouseni"?"block":"none";
+  $("viewImg").style.display=mode==="obrazky"?"block":"none";
   document.body.classList.remove("nav-open");
   try{updateCrumb();if(mode==="home")renderHome();}catch(_){}
 });
@@ -1185,7 +1285,7 @@ function initFPL(){
 }
 
 /* ===== NASTAVENÍ + DENNÍ CÍL ===== */
-store.set=Object.assign({theme:"light",font:"m",goal:20,hide:false},store.set||{});
+store.set=Object.assign({theme:"light",font:"m",goal:20,hide:false,lvl:3},store.set||{});
 store.okr=store.okr||{};
 store.day=store.day||{d:"",n:0};
 function todayStr(){return new Date().toISOString().slice(0,10);}
@@ -1198,6 +1298,7 @@ function applySet(){
   document.body.classList.add("f-"+store.set.font);
   $("setTheme").value=store.set.theme;$("setFont").value=store.set.font;
   $("setGoal").value=String(store.set.goal);$("setHide").checked=!!store.set.hide;
+  if($("lvlSel"))$("lvlSel").value=String(store.set.lvl);
   bumpDay();$("sDay").textContent=store.day.n;$("sGoal").textContent=store.set.goal;
 }
 $("btnSet").onclick=()=>{const p=$("setPanel");p.style.display=p.style.display==="none"?"block":"none";};
@@ -1269,7 +1370,7 @@ function mNew(){
 $("mShow").onclick=()=>{
   if(!mCur)return;
   $("mModel").style.display="block";
-  $("mModel").innerHTML=`<b>Vzorové vysvětlení:</b> ${mCur.d}<br><b>Příklad:</b> ${mCur.ex||"–"}<br><span class="hint">Porovnej s tím, co jsi řekl/a nahlas. Pak se ohodnoť.</span>`;
+  $("mModel").innerHTML=`<b>Vzorové vysvětlení (jednoduše):</b> ${mCur.d}<br><b>Příklad:</b> ${mCur.ex||"–"}${MNEMO[mCur.p]?("<br>🧠 <b>Zapamatuj si:</b> "+MNEMO[mCur.p]):""}<br><span class="hint">Porovnej s tím, co jsi řekl/a nahlas. Pak se ohodnoť.</span>`;
   $("mRate").hidden=false;
 };
 $("mNext").onclick=mNew;
@@ -1383,7 +1484,7 @@ function updateSubjProg(){
 }
 
 /* ===== SIDEBAR + TOPBAR + DASHBOARD ===== */
-const TITLES={home:["Přehled","Denní směna, postup a odznaky"],cards:["Kartičky","Pojem → definice"],write:["Psaní definic","Napiš to vlastními slovy"],abc:["ABC test","Vyber správný pojem"],vzorce:["Vzorečky","Napiš vzorec zpaměti"],priklady:["Příklady","Vyřeš a zkontroluj postup"],propoj:["Propojení F–Ch–B","Jedno téma třemi vědami"],hadanky:["Hádanky","Tři nápovědy, jeden pojem"],mluveni:["Mluvení","Vysvětli nahlas jako u zkoušky"],cvicne:["Cvičné otázky LF","Test jako na přijímačkách"],okruhy:["Maturitní okruhy","GVBT + zubní checklist"],list:["Přehled pojmů","Všechno + hledání"]};
+const TITLES={home:["Přehled","Denní směna, postup a odznaky"],cards:["Kartičky","Pojem → definice"],write:["Psaní definic","Napiš to vlastními slovy"],abc:["ABC test","Vyber správný pojem"],vzorce:["Vzorečky","Napiš vzorec zpaměti"],priklady:["Příklady","Vyřeš a zkontroluj postup"],propoj:["Propojení F–Ch–B","Jedno téma třemi vědami"],hadanky:["Hádanky","Tři nápovědy, jeden pojem"],mluveni:["Mluvení","Vysvětli nahlas jako u zkoušky"],cvicne:["Cvičné otázky LF","Test jako na přijímačkách"],okruhy:["Maturitní okruhy","GVBT + zubní checklist"],list:["Přehled pojmů","Všechno + hledání"],zkouseni:["Zkoušení z okruhu","Výklad + pojmy + obrázky"],obrazky:["Obrázky","Schémata: uč se a poznávej"]};
 function updateCrumb(){const t=TITLES[mode]||["",""];const c=document.getElementById('crumb');if(c)c.innerHTML=t[0]+'<small>'+t[1]+'</small>';}
 function buildApp(){
   const wrap=document.querySelector('.wrap');
@@ -1437,6 +1538,120 @@ function renderHome(){
 
 /* init */
 buildApp();refreshCats();renderSubj();rebuild();renderList();initFPL();
+/* ===== OBRÁZKY: učení + poznávačka ===== */
+let iCur=null,iMode='study',iHide=-1;
+function iPool(){const s=$("iSubj").value;return FIGS.filter(f=>!s||f.s===s);}
+function iFillFig(){const pool=iPool();const sel=$("iFig");const cur=sel.value;
+  sel.innerHTML=pool.map(f=>`<option value="${f.id}">${f.t}</option>`).join("");
+  if(pool.some(f=>f.id===cur))sel.value=cur;
+  iCur=pool.find(f=>f.id===sel.value)||pool[0];}
+function figOpts(fig,hide){
+  const others=shuffle(fig.parts.map((p,i)=>i).filter(i=>i!==hide)).slice(0,3).map(i=>fig.parts[i]);
+  let extra=[];FIGS.filter(f=>f.s===fig.s&&f.id!==fig.id).forEach(f=>f.parts.forEach(p=>{if(extra.length<3&&others.indexOf(p)<0&&p!==fig.parts[hide])extra.push(p);}));
+  return shuffle([fig.parts[hide],...others,...extra].slice(0,4));
+}
+function iOpen(){
+  if(!$("iSubj").dataset.fill){$("iSubj").innerHTML='<option value="">Všechny předměty</option>'+Object.entries(DATA).map(([k,v])=>`<option value="${k}">${v.icon} ${v.name}</option>`).join("");$("iSubj").dataset.fill="1";}
+  iFillFig();iShow('study');
+}
+function iShow(m){
+  iMode=m;if(!iCur)return;
+  $("iTitle").textContent=(iMode==='study'?'📖 SCHÉMA: ':'🎯 POZNEJ NA SCHÉMATU: ')+iCur.t+' • '+DATA[iCur.s].name;
+  if(m==='study'){
+    $("iSvg").innerHTML=svgFig(iCur,-1);
+    $("iLegend").innerHTML=iCur.parts.map((p,i)=>`<div class="linksec"><b>${i+1}</b><span>${p}</span></div>`).join("");
+    $("iOpts").innerHTML="";$("iFb").className="feedback";$("iFb").textContent="";
+  }else{
+    iHide=Math.floor(Math.random()*iCur.parts.length);
+    $("iSvg").innerHTML=svgFig(iCur,iHide);
+    $("iLegend").innerHTML=`<div class="linksec"><b>?</b><span>Co ukazuje číslo <b>${iHide+1}</b>? Klikni na správnou odpověď.</span></div>`;
+    $("iOpts").innerHTML=figOpts(iCur,iHide).map(o=>`<button class="opt" data-o="${o.replace(/"/g,'&quot;')}">${o}</button>`).join("");
+    $("iFb").className="feedback";$("iFb").textContent="";
+    document.querySelectorAll("#iOpts .opt").forEach(b=>b.onclick=()=>{
+      const win=b.dataset.o===iCur.parts[iHide];
+      store.tests++;tick();
+      if(win){store.ok++;store.streak++;awardXP(10);b.classList.add("ok");
+        $("iFb").className="feedback ok";$("iFb").textContent=`✅ Správně! ${iHide+1} = ${iCur.parts[iHide]}.`;
+      }else{store.streak=0;b.classList.add("no");
+        document.querySelectorAll("#iOpts .opt").forEach(x=>{if(x.dataset.o===iCur.parts[iHide])x.classList.add("ok");});
+        $("iFb").className="feedback no";$("iFb").textContent=`❌ Číslo ${iHide+1} je: ${iCur.parts[iHide]}. Prohlédni si schéma a zkus další.`;
+      }
+      save();stats();
+    });
+  }
+}
+$("iStudy").onclick=()=>{iFillFig();iShow('study');};
+$("iQuiz").onclick=()=>{iFillFig();iShow('quiz');};
+$("iSubj").onchange=()=>{iFillFig();iShow(iMode);};
+$("iFig").onchange=()=>{iCur=FIGS.find(f=>f.id===$("iFig").value);iShow(iMode);};
+
+/* ===== ZKOUŠENÍ Z OKRUHU: výklad + pojmy + obrázky ===== */
+const ZQ={bio:["V čem je podstata jevu?","Kde to v těle nebo v přírodě najdeš?","Uveď konkrétní příklad."],chemie:["Co se děje na úrovni částic?","Napiš rovnici nebo vzorec.","Uveď příklad z praxe."],fyzika:["Jaký zákon nebo vzorec tady platí?","V jakých jednotkách to měříš?","Uveď příklad, kde to vidíš kolem sebe."],cestina:["Definuj jev vlastními slovy.","Vymysli větu, kde to použiješ.","Čím se to liší od podobného jevu?"],zuby:["Popiš stavbu a funkci.","Proč je to důležité pro zubaře?","Uveď příklad z ordinace."],literatura:["Zařaď to do období a směru.","Jmenuj autora a dílo.","Vysvětli typický znak."]};
+let zS='bio',zO=0,zStage='pick',zP1=0,zP2=[],zP2i=0,zP2ok=0,zP3=[],zP3i=0,zP3ok=0,zP3hide=0;
+function zPick(){
+  const zs=$("zSubj");
+  if(!zs.dataset.fill){zs.innerHTML=Object.entries(OKRUHY).map(([k,v])=>`<option value="${k}">${v.icon} ${v.name}</option>`).join("");zs.dataset.fill="1";}
+  if(!OKRUHY[zs.value])zs.value='bio';
+  zS=zs.value;zStage='pick';
+  $("zOkr").innerHTML=OKRUHY[zS].topics.map((t,i)=>`<option value="${i}">${i+1}. ${t}</option>`).join("");
+  $("zBody").innerHTML=`<div class="linksec"><b>🎓 Jak to funguje</b><span>Vyber okruh a vyzkoušíme ho ve 3 částech: <b>1) výklad</b> (mluv nahlas jako u maturity), <b>2) pojmy</b> (3 otázky), <b>3) obrázky</b> (2 schémata). Maximum 7 bodů, známka jako ve škole.</span></div>`;
+}
+$("zSubj").onchange=zPick;
+$("zStart").onclick=()=>{zS=$("zSubj").value;zO=parseInt($("zOkr").value,10)||0;zStage='p1';zP1=0;zRender();};
+function zItems(){return DATA[zS].items.map(it=>({p:it[0],d:it[1],ex:it[2],cat:it[3]})).filter(it=>lvlOK(it.cat,zS));}
+function zABCHTML(it,label){
+  const others=shuffle(DATA[zS].items.filter(x=>x[0]!==it.p).map(x=>x[0])).slice(0,3);
+  const opts=shuffle([it.p,...others]);
+  return `${label}<div class="cardbox" style="cursor:default;min-height:120px"><small>CO JE TOHLE?</small><p>${it.d}</p></div><div class="opts">${opts.map(o=>`<button class="opt" data-o="${o.replace(/"/g,'&quot;')}">${o}</button>`).join("")}</div>`;
+}
+function zBindABC(root,it,cb){root.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const win=b.dataset.o===it.p;store.tests++;tick();if(win){store.ok++;store.streak++;awardXP(10);}else store.streak=0;save();stats();cb(win);});}
+function zRender(){
+  const B=$("zBody"),topic=OKRUHY[zS].topics[zO];
+  if(zStage==='p1'){
+    B.innerHTML=`<div class="cardbox" style="cursor:default"><small>1. ČÁST – VÝKLAD (MLUV NAHLAS JAKO U MATURITY)</small><h2 style="font-size:23px">${zO+1}. ${topic}</h2><p style="font-size:14px;opacity:.85">${OKRUHY[zS].icon} ${OKRUHY[zS].name}</p></div>
+    <div class="linksec" style="margin-top:10px"><b>🎤 Odpověz nahlas</b><span>${(ZQ[zS]||ZQ.bio).map((q,i)=>`${i+1}. ${q}`).join('<br>')}</span></div>
+    <div class="row" style="margin-top:8px"><button id="zP1a" class="good">✔ Umím vysvětlit (2 b)</button><button id="zP1b" class="warn">➖ Napůl (1 b)</button><button id="zP1c" class="bad">✖ Neumím (0 b)</button></div>`;
+    const go=v=>{zP1=v;store.tests++;tick();if(v===2){store.ok++;store.streak++;awardXP(20);}else if(v===1){store.ok++;awardXP(10);}else store.streak=0;save();stats();zStage='p2';zP2=shuffle(zItems()).slice(0,3);zP2i=0;zP2ok=0;zRender();};
+    $("zP1a").onclick=()=>go(2);$("zP1b").onclick=()=>go(1);$("zP1c").onclick=()=>go(0);
+  }else if(zStage==='p2'){
+    if(zP2i>=Math.min(3,zP2.length)){zStage='p3';zP3=shuffle(FIGS.filter(f=>f.s===zS)).slice(0,2);zP3i=0;zP3ok=0;zRender();return;}
+    const it=zP2[zP2i];
+    B.innerHTML=zABCHTML(it,`<p class="hint">2. ČÁST – POJMY (${zP2i+1}/3, zatím ${zP2ok} b)</p>`);
+    zBindABC(B,it,win=>{if(win)zP2ok++;zP2i++;zRender();});
+  }else if(zStage==='p3'){
+    if(zP3i>=2){zStage='done';zRender();return;}
+    if(zP3i>=zP3.length){
+      const pool0=zItems().filter(x=>zP2.every(y=>y.p!==x.p));
+      const it=(pool0.length?shuffle(pool0):shuffle(zItems()))[0];
+      if(!it){zStage='done';zRender();return;}
+      B.innerHTML=zABCHTML(it,`<p class="hint">3. ČÁST – pro ${OKRUHY[zS].name} schéma nemáme, procvičíme pojem (${zP3i+1}/2)</p>`);
+      zBindABC(B,it,win=>{if(win)zP3ok++;zP3i++;zRender();});
+      return;
+    }
+    const fig=zP3[zP3i];zP3hide=Math.floor(Math.random()*fig.parts.length);
+    B.innerHTML=`<p class="hint">3. ČÁST – OBRÁZKY (${zP3i+1}/2): ${fig.t}</p>
+    <div class="cardbox" style="cursor:default"><div style="margin-top:8px">${svgFig(fig,zP3hide)}</div></div>
+    <div class="linksec" style="margin-top:8px"><b>?</b><span>Co ukazuje číslo <b>${zP3hide+1}</b>?</span></div>
+    <div class="opts">${figOpts(fig,zP3hide).map(o=>`<button class="opt" data-o="${o.replace(/"/g,'&quot;')}">${o}</button>`).join("")}</div>`;
+    B.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      const win=b.dataset.o===fig.parts[zP3hide];
+      store.tests++;tick();
+      if(win){zP3ok++;store.ok++;store.streak++;awardXP(10);toast(`✅ ${fig.parts[zP3hide]} — správně`);}
+      else{store.streak=0;toast(`❌ Číslo ${zP3hide+1} je: ${fig.parts[zP3hide]}`);}
+      save();stats();zP3i++;zRender();
+    });
+  }else{
+    const tot=zP1+zP2ok+zP3ok;
+    const grade=tot>=7?'1 – výborně 🌟':tot>=5?'2 – chvalitebně 🙂':tot>=4?'3 – dobře':tot>=2?'4 – dostatečně 😐':'5 – nedostatečně, dej si to znovu 📚';
+    if(tot>=7)awardXP(30);else if(tot>=5)awardXP(15);
+    if(tot>=4){try{store.okr[oKey(zS,zO)]=1;save();}catch(_){}}
+    B.innerHTML=`<div class="cardbox" style="cursor:default"><small>VÝSLEDEK ZKOUŠENÍ: ${topic}</small><h2>${tot} / 7 bodů</h2><p>Výklad ${zP1}/2 • Pojmy ${zP2ok}/3 • Obrázky ${zP3ok}/2</p><p><b>Známka: ${grade}</b></p></div>
+    <div class="row" style="margin-top:8px"><button id="zAgain" class="primary">🔁 Znovu tento okruh</button><button id="zOther">📋 Jiný okruh</button></div>`;
+    $("zAgain").onclick=()=>{zStage='p1';zP1=0;zRender();};
+    $("zOther").onclick=()=>{zStage='pick';zPick();};
+  }
+}
+
 document.querySelector('.mode[data-m="home"]').click();
 </script>
 </body>
